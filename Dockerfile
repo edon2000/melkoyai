@@ -1,4 +1,4 @@
-FROM maven:3.9-openjdk-17 AS builder
+FROM maven:3.9 AS builder
 
 # Copy source code
 COPY . /app
@@ -7,19 +7,24 @@ WORKDIR /app
 # Build the application using Maven
 RUN mvn clean package -DskipTests
 
-FROM registry.access.redhat.com/ubi8/openjdk-17:1.19
+FROM openjdk:17-jre-slim
 
 ENV LANGUAGE='en_US:en'
 
+# Create app directory and user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+RUN mkdir -p /deployments && chown -R appuser:appuser /deployments
+
 # Copy the built application from builder stage
-COPY --from=builder --chown=185 /app/target/quarkus-app/lib/ /deployments/lib/
-COPY --from=builder --chown=185 /app/target/quarkus-app/*.jar /deployments/
-COPY --from=builder --chown=185 /app/target/quarkus-app/app/ /deployments/app/
-COPY --from=builder --chown=185 /app/target/quarkus-app/quarkus/ /deployments/quarkus/
+COPY --from=builder --chown=appuser:appuser /app/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=builder --chown=appuser:appuser /app/target/quarkus-app/*.jar /deployments/
+COPY --from=builder --chown=appuser:appuser /app/target/quarkus-app/app/ /deployments/app/
+COPY --from=builder --chown=appuser:appuser /app/target/quarkus-app/quarkus/ /deployments/quarkus/
 
+WORKDIR /deployments
 EXPOSE 8080
-USER 185
-ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
-ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
+USER appuser
 
-ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
+ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+
+ENTRYPOINT ["java", "-jar", "quarkus-run.jar"]
