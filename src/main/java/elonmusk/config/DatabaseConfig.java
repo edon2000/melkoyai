@@ -1,41 +1,61 @@
 package elonmusk.config;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
- * Database configuration loaded from environment variables
- * Prevents hardcoded database passwords in source code
+ * Database configuration using Quarkus configuration properties
+ * Reads configuration from application.properties
  */
 @ApplicationScoped
 public class DatabaseConfig {
     
     private static final Logger LOGGER = Logger.getLogger(DatabaseConfig.class.getName());
     
-    // Environment variable names
-    private static final String DB_PASSWORD_ENV = "DB_PASSWORD";
+    @ConfigProperty(name = "quarkus.datasource.password")
+    String databasePassword;
+    
+    @ConfigProperty(name = "quarkus.datasource.username")
+    String databaseUsername;
+    
+    @ConfigProperty(name = "quarkus.datasource.jdbc.url")
+    String databaseUrl;
     
     /**
-     * Get database password from environment variable
+     * Get database password from Quarkus configuration
      * @return Database password
      */
     public String getDatabasePassword() {
-        String password = System.getenv(DB_PASSWORD_ENV);
-        if (password == null || password.trim().isEmpty()) {
-            LOGGER.severe("DB_PASSWORD environment variable is not set! Database connection will fail.");
-            throw new IllegalStateException("DB_PASSWORD environment variable must be set");
+        if (databasePassword == null || databasePassword.trim().isEmpty()) {
+            LOGGER.severe("Database password is not configured in application.properties!");
+            throw new IllegalStateException("Database password must be configured");
         }
-        return password.trim();
+        return databasePassword.trim();
     }
     
     /**
-     * Check if database password is configured
+     * Get database username from Quarkus configuration
+     * @return Database username
+     */
+    public String getDatabaseUsername() {
+        return databaseUsername != null ? databaseUsername.trim() : "postgres";
+    }
+    
+    /**
+     * Get database URL from Quarkus configuration
+     * @return Database URL
+     */
+    public String getDatabaseUrl() {
+        return databaseUrl;
+    }
+    
+    /**
+     * Check if database is configured
      * @return true if password is set
      */
     public boolean isConfigured() {
-        String password = System.getenv(DB_PASSWORD_ENV);
-        return password != null && !password.trim().isEmpty();
+        return databasePassword != null && !databasePassword.trim().isEmpty();
     }
 }
 

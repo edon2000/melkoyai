@@ -19,8 +19,6 @@ public class BackupService {
     private static final Logger LOGGER = Logger.getLogger(BackupService.class.getName());
     
     private static final String BACKUP_DIR = "backups";
-    private static final String DB_NAME = "elonmusk_db";
-    private static final String DB_USER = "postgres";
     private static final int MAX_BACKUPS = 7;
     
     @Inject
@@ -42,26 +40,60 @@ public class BackupService {
     
     public boolean createBackup(String type) {
         try {
+            // Skip backup creation in cloud environments (Supabase handles backups)
+            if (isCloudEnvironment()) {
+                LOGGER.info("Skipping backup creation in cloud environment - managed by Supabase");
+                return true;
+            }
+            
             Path backupPath = Paths.get(BACKUP_DIR);
             if (!Files.exists(backupPath)) {
                 Files.createDirectories(backupPath);
             }
             
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
-            String backupFileName = String.format("%s_%s_%s.sql", DB_NAME, type, timestamp);
+            String backupFileName = String.format("backup_%s_%s.sql", type, timestamp);
             Path backupFile = backupPath.resolve(backupFileName);
+            
+            // Extract database connection details from Quarkus configuration
+            String dbUrl = databaseConfig.getDatabaseUrl();
+            String dbUser = databaseConfig.getDatabaseUsername();
+            String dbPassword = databaseConfig.getDatabasePassword();
+            
+            // Parse database URL to extract host, port, and database name
+            String host = "localhost";
+            String port = "5432";
+            String dbName = "postgres";
+            
+            if (dbUrl != null && dbUrl.contains("://")) {
+                try {
+                    // Extract from jdbc:postgresql://host:port/database format
+                    String[] parts = dbUrl.split("://")[1].split("/");
+                    String hostPort = parts[0].split("\\?")[0]; // Remove query parameters
+                    String[] hostPortParts = hostPort.split(":");
+                    host = hostPortParts[0];
+                    if (hostPortParts.length > 1) {
+                        port = hostPortParts[1];
+                    }
+                    if (parts.length > 1) {
+                        dbName = parts[1].split("\\?")[0]; // Remove query parameters
+                    }
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "Could not parse database URL, using defaults", e);
+                }
+            }
             
             ProcessBuilder processBuilder = new ProcessBuilder(
                 "pg_dump",
-                "-h", "localhost",
-                "-U", DB_USER,
-                "-d", DB_NAME,
+                "-h", host,
+                "-p", port,
+                "-U", dbUser,
+                "-d", dbName,
                 "-f", backupFile.toString(),
                 "--verbose"
             );
             
-            // Get database password from environment variable
-            String dbPassword = databaseConfig.getDatabasePassword();
+            // Set database password as environment variable for pg_dump
             processBuilder.environment().put("PGPASSWORD", dbPassword);
             
             Process process = processBuilder.start();
@@ -80,6 +112,15 @@ public class BackupService {
             LOGGER.log(Level.SEVERE, "Error creating backup", e);
             return false;
         }
+    }
+    
+    /**
+     * Check if running in a cloud environment where backups are managed externally
+     */
+    private boolean isCloudEnvironment() {
+        String dbUrl = databaseConfig.getDatabaseUrl();
+        return dbUrl != null && (dbUrl.contains("supabase.co") || dbUrl.contains("render.com") || 
+                                dbUrl.contains("heroku") || dbUrl.contains("aws.com"));
     }
     
     public void cleanupOldBackups() {
