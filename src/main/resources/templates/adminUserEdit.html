@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; }
+        .header { background: #16213e; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; background: #e94560; border-radius: 5px; }
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #333; border-radius: 5px; background: #16213e; color: white; }
+        .btn { padding: 12px 20px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 10px; }
+        .btn-danger { background: #dc3545; }
+        .error { color: #ff6b6b; margin-bottom: 20px; padding: 10px; background: rgba(255, 107, 107, 0.1); border-radius: 5px; }
+        .user-info { background: #16213e; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Edit User</h1>
+        <div class="nav">
+            <a href="/million/dashboard">Dashboard</a>
+            <a href="/million/users">Back to Users</a>
+            <a href="/million/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        {#if error}
+        <div class="error">{error}</div>
+        {/if}
+        
+        {#if user}
+        <div class="user-info">
+            <h3>User Information</h3>
+            <p><strong>ID:</strong> {user.id}</p>
+            <p><strong>Phone:</strong> {user.phoneNumber}</p>
+            <p><strong>Created:</strong> {user.createdAt}</p>
+        </div>
+        
+        <form method="post" action="/million/user/update">
+            <input type="hidden" name="userId" value="{user.id}">
+            
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{user.name}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{user.email}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="balance">Wallet Balance (USD):</label>
+                <input type="number" id="balance" name="balance" value="{user.walletBalance}" step="0.01" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">New Password (leave blank to keep current):</label>
+                <input type="password" id="password" name="password" placeholder="Enter new password">
+            </div>
+            
+            <button type="submit" class="btn">Update User</button>
+        </form>
+        
+        <form method="post" action="/million/user/delete" style="margin-top: 20px;">
+            <input type="hidden" name="userId" value="{user.id}">
+            <button type="submit" class="btn btn-danger">Delete User</button>
+        </form>
+        {#else}
+        <div class="error">User not found</div>
+        <a href="/admin/users" class="btn">Back to Users</a>
+        {/if}
+    </div>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(to right, #3d82e9, #60b966); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { color: white; padding: 1.5rem; text-align: center; width: 100%; background-color: #5f5fbc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .main-container { padding: 2rem; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; }
+        .form-container { background-color: #5858c1; padding: 20px; margin-top: 20px; color: #efedf5; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; }
+        .form-group { margin-bottom: 1.2rem; width: 100%; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: white; }
+        .form-group input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; background-color: #333386; color: white; }
+        .form-group input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        .login-button { width: 100%; padding: 0.8rem; background-color: #333394; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .login-button:hover { background-color: #242163; }
+        .toggle-link { display: block; text-align: center; color: #d4b344; text-decoration: none; margin-top: 1rem; }
+        .error-message, .success-message { font-size: 0.8rem; margin-bottom: 1rem; text-align: center; }
+        .error-message { color: #e74c3c; }
+        .success-message { color: #8edca0; }
+        .error-text { color: #ff6b6b; font-size: 0.8rem; margin-top: 0.3rem; display: none; }
+        .error { border-color: #ff6b6b !important; }
+        .success { border-color: #27ae60 !important; }
+        .form-group input:focus { outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
+        .input-with-icon { position: relative; display: flex; align-items: center; }
+        .input-with-icon svg { position: absolute; left: 12px; width: 16px; height: 16px; fill: rgba(255, 255, 255, 0.7); }
+        .input-with-icon input { padding-left: 40px !important; }
+        .toggle-password { position: absolute; right: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; padding: 0; }
+        .toggle-password svg { width: 16px; height: 16px; fill: rgba(255, 255, 255, 0.7); }
+        .hint { font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); margin-top: 0.3rem; }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+        @media screen and (max-width: 412px) { body { padding: 0.5rem; } .header { padding: 1rem; } .main-container { padding: 1rem; } .form-container { padding: 15px; margin-top: 10px; } .form-group input { padding: 0.7rem; font-size: 16px; } }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <header class="header">
+        <h1>
+            <span id="loginTitle-en">Login</span>
+            <span id="loginTitle-am" style="display:none">ግባ</span>
+            <span id="loginTitle-zh" style="display:none">登录</span>
+            <span id="loginTitle-es" style="display:none">Iniciar Sesión</span>
+        </h1>
+        <p>
+            <span id="welcomeMsg-en">Welcome Back</span>
+            <span id="welcomeMsg-am" style="display:none">እንኳን ደህና መጡ</span>
+            <span id="welcomeMsg-zh" style="display:none">欢迎回来</span>
+            <span id="welcomeMsg-es" style="display:none">Bienvenido de Vuelta</span>
+        </p>
+    </header>
+    <div class="main-container">
+        <div class="form-container">
+            <form id="login-form" method="post" action="/login" novalidate>
+                {#if error}
+                    <div class="error-message">{error}</div>
+                {/if}
+                {#if success}
+                    <div class="success-message">{success}</div>
+                {/if}
+                <div class="form-group">
+                    <label for="account">
+                        <span id="phoneLabel-en">Phone Number</span>
+                        <span id="phoneLabel-am" style="display:none">ስልክ ቁጥር</span>
+                        <span id="phoneLabel-zh" style="display:none">电话号码</span>
+                        <span id="phoneLabel-es" style="display:none">Número de Teléfono</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <svg viewBox="0 0 16 16"><path d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg>
+                        <input type="text" 
+                               id="account" 
+                               name="account" 
+                               placeholder="e.g. 0912345678"
+                               autocomplete="username"
+                               maxlength="10"
+                               pattern="^(09|07)[0-9]{8}$"
+                               required>
+                    </div>
+                    <div class="hint">
+                        <span id="phoneHint-en">Enter 09 or 07 followed by 8 digits</span>
+                        <span id="phoneHint-am" style="display:none">09 ወይም 07 ከዚያም 8 ቁጥሮች ያስገቡ</span>
+                        <span id="phoneHint-zh" style="display:none">输入09或07后跟8位数字</span>
+                        <span id="phoneHint-es" style="display:none">Ingresa 09 o 07 seguido de 8 dígitos</span>
+                    </div>
+                    <div class="error-text" id="account-error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">
+                        <span id="passwordLabel-en">Password</span>
+                        <span id="passwordLabel-am" style="display:none">የይለፍ ቃል</span>
+                        <span id="passwordLabel-zh" style="display:none">密码</span>
+                        <span id="passwordLabel-es" style="display:none">Contraseña</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <svg viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg>
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               placeholder="Enter your password"
+                               autocomplete="current-password"
+                               maxlength="6"
+                               minlength="6"
+                               required>
+                        <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+                            <svg viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg>
+                        </button>
+                    </div>
+                    <div class="hint">
+                        <span id="passwordHint-en">Enter your 6 character password</span>
+                        <span id="passwordHint-am" style="display:none">የ6 ቁምፊ የይለፍ ቃልዎን ያስገቡ</span>
+                        <span id="passwordHint-zh" style="display:none">输入您的6位密码</span>
+                        <span id="passwordHint-es" style="display:none">Ingresa tu contraseña de 6 caracteres</span>
+                    </div>
+                    <div class="error-text" id="password-error"></div>
+                </div>
+                {#if returnUrl}
+                <input type="hidden" name="returnUrl" value="{returnUrl}">
+                {/if}
+                <button type="submit" class="login-button">
+                    <span id="loginBtn-en">Login</span>
+                    <span id="loginBtn-am" style="display:none">ግባ</span>
+                    <span id="loginBtn-zh" style="display:none">登录</span>
+                    <span id="loginBtn-es" style="display:none">Iniciar Sesión</span>
+                </button>
+            </form>
+            <a class="toggle-link" href="/signup">
+                <span id="createAccount-en">Create account</span>
+                <span id="createAccount-am" style="display:none">መለያ ፍጠር</span>
+                <span id="createAccount-zh" style="display:none">创建账户</span>
+                <span id="createAccount-es" style="display:none">Crear cuenta</span>
+            </a>
+            
+            <a class="toggle-link" href="/forgot-password" style="margin-top: 0.5rem;">
+                <span id="forgotPassword-en">Forgot Password?</span>
+                <span id="forgotPassword-am" style="display:none">የይለፍ ቃል ረሳሁ?</span>
+                <span id="forgotPassword-zh" style="display:none">忘记密码？</span>
+                <span id="forgotPassword-es" style="display:none">¿Olvidaste tu Contraseña?</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="/js/lang.js"></script>
+    <script>
+    function showError(message) {
+        const existingError = document.querySelector('.client-error');
+        if (existingError) existingError.remove();
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message client-error';
+        errorDiv.textContent = message;
+        document.querySelector('#login-form').prepend(errorDiv);
+    }
+    
+    function validatePhone(phone) {
+        if (!phone || phone.trim().length === 0) {
+            return 'Phone number is required';
+        }
+        phone = phone.trim();
+        if (phone.length !== 10) {
+            return 'Phone number must be exactly 10 digits';
+        }
+        if (!phone.startsWith('09') && !phone.startsWith('07')) {
+            return 'Phone must start with 09 or 07';
+        }
+        if (!/^\d+$/.test(phone)) {
+            return 'Phone number must contain only digits';
+        }
+        return null;
+    }
+    
+    function validatePassword(password) {
+        if (!password || password.trim().length === 0) {
+            return 'Password is required';
+        }
+        if (password.length !== 6) {
+            return 'Password must be exactly 6 characters';
+        }
+        return null;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('login-form');
+        const phoneInput = document.getElementById('account');
+        const passwordInput = document.getElementById('password');
+        
+        document.querySelector('.toggle-password').addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('svg').innerHTML = type === 'password' ? '<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>' : '<path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/><path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>';
+        });
+        
+        form.addEventListener('submit', function(e) {
+            clearFieldErrors();
+            let hasErrors = false;
+            
+            const phone = phoneInput.value.trim();
+            const password = passwordInput.value;
+            
+            const phoneError = validatePhone(phone);
+            if (phoneError) {
+                showFieldError('account', phoneError);
+                hasErrors = true;
+            }
+            
+            const passwordError = validatePassword(password);
+            if (passwordError) {
+                showFieldError('password', passwordError);
+                hasErrors = true;
+            }
+            
+            if (hasErrors) {
+                e.preventDefault();
+                return false;
+            }
+            
+            phoneInput.value = phone;
+        });
+        
+        phoneInput.addEventListener('input', function() {
+            const error = validatePhone(this.value);
+            this.style.borderColor = error ? '#ff6b6b' : '#27ae60';
+            if (!error) {
+                clearFieldError('account');
+            }
+        });
+        
+        passwordInput.addEventListener('input', function() {
+            const error = validatePassword(this.value);
+            this.style.borderColor = error ? '#ff6b6b' : '#27ae60';
+            if (!error) {
+                clearFieldError('password');
+            }
+        });
+        
+        [phoneInput, passwordInput].forEach(input => {
+            input.addEventListener('paste', function(e) {
+                setTimeout(() => {
+                    this.value = this.value.replace(/[<>"'&]/g, '');
+                }, 0);
+            });
+        });
+    });
+    
+    function showFieldError(fieldId, message) {
+        const errorDiv = document.getElementById(fieldId + '-error');
+        const input = document.getElementById(fieldId);
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        input.classList.add('error');
+    }
+    
+    function clearFieldError(fieldId) {
+        const errorDiv = document.getElementById(fieldId + '-error');
+        const input = document.getElementById(fieldId);
+        errorDiv.style.display = 'none';
+        input.classList.remove('error');
+    }
+    
+    function clearFieldErrors() {
+        ['account', 'password'].forEach(fieldId => {
+            clearFieldError(fieldId);
+        });
+    }
+    </script>
+</body>
+</html>

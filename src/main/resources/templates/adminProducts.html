@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; }
+        .header { background: #16213e; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; background: #e94560; border-radius: 5px; }
+        .container { padding: 20px; }
+        table { width: 100%; background: #16213e; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: #0f3460; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 10px; background: #0f3460; border: 1px solid #333; color: white; border-radius: 5px; }
+        .btn { padding: 10px 20px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Product Management</h1>
+        <div class="nav">
+            <a href="/million/dashboard">Dashboard</a>
+            <a href="/million/users">Users</a>
+            <a href="/million/deposits">Deposits</a>
+            <a href="/million/withdrawals">Withdrawals</a>
+            <a href="/million/products">Products</a>
+            <a href="/million/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Add New Product</h2>
+        <form method="post" action="/million/add-product" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" name="description" required>
+            </div>
+            <div class="form-group">
+                <label>Price (ETB)</label>
+                <input type="number" name="price" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label>Daily Return (%)</label>
+                <input type="number" name="dailyReturn" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label>Duration (Days)</label>
+                <input type="number" name="duration" required>
+            </div>
+            <div class="form-group">
+                <label>Product Image</label>
+                <input type="file" name="image" accept="image/*" />
+                <small>Or enter image URL:</small>
+                <input type="url" name="imageUrl" placeholder="https://example.com/image.jpg" />
+            </div>
+            <div class="form-group">
+                <label>Active</label>
+                <input type="checkbox" name="active" checked />
+            </div>
+            <button type="submit" class="btn">Add Product</button>
+        </form>
+        
+        <h2 style="margin-top: 40px;">Existing Products</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Daily Return</th>
+                    <th>Duration</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#for product in products}
+                <tr>
+                    <td>{product.id}</td>
+                    <td><img src="{product.imageUrl}" alt="{product.name}" style="width:50px;height:50px;object-fit:cover;"></td>
+                    <td>{product.name}</td>
+                    <td>{product.description}</td>
+                    <td>{product.price} USD</td>
+                    <td>{product.dailyReturnRate}%</td>
+                    <td>{product.durationDays} days</td>
+                    <td>{product.isActive}</td>
+                    <td>
+                        <form method="post" action="/million/update-product" style="display:inline;">
+                            <input type="hidden" name="id" value="{product.id}">
+                            <input type="text" name="name" value="{product.name}" style="width:100px;">
+                            <input type="text" name="description" value="{product.description}" style="width:100px;">
+                            <input type="number" name="price" value="{product.price}" step="0.01" style="width:80px;">
+                            <input type="number" name="dailyReturn" value="{product.dailyReturnRate}" step="0.01" style="width:60px;">
+                            <input type="number" name="duration" value="{product.durationDays}" style="width:60px;">
+                            <input type="url" name="imageUrl" value="{product.imageUrl}" style="width:150px;">
+                            <input type="checkbox" name="active" {#if product.isActive}checked{/if} />
+                            <button type="submit" class="btn" style="padding:5px 10px;font-size:12px;">Update</button>
+                        </form>
+                        <form method="post" action="/million/delete-product" style="display:inline;">
+                            <input type="hidden" name="id" value="{product.id}">
+                            <button type="submit" class="btn" style="padding:5px 10px;font-size:12px;background:#dc3545;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Computer Company Team</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/icons.css">
+
+    <script src="/js/icons.js"></script>
+    <style>
+        .icon { width: 16px; height: 16px; display: inline-block; fill: currentColor; }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <div class="main-content">
+        {#if success}
+        <div style="background-color: #4caf50; color: white; padding: 15px; margin: 10px; border-radius: 8px; text-align: center;">
+            <h3>
+                <span id="successTitle-en">Success</span>
+                <span id="successTitle-am" style="display:none">ተሳክቷል</span>
+                <span id="successTitle-zh" style="display:none">成功</span>
+                <span id="successTitle-es" style="display:none">Éxito</span>
+            </h3>
+            <p>{success}</p>
+        </div>
+        {/if}
+
+
+         {#if error}
+        <div style="background-color: #f44336; color: white; padding: 15px; margin: 10px; border-radius: 8px; text-align: center;">
+            <h3>
+                <span id="errorTitle-en">Error</span>
+                <span id="errorTitle-am" style="display:none">ስህተት</span>
+                <span id="errorTitle-zh" style="display:none">错误</span>
+                <span id="errorTitle-es" style="display:none">Error</span>
+            </h3>
+            <p>{error}</p>
+        </div>
+        {/if}
+
+
+        <!-- No more pending referrals - they are automatically accepted -->
+        <!-- Referral invitations are now processed automatically during signup -->
+
+
+        <div class="header">
+            <span id="welcomeCompany-en">WELCOME TO BOLT COMPUTER COMPANY TEAM</span>
+            <span id="welcomeCompany-am" style="display:none">እንኳን ወደ ቦልት ኮምፒውተር ኩባንያ ቡድን በደህና መጡ</span>
+            <span id="welcomeCompany-zh" style="display:none">欢迎来到BOLT计算机公司团队</span>
+            <span id="welcomeCompany-es" style="display:none">BIENVENIDO AL EQUIPO DE LA EMPRESA BOLT COMPUTER</span>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv8.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv7.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv10.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv9.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv1.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv6.mp4" type="video/mp4"></video></div>
+                 <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv3.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv2.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv5.mp4" type="video/mp4"></video></div>
+                <div class="slide"><video class="slider-video" muted loop playsinline preload="metadata"><source src="/video/shv4.mp4" type="video/mp4"></video></div>
+            </div>
+        </div>
+
+        <div class="withdrawal-history-popup">
+            <div class="popup-header">
+                <h3>
+                    <span id="recentActivity-en">Recent Activity</span>
+                    <span id="recentActivity-am" style="display:none">የቅርብ ጊዜ እንቅስቃሴ</span>
+                    <span id="recentActivity-zh" style="display:none">最近活动</span>
+                    <span id="recentActivity-es" style="display:none">Actividad Reciente</span>
+                </h3>
+            </div>
+            <div class="history-items-container">
+                <div class="history-items" id="scrollingHistory">
+                    <!-- Mixed time order with 50% pending/completed distribution -->
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Mekonnen</div><div class="date">16h 30m ago</div></div><div><span class="amount">$2689.09 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Samrawit</div><div class="date">18h 45m ago</div></div><div><span class="amount">$3920 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Abebe</div><div class="date">5 min ago</div></div><div><span class="amount">$3372.73 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Getachew</div><div class="date">5h 25m ago</div></div><div><span class="amount">$3321.82 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Meron</div><div class="date">12 min ago</div></div><div><span class="amount">$2196.36 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Negash</div><div class="date">9h 20m ago</div></div><div><span class="amount">$3750.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Ashley</div><div class="date">9h 40m ago</div></div><div><span class="amount">$1258.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Tewodros</div><div class="date">10h 20m ago</div></div><div><span class="amount">$1576.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Amanda</div><div class="date">10h 40m ago</div></div><div><span class="amount">$1154.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Addisu</div><div class="date">11h 20m ago</div></div><div><span class="amount">$3143.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Jessica</div><div class="date">11h 40m ago</div></div><div><span class="amount">$1050.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Yemane</div><div class="date">12h 20m ago</div></div><div><span class="amount">$2516.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Lensa</div><div class="date">12h 40m ago</div></div><div><span class="amount">$3487.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Justin</div><div class="date">13h 20m ago</div></div><div><span class="amount">$1347.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Wubit</div><div class="date">13h 40m ago</div></div><div><span class="amount">$1634.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Tyler</div><div class="date">14h 20m ago</div></div><div><span class="amount">$1203.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Saron</div><div class="date">14h 40m ago</div></div><div><span class="amount">$3285.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Biniam</div><div class="date">5h 5m ago</div></div><div><span class="amount">$1663.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> John</div><div class="date">18 min ago</div></div><div><span class="amount">$1235.45 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Tesfaye</div><div class="date">8h 10m ago</div></div><div><span class="amount">$3540 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Ahmed</div><div class="date">25 min ago</div></div><div><span class="amount">$1694.55 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Marcus</div><div class="date">4h 25m ago</div></div><div><span class="amount">$970.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Hanan</div><div class="date">32 min ago</div></div><div><span class="amount">$2849.09 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Hanna</div><div class="date">4h 35m ago</div></div><div><span class="amount">$2538.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Kebede</div><div class="date">38 min ago</div></div><div><span class="amount">$1423.64 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Grace</div><div class="date">4h 55m ago</div></div><div><span class="amount">$1378.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Sarah</div><div class="date">45 min ago</div></div><div><span class="amount">$996.36 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Girma</div><div class="date">8h 50m ago</div></div><div><span class="amount">$1687.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Almaz</div><div class="date">52 min ago</div></div><div><span class="amount">$2592.73 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Emma</div><div class="date">5h 15m ago</div></div><div><span class="amount">$1216.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> David</div><div class="date">58 min ago</div></div><div><span class="amount">$3607.27 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Amanuel</div><div class="date">9h 30m ago</div></div><div><span class="amount">$3300 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Fatima</div><div class="date">1h 5m ago</div></div><div><span class="amount">$1385.45 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Olivia</div><div class="date">5h 35m ago</div></div><div><span class="amount">$1038.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Bethlehem</div><div class="date">2h 12m ago</div></div><div><span class="amount">$3700 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Robert</div><div class="date">2h 18m ago</div></div><div><span class="amount">$1070.91 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Hiwot</div><div class="date">2h 25m ago</div></div><div><span class="amount">$2340 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Daniel</div><div class="date">2h 32m ago</div></div><div><span class="amount">$3496.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Tigist</div><div class="date">2h 38m ago</div></div><div><span class="amount">$1356.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> William</div><div class="date">2h 45m ago</div></div><div><span class="amount">$1583.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <!-- 2-5 hours: 25 users -->
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Matthew</div><div class="date">3h 25m ago</div></div><div><span class="amount">$2650.91 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Zara</div><div class="date">3h 55m ago</div></div><div><span class="amount">$1532.73 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Solomon</div><div class="date">4h 5m ago</div></div><div><span class="amount">$1121.82 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Liya</div><div class="date">4h 15m ago</div></div><div><span class="amount">$3252.73 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Meseret</div><div class="date">2h 52m ago</div></div><div><span class="amount">$1269.09 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Christopher</div><div class="date">3h 5m ago</div></div><div><span class="amount">$3043.64 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Marcus</div><div class="date">4h 25m ago</div></div><div><span class="amount">$970.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Hanna</div><div class="date">4h 35m ago</div></div><div><span class="amount">$2538.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Yohannes</div><div class="date">4h 45m ago</div></div><div><span class="amount">$3549.09 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Grace</div><div class="date">4h 55m ago</div></div><div><span class="amount">$1378.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Biniam</div><div class="date">5h 5m ago</div></div><div><span class="amount">$1663.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Emma</div><div class="date">5h 15m ago</div></div><div><span class="amount">$1216.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Rahel</div><div class="date">1h 45m ago</div></div><div><span class="amount">$3410.91 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Michael</div><div class="date">1h 52m ago</div></div><div><span class="amount">$1298.18 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Getachew</div><div class="date">5h 25m ago</div></div><div><span class="amount">$3321.82 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Olivia</div><div class="date">5h 35m ago</div></div><div><span class="amount">$1038.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Tadesse</div><div class="date">5h 45m ago</div></div><div><span class="amount">$2432.73 USD</span><span class="status completed">Completed</span></div></div>
+                   <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Selamawit</div><div class="date">1h 58m ago</div></div><div><span class="amount">$1760 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> James</div><div class="date">2h 5m ago</div></div><div><span class="amount">$1149.09 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Sophia</div><div class="date">5h 55m ago</div></div><div><span class="amount">$3661.82 USD</span><span class="status completed">Completed</span></div></div>
+                    <!-- 6-15 hours: 48 users -->
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Elias</div><div class="date">6h 10m ago</div></div><div><span class="amount">$1440 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Nadia</div><div class="date">6h 30m ago</div></div><div><span class="amount">$1610.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Samuel</div><div class="date">6h 50m ago</div></div><div><span class="amount">$1172.73 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Selam</div><div class="date">7h 10m ago</div></div><div><span class="amount">$3160 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Eyerusalem</div><div class="date">3h 15m ago</div></div><div><span class="amount">$1003.64 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Nathan</div><div class="date">7h 30m ago</div></div><div><span class="amount">$1023.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Marta</div><div class="date">7h 50m ago</div></div><div><span class="amount">$2507.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Tesfaye</div><div class="date">8h 10m ago</div></div><div><span class="amount">$3540 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Rebecca</div><div class="date">8h 30m ago</div></div><div><span class="amount">$1334.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Girma</div><div class="date">8h 50m ago</div></div><div><span class="amount">$1687.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Victoria</div><div class="date">9h 10m ago</div></div><div><span class="amount">$1238.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Amanuel</div><div class="date">9h 30m ago</div></div><div><span class="amount">$3300 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Isabella</div><div class="date">9h 50m ago</div></div><div><span class="amount">$1085.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Berhanu</div><div class="date">10h 10m ago</div></div><div><span class="amount">$2567.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Tsehay</div><div class="date">3h 35m ago</div></div><div><span class="amount">$3449.09 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Anthony</div><div class="date">3h 45m ago</div></div><div><span class="amount">$1325.45 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Aster</div><div class="date">10h 30m ago</div></div><div><span class="amount">$3629.09 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Jacob</div><div class="date">10h 50m ago</div></div><div><span class="amount">$1416.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Senait</div><div class="date">11h 10m ago</div></div><div><span class="amount">$1552.73 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Thomas</div><div class="date">11h 30m ago</div></div><div><span class="amount">$1141.82 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Kidist</div><div class="date">11h 50m ago</div></div><div><span class="amount">$3205.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Andrew</div><div class="date">12h 10m ago</div></div><div><span class="amount">$998.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Mahlet</div><div class="date">12h 30m ago</div></div><div><span class="amount">$2485.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Haile</div><div class="date">12h 50m ago</div></div><div><span class="amount">$3434.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Jennifer</div><div class="date">13h 10m ago</div></div><div><span class="amount">$1283.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Mulugeta</div><div class="date">13h 30m ago</div></div><div><span class="amount">$1640 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Rachel</div><div class="date">13h 50m ago</div></div><div><span class="amount">$1225.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Yared</div><div class="date">14h 10m ago</div></div><div><span class="amount">$3349.09 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Michelle</div><div class="date">14h 30m ago</div></div><div><span class="amount">$1063.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Alemayehu</div><div class="date">14h 50m ago</div></div><div><span class="amount">$2614.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Tizita</div><div class="date">15h 10m ago</div></div><div><span class="amount">$3583.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Brandon</div><div class="date">6h 20m ago</div></div><div><span class="amount">$1396.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Fikirte</div><div class="date">6h 40m ago</div></div><div><span class="amount">$1714.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Kevin</div><div class="date">7h 20m ago</div></div><div><span class="amount">$1107.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Bruktawit</div><div class="date">7h 40m ago</div></div><div><span class="amount">$3265.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Ryan</div><div class="date">8h 20m ago</div></div><div><span class="amount">$940 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Mekdes</div><div class="date">8h 40m ago</div></div><div><span class="amount">$2390.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Negash</div><div class="date">9h 20m ago</div></div><div><span class="amount">$3750.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Ashley</div><div class="date">9h 40m ago</div></div><div><span class="amount">$1258.18 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Tewodros</div><div class="date">10h 20m ago</div></div><div><span class="amount">$1576.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Amanda</div><div class="date">10h 40m ago</div></div><div><span class="amount">$1154.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Addisu</div><div class="date">11h 20m ago</div></div><div><span class="amount">$3143.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Jessica</div><div class="date">11h 40m ago</div></div><div><span class="amount">$1050.91 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-gem" style="color: #B9F2FF;"></i> Yemane</div><div class="date">12h 20m ago</div></div><div><span class="amount">$2516.36 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-crown" style="color: #FFD700;"></i> Lensa</div><div class="date">12h 40m ago</div></div><div><span class="amount">$3487.27 USD</span><span class="status completed">Completed</span></div></div>
+
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> James</div><div class="date">2h 5m ago</div></div><div><span class="amount">$1149.09 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-medal" style="color: #CD7F32;"></i> Justin</div><div class="date">13h 20m ago</div></div><div><span class="amount">$1347.27 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Wubit</div><div class="date">13h 40m ago</div></div><div><span class="amount">$1634.55 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-star" style="color: #C0C0C0;"></i> Selamawit</div><div class="date">1h 58m ago</div></div><div><span class="amount">$1760 USD</span><span class="status pending">Pending</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-shield-alt" style="color: #8B4513;"></i> Tyler</div><div class="date">14h 20m ago</div></div><div><span class="amount">$1203.64 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-trophy" style="color: #FFD700;"></i> Saron</div><div class="date">14h 40m ago</div></div><div><span class="amount">$3285.45 USD</span><span class="status completed">Completed</span></div></div>
+                    <div class="history-item"><div class="transaction-info"><div class="phone"><i class="fas fa-coins" style="color: #B87333;"></i> Nicole</div><div class="date">15h 20m ago</div></div><div><span class="amount">$974.55 USD</span><span class="status completed">Completed</span></div></div>
+
+                    </div>
+            </div>
+        </div>
+
+
+        <div class="card-container">
+            <a href="/gift" class="card">
+                <div class="card-icon"><svg class="icon" viewBox="0 0 16 16"><path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A2.968 2.968 0 0 1 3 2.506V2.5zm1.068.5H7a1.5 1.5 0 0 1 1.5 1.5v.5H6V4a2.5 2.5 0 0 0-1.932-2.44zM9 4.5V6h2.5V4.5A1.5 1.5 0 0 0 10 3H8.068A2.44 2.44 0 0 1 9 4.5zM6 4.5A1.5 1.5 0 0 0 4.5 3H2.068A2.44 2.44 0 0 1 3 4.5V6h3V4.5z"/></svg></div>
+                <span>
+                    <span id="gift-en">Gift</span>
+                    <span id="gift-am" style="display:none">ስጦታ</span>
+                    <span id="gift-zh" style="display:none">礼品</span>
+                    <span id="gift-es" style="display:none">Regalo</span>
+                </span>
+            </a>
+            <a href="/service" class="card">
+                <div class="card-icon"><svg class="icon" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/></svg></div>
+                <span>
+                    <span id="service-en">Service</span>
+                    <span id="service-am" style="display:none">አገልግሎት</span>
+                    <span id="service-zh" style="display:none">服务</span>
+                    <span id="service-es" style="display:none">Servicio</span>
+                </span>
+            </a>
+            <a href="/purchase" class="card">
+                <div class="card-icon"><svg class="icon" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg></div>
+                <span>
+                    <span id="purchase-en">Purchase</span>
+                    <span id="purchase-am" style="display:none">ግዢ</span>
+                    <span id="purchase-zh" style="display:none">购买</span>
+                    <span id="purchase-es" style="display:none">Comprar</span>
+                </span>
+            </a>
+            <a href="/invite" class="card">
+                <div class="card-icon"><svg class="icon" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg></div>
+                <span>
+                    <span id="invite-en">Invite</span>
+                    <span id="invite-am" style="display:none">ጋብዝ</span>
+                    <span id="invite-zh" style="display:none">邀请</span>
+                    <span id="invite-es" style="display:none">Invitar</span>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item"><a href="/dashboard"><svg class="icon" viewBox="0 0 16 16"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/></svg><span>
+            <span id="navHome-en">Home</span>
+            <span id="navHome-am" style="display:none">ቤት</span>
+            <span id="navHome-zh" style="display:none">首页</span>
+            <span id="navHome-es" style="display:none">Inicio</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/product"><svg class="icon" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg><span>
+            <span id="navProduct-en">Product</span>
+            <span id="navProduct-am" style="display:none">ምርት</span>
+            <span id="navProduct-zh" style="display:none">产品</span>
+            <span id="navProduct-es" style="display:none">Producto</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/team"><svg class="icon" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>
+            <span id="navTeam-en">Team</span>
+            <span id="navTeam-am" style="display:none">ቡድን</span>
+            <span id="navTeam-zh" style="display:none">团队</span>
+            <span id="navTeam-es" style="display:none">Equipo</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/my"><svg class="icon" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg><span>
+            <span id="navMy-en">My</span>
+            <span id="navMy-am" style="display:none">የኔ</span>
+            <span id="navMy-zh" style="display:none">我的</span>
+            <span id="navMy-es" style="display:none">Mi</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/help"><svg class="icon" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/></svg><span>
+            <span id="navHelp-en">Help</span>
+            <span id="navHelp-am" style="display:none">እርዳታ</span>
+            <span id="navHelp-zh" style="display:none">帮助</span>
+            <span id="navHelp-es" style="display:none">Ayuda</span>
+        </span></a></div>
+    </div>
+
+    <script src="/js/lang.js"></script>
+    <script>
+        // VIDEO SLIDER CONFIGURATION - CSP SAFE VERSION
+        // NO eval() or unsafe JavaScript
+
+        // Check if already initialized to prevent duplicate declarations
+        if (typeof window.sliderInitialized === 'undefined') {
+            window.sliderInitialized = true;
+
+            // Global variables - attach to window object
+            window.currentSlide = 0;
+            window.sliderInterval = null;
+            window.historyScrollInterval = null;
+            const totalSlides = 10;
+            const VIDEO_PLAY_TIME = 7090; // 64 seconds per video
+            const TRANSITION_TIME = 2000;
+
+            // Navigation Active State Management
+            function setActiveNavItem() {
+                const currentPath = window.location.pathname;
+                const navItems = document.querySelectorAll('.nav-item');
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    const link = item.querySelector('a');
+                    if (link && link.getAttribute('href') === currentPath) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            // Navigation Click Effects
+            function addNavClickEffects() {
+                const navItems = document.querySelectorAll('.nav-item');
+                
+                navItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        navItems.forEach(nav => nav.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                            position: absolute;
+                            border-radius: 50%;
+                            background: rgba(79, 195, 247, 0.6);
+                            transform: scale(0);
+                            animation: ripple 0.6s linear;
+                            pointer-events: none;
+                        `;
+                        
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        ripple.style.width = ripple.style.height = size + 'px';
+                        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                        
+                        this.appendChild(ripple);
+                        setTimeout(() => ripple.remove(), 600);
+                    });
+                });
+            }
+
+            // Copy to clipboard function
+            function copyToClipboard(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showCopySuccess();
+                    }).catch(err => {
+                        fallbackCopyTextToClipboard(text);
+                    });
+                } else {
+                    fallbackCopyTextToClipboard(text);
+                }
+            }
+
+            function fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopySuccess();
+                } catch (err) {
+                    console.error('Fallback: Could not copy text: ', err);
+                }
+                document.body.removeChild(textArea);
+            }
+
+            function showCopySuccess() {
+                const button = document.activeElement || document.querySelector('button[onclick*="copyToClipboard"]');
+                if (button) {
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<svg class="icon" viewBox="0 0 16 16"><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.061L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/></svg> Copied!';
+                    button.style.backgroundColor = '#4caf50';
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.backgroundColor = '#4fc3f7';
+                    }, 2000);
+                }
+            }
+
+            // Add CSS for ripple animation
+            const rippleStyle = document.createElement('style');
+            rippleStyle.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(rippleStyle);
+
+            // AUTO-SCROLL HISTORY FUNCTION
+            function startHistoryAutoScroll() {
+                const historyContainer = document.getElementById('scrollingHistory');
+                if (!historyContainer) return;
+
+                // Configure smooth scrolling
+                historyContainer.style.overflowY = 'auto';
+                historyContainer.style.height = '120px';
+                historyContainer.style.scrollbarWidth = 'none';
+                historyContainer.style.msOverflowStyle = 'none';
+
+                // Hide scrollbar without eval
+                const existingStyle = document.getElementById('scrollbar-hide-style');
+                if (!existingStyle) {
+                    const style = document.createElement('style');
+                    style.id = 'scrollbar-hide-style';
+                    style.textContent = '#scrollingHistory::-webkit-scrollbar { display: none; }';
+                    document.head.appendChild(style);
+                }
+
+                // Auto-scroll history - 1 person per second
+                window.historyScrollInterval = setInterval(function autoScroll() {
+                    if (historyContainer) {
+                        historyContainer.scrollTop += 45; // Scroll one person entry (45px height)
+                        if (historyContainer.scrollTop >= historyContainer.scrollHeight - historyContainer.clientHeight) {
+                            historyContainer.scrollTop = 0;
+                        }
+                    }
+                }, 1000); // 1 second per person
+            }
+
+            // VIDEO SLIDER FUNCTION - CSP SAFE
+            function startImageSlider() {
+                const sliderTrack = document.getElementById('sliderTrack');
+                if (!sliderTrack) return;
+
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length === 0) return;
+
+                // Setup slider CSS
+                sliderTrack.style.transition = 'transform ' + TRANSITION_TIME + 'ms ease-in-out';
+                sliderTrack.style.display = 'flex';
+                sliderTrack.style.width = (totalSlides * 100) + '%';
+
+                // Set each slide width
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.width = (100 / totalSlides) + '%';
+                    slides[i].style.flexShrink = '0';
+                }
+
+                // Mute all videos
+                const videos = document.querySelectorAll('.slider-video');
+                for (let i = 0; i < videos.length; i++) {
+                    videos[i].muted = true;
+                    videos[i].preload = 'metadata';
+                }
+
+                // Function to play video safely
+                function playVideo(slideIndex) {
+                    if (slideIndex < 0 || slideIndex >= slides.length) return;
+
+                    const video = slides[slideIndex].querySelector('.slider-video');
+                    if (video) {
+                        video.currentTime = 1;
+                        const playPromise = video.play();
+
+                        if (playPromise !== undefined) {
+                            playPromise.then(function() {
+                                // Success
+                            }).catch(function(error) {
+                                // Only log non-abort errors
+                                if (error.name !== 'AbortError') {
+                                    console.log('Video play issue:', error.message);
+                                }
+                            });
+                        }
+                    }
+                }
+
+                // Function to pause video
+                function pauseVideo(slideIndex) {
+                    if (slideIndex < 0 || slideIndex >= slides.length) return;
+
+                    const video = slides[slideIndex].querySelector('.slider-video');
+                    if (video && !video.paused) {
+                        video.pause();
+                    }
+                }
+
+                // Start first video
+                setTimeout(function() {
+                    playVideo(0);
+                }, 500);
+
+                // Clear existing interval
+                if (window.sliderInterval) {
+                    clearInterval(window.sliderInterval);
+                }
+
+                // Function to move to next slide
+                function goToNextSlide() {
+                    // Pause current video
+                    pauseVideo(window.currentSlide);
+
+                    // Calculate next slide
+                    const nextSlide = (window.currentSlide + 1) % totalSlides;
+
+                    // Move to next slide
+                    const translateValue = '-' + (nextSlide * (100 / totalSlides)) + '%';
+                    sliderTrack.style.transform = 'translateX(' + translateValue + ')';
+
+                    // Update current slide
+                    window.currentSlide = nextSlide;
+
+                    // Play next video after transition
+                    setTimeout(function() {
+                        playVideo(window.currentSlide);
+                    }, TRANSITION_TIME + 50);
+                }
+
+                // Start the interval - Each video plays for 64 seconds
+                window.sliderInterval = setInterval(goToNextSlide, VIDEO_PLAY_TIME);
+            }
+
+            // Cleanup function
+            function cleanupSliders() {
+                // Clear intervals
+                if (window.sliderInterval) {
+                    clearInterval(window.sliderInterval);
+                    window.sliderInterval = null;
+                }
+
+                if (window.historyScrollInterval) {
+                    clearInterval(window.historyScrollInterval);
+                    window.historyScrollInterval = null;
+                }
+
+                // Pause all videos
+                const videos = document.querySelectorAll('.slider-video');
+                for (let i = 0; i < videos.length; i++) {
+                    if (!videos[i].paused) {
+                        videos[i].pause();
+                    }
+                }
+            }
+
+            // Initialize everything when page loads
+            function initializePage() {
+                try {
+                    setActiveNavItem();
+                    addNavClickEffects();
+                    startHistoryAutoScroll();
+                    startImageSlider();
+                    
+                    // Load and initialize icon system
+                    if (typeof replaceGenericIcons === 'function') {
+                        replaceGenericIcons();
+                    } else {
+                        // Fallback: Load icons.js if not already loaded
+                        const script = document.createElement('script');
+                        script.src = '/js/icons.js';
+                        script.onload = function() {
+                            if (typeof replaceGenericIcons === 'function') {
+                                replaceGenericIcons();
+                            }
+                        };
+                        document.head.appendChild(script);
+                    }
+                } catch (error) {
+                    console.log('Page initialization error:', error.message);
+                }
+            }
+
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(initializePage, 300);
+                });
+            } else {
+                // DOM already loaded
+                setTimeout(initializePage, 300);
+            }
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', cleanupSliders);
+            window.addEventListener('pagehide', cleanupSliders);
+
+            // Handle visibility changes
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    // Page is hidden - pause current video
+                    const slides = document.querySelectorAll('.slide');
+                    if (window.currentSlide < slides.length) {
+                        const video = slides[window.currentSlide].querySelector('.slider-video');
+                        if (video && !video.paused) {
+                            video.pause();
+                        }
+                    }
+                } else {
+                    // Page is visible - resume current video
+                    const slides = document.querySelectorAll('.slide');
+                    if (window.currentSlide < slides.length) {
+                        const video = slides[window.currentSlide].querySelector('.slider-video');
+                        if (video && video.paused) {
+                            video.play().catch(function(e) {
+                                // Ignore autoplay errors
+                            });
+                        }
+                    }
+                }
+            });
+
+            // Make functions globally available
+            window.copyToClipboard = copyToClipboard;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Products</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/main.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #0c2141; color: white; min-height: 100vh; padding-bottom: 70px; }
+        .header { background-color: #1a344b; padding: 20px; text-align: center; }
+        .balance { background-color: #333386; padding: 15px; margin: 20px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .product-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .product-card { background-color: #1e3a6a; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; transition: transform 0.3s; }
+        .product-card:hover { transform: translateY(-2px); }
+        .product-image-container { position: relative; width: 100%; height: 200px; margin-bottom: 12px; border-radius: 8px; overflow: hidden; }
+        .product-image { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; background-color: #0c2141; }
+        .insufficient-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; color: white; font-size: 0.9rem; }
+        .insufficient-overlay i { font-size: 1.5rem; margin-bottom: 5px; }
+        .insufficient-funds-card { opacity: 0.7; }
+        .product-content { flex: 1; }
+        .product-details { margin: 10px 0; }
+        .detail-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; }
+        .return-rate { color: #4fc3f7; font-weight: bold; }
+        .buy-button:disabled, .buy-button.disabled { background-color: #666; cursor: not-allowed; opacity: 0.6; }
+        .funds-needed { color: #e74c3c; font-size: 0.8rem; margin-top: 5px; text-align: center; }
+        .product-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 8px; }
+        .product-desc { font-size: 0.85rem; color: #ccc; margin-bottom: 10px; }
+        .product-price { font-size: 1.3rem; color: #4fc3f7; font-weight: bold; margin-bottom: 8px; }
+        .daily-return { font-size: 0.9rem; color: #8edca0; margin-bottom: 10px; }
+        .buy-button { width: 100%; padding: 10px; background-color: #4fc3f7; color: #0c2141; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+        .error-message { color: #e74c3c; text-align: center; margin: 10px; }
+
+
+
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <div class="header">
+        <h1><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg> 
+            <span id="products-en">Investment Products</span>
+            <span id="products-am" style="display:none">የኢንቨስትመንት ምርቶች</span>
+            <span id="products-zh" style="display:none">投资产品</span>
+            <span id="products-es" style="display:none">Productos de Inversión</span>
+        </h1>
+        <p>
+            <span id="choosePackage-en">Choose your investment package</span>
+            <span id="choosePackage-am" style="display:none">የኢንቨስትመንት ፓኬጅዎን ይምረጡ</span>
+            <span id="choosePackage-zh" style="display:none">选择您的投资套餐</span>
+            <span id="choosePackage-es" style="display:none">Elige tu paquete de inversión</span>
+        </p>
+    </div>
+    
+    <div class="balance">
+        <span id="walletBalance-en">Wallet Balance:</span>
+        <span id="walletBalance-am" style="display:none">የዋሌት ሚዛን:</span>
+        <span id="walletBalance-zh" style="display:none">钱包余额：</span>
+        <span id="walletBalance-es" style="display:none">Saldo de Billetera:</span>
+        ${user.walletBalance} USD
+    </div>
+    
+    {#if error}
+        <div class="error-message">{error}</div>
+    {/if}
+
+    <div class="container">
+        <div class="product-grid">
+            {#for product in products}
+            <div class="product-card {#if user.walletBalance.compareTo(product.price) < 0}insufficient-funds-card{/if}">
+                <div class="product-image-container">
+                    <img src="{product.imageUrl}" alt="{product.name}" class="product-image" onerror="this.src='/images/wifi.jpg'">
+                    {#if user.walletBalance.compareTo(product.price) < 0}
+                        <div class="insufficient-overlay">
+                            <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                            <span id="insufficientBalance-en">Insufficient Funds</span>
+                            <span id="insufficientBalance-am" style="display:none">በቂ ገንዘብ የለም</span>
+                            <span id="insufficientBalance-zh" style="display:none">资金不足</span>
+                            <span id="insufficientBalance-es" style="display:none">Fondos Insuficientes</span>
+                        </div>
+                    {/if}
+                </div>
+                <div class="product-content">
+                    <div class="product-title">{product.name}</div>
+                    <div class="product-desc">{product.description}</div>
+                    <div class="product-details">
+                        <div class="detail-row">
+                            <span id="minInvestment-en">Price:</span>
+                            <span id="minInvestment-am" style="display:none">ዋጋ:</span>
+                            <span id="minInvestment-zh" style="display:none">价格：</span>
+                            <span id="minInvestment-es" style="display:none">Precio:</span>
+                            <span class="product-price">${product.price} USD</span>
+                        </div>
+                        <div class="detail-row">
+                            <span id="dailyReturn-en">Daily Return:</span>
+                            <span id="dailyReturn-am" style="display:none">ዕለታዊ ትርፍ:</span>
+                            <span id="dailyReturn-zh" style="display:none">每日回报：</span>
+                            <span id="dailyReturn-es" style="display:none">Retorno Diario:</span>
+                            <span class="return-rate">{product.dailyReturnRate}%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span id="duration-en">Duration:</span>
+                            <span id="duration-am" style="display:none">ጊዜ:</span>
+                            <span id="duration-zh" style="display:none">持续时间：</span>
+                            <span id="duration-es" style="display:none">Duración:</span>
+                            <span>{product.durationDays} 
+                                <span id="days-en">days</span>
+                                <span id="days-am" style="display:none">ቀናት</span>
+                                <span id="days-zh" style="display:none">天</span>
+                                <span id="days-es" style="display:none">días</span>
+                            </span>
+                        </div>
+                    </div>
+                    <form method="post" action="/purchase">
+                        <input type="hidden" name="productId" value="{product.id}">
+                        {#if user.walletBalance.compareTo(product.price) >= 0}
+                            <button type="submit" class="buy-button">
+                                <span id="investNow-en">Invest Now</span>
+                                <span id="investNow-am" style="display:none">አሁን ኢንቨስት ያድርጉ</span>
+                                <span id="investNow-zh" style="display:none">立即投资</span>
+                                <span id="investNow-es" style="display:none">Invertir Ahora</span>
+                            </button>
+                        {#else}
+                            <button type="button" class="buy-button disabled" disabled>
+                                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg> 
+                                <span id="insufficientBalance2-en">Insufficient Funds</span>
+                                <span id="insufficientBalance2-am" style="display:none">በቂ ገንዘብ የለም</span>
+                                <span id="insufficientBalance2-zh" style="display:none">资金不足</span>
+                                <span id="insufficientBalance2-es" style="display:none">Fondos Insuficientes</span>
+                            </button>
+                            <div class="funds-needed">Need ${product.price.subtract(user.walletBalance)} USD more</div>
+                        {/if}
+                    </form>
+                </div>
+            </div>
+            {/for}
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item"><a href="/dashboard"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navHome-en">Home</span>
+            <span id="navHome-am" style="display:none">ቤት</span>
+            <span id="navHome-zh" style="display:none">首页</span>
+            <span id="navHome-es" style="display:none">Inicio</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/product"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navProduct-en">Product</span>
+            <span id="navProduct-am" style="display:none">ምርት</span>
+            <span id="navProduct-zh" style="display:none">产品</span>
+            <span id="navProduct-es" style="display:none">Producto</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/team"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navTeam-en">Team</span>
+            <span id="navTeam-am" style="display:none">ቡድን</span>
+            <span id="navTeam-zh" style="display:none">团队</span>
+            <span id="navTeam-es" style="display:none">Equipo</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/my"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navMy-en">My</span>
+            <span id="navMy-am" style="display:none">የኔ</span>
+            <span id="navMy-zh" style="display:none">我的</span>
+            <span id="navMy-es" style="display:none">Mi</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/help"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navHelp-en">Help</span>
+            <span id="navHelp-am" style="display:none">እርዳታ</span>
+            <span id="navHelp-zh" style="display:none">帮助</span>
+            <span id="navHelp-es" style="display:none">Ayuda</span>
+        </span></a></div>
+    </div>
+
+</body>
+<script src="/js/lang.js"></script>
+</html>
+

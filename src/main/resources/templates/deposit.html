@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Recharge Wallet</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: linear-gradient(to right, #3d82e9, #60b966); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { color: white; padding: 1.5rem; text-align: center; width: 100%; background-color: #5f5fbc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .main-container { padding: 2rem; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; }
+        .form-container { background-color: #5858c1; padding: 20px; margin-top: 20px; color: #efedf5; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; }
+        .balance-display { text-align: center; margin-bottom: 20px; padding: 15px; background-color: #333386; border-radius: 8px; font-size: 1.2em; font-weight: bold; }
+        .form-group { margin-bottom: 1.2rem; width: 100%; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; color: white; }
+        .form-group input, .form-group select { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; background-color: #333386; color: white; }
+        .form-group input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        .recharge-button { width: 100%; padding: 0.8rem; background-color: #333394; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .recharge-button:hover { background-color: #242163; }
+        .back-link { display: block; text-align: center; color: #d4b344; text-decoration: none; margin-top: 1rem; }
+        .error-message, .success-message { font-size: 0.8rem; margin-bottom: 1rem; text-align: center; }
+        .error-message { color: #e74c3c; }
+        .success-message { color: #8edca0; }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+        @media screen and (max-width: 412px) { body { padding: 0.5rem; } .header { padding: 1rem; } .main-container { padding: 1rem; } .form-container { padding: 15px; margin-top: 10px; } .form-group input, .form-group select { padding: 0.7rem; font-size: 16px; } }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <header class="header">
+        <h1>
+            <span id="rechargeTitle-en">Recharge Wallet</span>
+            <span id="rechargeTitle-am" style="display:none">ዋሌት ሞላ</span>
+            <span id="rechargeTitle-zh" style="display:none">充值钱包</span>
+            <span id="rechargeTitle-es" style="display:none">Recargar Billetera</span>
+        </h1>
+        <p>
+            <span id="addFunds-en">Add funds to your account</span>
+            <span id="addFunds-am" style="display:none">ወደ መለያዎ ገንዘብ ይጨምሩ</span>
+            <span id="addFunds-zh" style="display:none">向您的账户添加资金</span>
+            <span id="addFunds-es" style="display:none">Agregar fondos a tu cuenta</span>
+        </p>
+    </header>
+    <div class="main-container">
+        <div class="form-container">
+            <div class="balance-display">
+                <span id="currentBalance-en">Current Balance:</span>
+                <span id="currentBalance-am" style="display:none">የአሁን ሚዛን:</span>
+                <span id="currentBalance-zh" style="display:none">当前余额：</span>
+                <span id="currentBalance-es" style="display:none">Saldo Actual:</span>
+                ${user.walletBalance} USD
+            </div>
+            
+            {#if error}
+                <div class="error-message">{error}</div>
+            {/if}
+            {#if success}
+                <div class="success-message">{success}</div>
+            {/if}
+            
+            <form method="post" action="/recharge">
+                <div class="form-group">
+                    <label for="amount">
+                        <span id="amountLabel-en">Amount (USD)</span>
+                        <span id="amountLabel-am" style="display:none">መጠን (USD)</span>
+                        <span id="amountLabel-zh" style="display:none">金额 (USD)</span>
+                        <span id="amountLabel-es" style="display:none">Cantidad (USD)</span>
+                    </label>
+                    <input type="number" 
+                           id="amount" 
+                           name="amount" 
+                           placeholder="Enter amount to deposit"
+                           min="10"
+                           max="75000"
+                           step="0.01"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="method">
+                        <span id="paymentMethod-en">Payment Method</span>
+                        <span id="paymentMethod-am" style="display:none">የክፍያ ዘዴ</span>
+                        <span id="paymentMethod-zh" style="display:none">支付方式</span>
+                        <span id="paymentMethod-es" style="display:none">Método de Pago</span>
+                    </label>
+                    <select id="method" name="method" required>
+                        <option value="">
+                            <span id="selectMethod-en">Select Payment Method</span>
+                            <span id="selectMethod-am" style="display:none">የክፍያ ዘዴ ይምረጡ</span>
+                            <span id="selectMethod-zh" style="display:none">选择支付方式</span>
+                            <span id="selectMethod-es" style="display:none">Seleccionar Método de Pago</span>
+                        </option>
+                        <option value="telebirr">
+                            <span id="telebirr-en">Telebirr Mobile Money</span>
+                            <span id="telebirr-am" style="display:none">ቴሌብር ሞባይል ገንዘብ</span>
+                            <span id="telebirr-zh" style="display:none">Telebirr 移动支付</span>
+                            <span id="telebirr-es" style="display:none">Telebirr Dinero Móvil</span>
+                        </option>
+                        <option value="paypal">PayPal</option>
+                        <option value="visa">
+                            <span id="visaCard-en">Visa Card</span>
+                            <span id="visaCard-am" style="display:none">ቪዛ ካርድ</span>
+                            <span id="visaCard-zh" style="display:none">Visa 卡</span>
+                            <span id="visaCard-es" style="display:none">Tarjeta Visa</span>
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transactionId">
+                        <span id="transactionId-en">Transaction ID</span>
+                        <span id="transactionId-am" style="display:none">የግብይት መለያ</span>
+                        <span id="transactionId-zh" style="display:none">交易ID</span>
+                        <span id="transactionId-es" style="display:none">ID de Transacción</span>
+                    </label>
+                    <input type="text" 
+                           id="transactionId" 
+                           name="transactionId" 
+                           placeholder="Enter transaction ID from your payment"
+                           required
+                           pattern="[a-zA-Z0-9]\{6,50\}"
+                           title="Transaction ID must be 6-50 alphanumeric characters">
+                    <small style="color: #ccc; font-size: 0.8em; margin-top: 5px; display: block;">
+                        <span id="transactionHint-en">Enter the transaction ID you received after making payment</span>
+                        <span id="transactionHint-am" style="display:none">ክፍያ ከፈጸሙ በኋላ የተቀበሉትን የግብይት መለያ ያስገቡ</span>
+                        <span id="transactionHint-zh" style="display:none">输入您付款后收到的交易ID</span>
+                        <span id="transactionHint-es" style="display:none">Ingrese el ID de transacción que recibió después del pago</span>
+                    </small>
+                </div>
+                <div style="background-color: #333394; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9em;">
+                    <h4 style="color: #d4b344; margin-bottom: 10px;">
+                        <span id="paymentInstructions-en">Payment Instructions:</span>
+                        <span id="paymentInstructions-am" style="display:none">የክፍያ መመሪያዎች:</span>
+                        <span id="paymentInstructions-zh" style="display:none">支付说明：</span>
+                        <span id="paymentInstructions-es" style="display:none">Instrucciones de Pago:</span>
+                    </h4>
+                    <p><strong>Telebirr:</strong> 
+                        <span id="sendTo-en">Send to:</span>
+                        <span id="sendTo-am" style="display:none">ወደ ይላኩ:</span>
+                        <span id="sendTo-zh" style="display:none">发送至：</span>
+                        <span id="sendTo-es" style="display:none">Enviar a:</span>
+                        0911123456
+                    </p>
+                    <p><strong>PayPal:</strong> 
+                        <span id="sendTo-en">Send to:</span>
+                        <span id="sendTo-am" style="display:none">ወደ ይላኩ:</span>
+                        <span id="sendTo-zh" style="display:none">发送至：</span>
+                        <span id="sendTo-es" style="display:none">Enviar a:</span>
+                        payments@elonmusk.com
+                    </p>
+                    <p><strong>Visa Card:</strong> 
+                        <span id="useGateway-en">Use secure payment gateway</span>
+                        <span id="useGateway-am" style="display:none">ደህንነቱ የተጠበቀ የክፍያ መንገድ ይጠቀሙ</span>
+                        <span id="useGateway-zh" style="display:none">使用安全支付网关</span>
+                        <span id="useGateway-es" style="display:none">Usar pasarela de pago segura</span>
+                    </p>
+                    <p style="margin-top: 8px; color: #ccc;">
+                        <span id="adminVerify-en">After payment, enter the transaction ID above. Admin will verify and add the amount to your balance.</span>
+                        <span id="adminVerify-am" style="display:none">ከክፍያ በኋላ ከላይ ያለውን የግብይት መለያ ያስገቡ። አስተዳዳሪ ያረጋግጣል እና መጠኑን ወደ ሚዛንዎ ይጨምራል።</span>
+                        <span id="adminVerify-zh" style="display:none">付款后，在上方输入交易ID。管理员将验证并将金额添加到您的余额中。</span>
+                        <span id="adminVerify-es" style="display:none">Después del pago, ingrese el ID de transacción arriba. El administrador verificará y agregará el monto a su saldo.</span>
+                    </p>
+                </div>
+                <button type="submit" class="recharge-button">
+                    <span id="submitRequest-en">Submit Deposit Request</span>
+                    <span id="submitRequest-am" style="display:none">የተቀማጭ ገንዘብ ጥያቄ ያስገቡ</span>
+                    <span id="submitRequest-zh" style="display:none">提交存款请求</span>
+                    <span id="submitRequest-es" style="display:none">Enviar Solicitud de Depósito</span>
+                </button>
+            </form>
+            <a class="back-link" href="/dashboard">
+                <span id="backDashboard-en">Back to Dashboard</span>
+                <span id="backDashboard-am" style="display:none">ወደ ዳሽቦርድ ተመለስ</span>
+                <span id="backDashboard-zh" style="display:none">返回仪表板</span>
+                <span id="backDashboard-es" style="display:none">Volver al Panel</span>
+            </a>
+        </div>
+    </div>
+    <script src="/js/lang.js"></script>
+</body>
+</html>

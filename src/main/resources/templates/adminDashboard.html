@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; }
+        .header { background: #16213e; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; background: #e94560; border-radius: 5px; }
+        .container { padding: 20px; }
+        .card { background: #16213e; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .gift-form { background: #0f3460; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #4CAF50; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background: white; color: black; }
+        .btn { background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn:hover { background: #45a049; }
+        .error { color: #ff6b6b; margin-top: 5px; font-size: 0.9em; }
+        .success { color: #4CAF50; margin-top: 5px; font-size: 0.9em; }
+        .code-preview { background: #333; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 1.2em; letter-spacing: 2px; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Admin Dashboard</h1>
+        <div class="nav">
+            <a href="/million/users">Users</a>
+            <a href="/million/deposits">Deposits</a>
+            <a href="/million/withdrawals">Withdrawals</a>
+            <a href="/million/products">Products</a>
+            <a href="/million/referrals">Referrals</a>
+            <a href="/million/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        
+        <!-- Gift Code Generator -->
+        <div class="gift-form">
+            <h3 style="color: #4CAF50; margin-bottom: 20px;">🎁 Generate Gift Code</h3>
+            
+            {#if error}
+            <div class="error">{error}</div>
+            {/if}
+            
+            {#if success}
+            <div class="success">{success}</div>
+            {/if}
+            
+            <form action="/million/gift-code/create" method="post">
+                <div class="form-group">
+                    <label for="code">Gift Code (8 characters - Uppercase + Numbers only):</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" 
+                               id="code" 
+                               name="code" 
+                               placeholder="ABC123XY or leave empty for random" 
+                               maxlength="8" 
+                               style="font-family: monospace; font-size: 1.1em; letter-spacing: 1px; text-transform: uppercase; flex: 1;">
+                        <button type="button" 
+                                onclick="generateRandomCode()" 
+                                style="background: #ff9800; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+                            🎲 Random
+                        </button>
+                    </div>
+                    <div style="font-size: 0.9em; color: #ccc; margin-top: 5px;">
+                        • Must be exactly 8 characters (or leave empty for random)<br>
+                        • Only uppercase letters (A-Z) and numbers (0-9)<br>
+                        • Example: ABC123XY, DEF456ZW
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Gift Amount ($):</label>
+                    <input type="number" 
+                           id="amount" 
+                           name="amount" 
+                           placeholder="1.00" 
+                           step="0.01" 
+                           min="0.01" 
+                           max="1000" 
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">Expiration Time (Minutes):</label>
+                    <input type="number" 
+                           id="duration" 
+                           name="duration" 
+                           placeholder="4" 
+                           min="1" 
+                           max="43200" 
+                           required
+                           style="width: 100%;">
+                    <div style="font-size: 0.9em; color: #ccc; margin-top: 5px;">
+                        • Enter any number of minutes (1-43200)<br>
+                        • Examples: 1 = 1 minute, 60 = 1 hour, 1440 = 1 day
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">🎁 Generate Gift Code</button>
+            </form>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>User Management</h3>
+                <p>View, edit, and delete users</p>
+                <a href="/million/users" style="color: #e94560;">Manage Users →</a>
+            </div>
+            <div class="card">
+                <h3>Deposit Requests</h3>
+                <p>Approve or reject deposit requests</p>
+                <a href="/million/deposits" style="color: #e94560;">Manage Deposits →</a>
+            </div>
+            <div class="card">
+                <h3>Withdrawal Requests</h3>
+                <p>Process withdrawal requests</p>
+                <a href="/million/withdrawals" style="color: #e94560;">Manage Withdrawals →</a>
+            </div>
+            <div class="card">
+                <h3>Investment Products</h3>
+                <p>Add and manage investment products</p>
+                <a href="/million/products" style="color: #e94560;">Manage Products →</a>
+            </div>
+            <div class="card">
+                <h3>Referral System</h3>
+                <p>Monitor referrals and bonuses</p>
+                <a href="/million/referrals" style="color: #e94560;">View Referrals →</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Generate random 8-character code
+        function generateRandomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 8; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('code').value = result;
+            
+            // Trigger validation
+            const event = new Event('input');
+            document.getElementById('code').dispatchEvent(event);
+        }
+        
+        // Auto-format gift code input - uppercase letters and numbers only
+        document.getElementById('code').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); // Only A-Z and 0-9
+            if (value.length > 8) {
+                value = value.substring(0, 8);
+            }
+            e.target.value = value;
+            
+            // Real-time validation
+            if (value.length === 8) {
+                const isValid = /^[A-Z0-9]{8}$/.test(value);
+                if (isValid) {
+                    e.target.style.borderColor = '#4CAF50';
+                    e.target.style.backgroundColor = '#e8f5e8';
+                } else {
+                    e.target.style.borderColor = '#ff6b6b';
+                    e.target.style.backgroundColor = '#ffe8e8';
+                }
+            } else if (value.length === 0) {
+                // Empty is OK (will generate random)
+                e.target.style.borderColor = '#ccc';
+                e.target.style.backgroundColor = 'white';
+            } else {
+                e.target.style.borderColor = '#ff9800';
+                e.target.style.backgroundColor = '#fff8e1';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit - Bolt Computer Company</title>
+    <style>
+        body { 
+            background-color: #4c3ecc; 
+            color: white; 
+            padding: 20px; 
+            font-family: Arial, sans-serif; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #5555ab; 
+            border-radius: 15px; 
+            padding: 20px; 
+        }
+        .title { 
+            font-size: 24px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .profit { 
+            font-size: 1.5em; 
+            text-align: center; 
+        }
+        .refresh-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+        }
+        .refresh-btn:hover {
+            background-color: #45a049;
+        }
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff6b35;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <div class="container">
+        <div class="title">
+            <span id="yourProfit-en">Your Profit</span>
+            <span id="yourProfit-am" style="display:none">የእርስዎ ትርፍ</span>
+            <span id="yourProfit-zh" style="display:none">您的利润</span>
+            <span id="yourProfit-es" style="display:none">Su Ganancia</span>
+        </div>
+        <div class="profit" id="profitValue">
+            {user.profit} USD
+        </div>
+        
+        <button class="refresh-btn" onclick="refreshProfit()">
+            <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg> 
+            <span id="refreshProfit-en">Refresh Profit</span>
+            <span id="refreshProfit-am" style="display:none">ትርፍ አድስ</span>
+            <span id="refreshProfit-zh" style="display:none">刷新利润</span>
+            <span id="refreshProfit-es" style="display:none">Actualizar Ganancia</span>
+        </button>
+        
+        <p><a href="/my" style="color: #d3e722;">
+            <span id="backDashboard-en">Back to Dashboard</span>
+            <span id="backDashboard-am" style="display:none">ወደ ዳሽቦርድ ተመለስ</span>
+            <span id="backDashboard-zh" style="display:none">返回仪表板</span>
+            <span id="backDashboard-es" style="display:none">Volver al Panel</span>
+        </a></p>
+    </div>
+    
+    <script src="/js/lang.js"></script>
+</body>
+</html>

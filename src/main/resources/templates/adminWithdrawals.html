@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdrawal Management</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; }
+        .header { background: #16213e; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; background: #e94560; border-radius: 5px; }
+        .container { padding: 20px; }
+        table { width: 100%; background: #16213e; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: #0f3460; }
+        .btn { padding: 8px 12px; margin: 2px; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-approve { background: #28a745; }
+        .btn-reject { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Withdrawal Requests</h1>
+        <div class="nav">
+            <a href="/million/dashboard">Dashboard</a>
+            <a href="/million/users">Users</a>
+            <a href="/million/deposits">Deposits</a>
+            <a href="/million/withdrawals">Withdrawals</a>
+            <a href="/million/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Pending Withdrawals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Bank Account</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#for withdrawal in withdrawals}
+                <tr>
+                    <td>{withdrawal.id}</td>
+                    <td>{withdrawal.userId}</td>
+                    <td>{withdrawal.amount} USD</td>
+                    <td>{withdrawal.bankAccount}</td>
+                    <td>{withdrawal.status}</td>
+                    <td>
+                        <form method="post" action="/million/withdrawal/approve" style="display:inline; margin-right: 5px;">
+                            <input type="hidden" name="withdrawalId" value="{withdrawal.id}">
+                            <button type="submit" class="btn btn-approve">Approve</button>
+                        </form>
+                        <form method="post" action="/million/withdrawal/reject" style="display:inline;">
+                            <input type="hidden" name="withdrawalId" value="{withdrawal.id}">
+                            <input type="text" name="reason" placeholder="Reason" style="width: 120px; padding: 5px; background: #333; color: white; border: 1px solid #555; border-radius: 3px;">
+                            <button type="submit" class="btn btn-reject">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

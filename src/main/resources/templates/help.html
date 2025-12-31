@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/main.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #0c2141; color: white; min-height: 100vh; padding-bottom: 70px; }
+        .help-content { max-width: 600px; margin: 0 auto; padding: 20px; background-color: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px); margin-bottom: 80px; }
+        .section { background-color: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .section-title { font-size: 1.3em; font-weight: bold; color: #4CAF50; margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: white; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: white; color: black; }
+        .submit-btn { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .submit-btn:hover { background-color: #45a049; }
+        .question-limit { color: #ffeb3b; font-size: 0.9em; margin-bottom: 15px; }
+        .previous-messages { background-color: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .message-item { background-color: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .message-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .message-subject { font-weight: bold; color: #4CAF50; }
+        .message-date { color: #ccc; font-size: 0.9em; }
+        .admin-reply { background-color: rgba(76, 175, 80, 0.2); padding: 10px; border-radius: 5px; margin-top: 10px; }
+        .reply-label { font-weight: bold; color: #4CAF50; margin-bottom: 5px; }
+        .status-badge { padding: 3px 8px; border-radius: 3px; font-size: 0.8em; }
+        .status-PENDING { background-color: #ff9800; color: white; }
+        .status-REPLIED { background-color: #4caf50; color: white; }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    
+    <div class="help-content">
+        <h2>
+            <span id="title-en">Help Center</span>
+            <span id="title-am" style="display:none">የእርዳታ ማዕከል</span>
+            <span id="title-zh" style="display:none">帮助中心</span>
+            <span id="title-es" style="display:none">Centro de Ayuda</span>
+        </h2>
+        
+        <div class="section">
+            <div class="section-title">
+                <span id="instructionsTitle-en">Instructions</span>
+                <span id="instructionsTitle-am" style="display:none">መመሪያዎች</span>
+                <span id="instructionsTitle-zh" style="display:none">说明</span>
+                <span id="instructionsTitle-es" style="display:none">Instrucciones</span>
+            </div>
+            <ol>
+                <li>
+                    <span id="inst1-en">First, choose the type of transaction you want to perform.</span>
+                    <span id="inst1-am" style="display:none">በመጀመሪያ ማከናወን የሚፈልጉትን የግብይት አይነት ይምረጡ።</span>
+                    <span id="inst1-zh" style="display:none">首先，选择您要执行的交易类型。</span>
+                    <span id="inst1-es" style="display:none">Primero, elige el tipo de transacción que quieres realizar.</span>
+                </li>
+                <li>
+                    <span id="inst2-en">Then go to "My" and select "CorcCompany".</span>
+                    <span id="inst2-am" style="display:none">ከዚያ ወደ "የኔ" ሂደው "CorcCompany" ይምረጡ።</span>
+                    <span id="inst2-zh" style="display:none">然后转到"我的"并选择"CorcCompany"。</span>
+                    <span id="inst2-es" style="display:none">Luego ve a "Mi" y selecciona "CorcCompany".</span>
+                </li>
+                <li>
+                    <span id="inst3-en">Next, enter the company's account number and proceed.</span>
+                    <span id="inst3-am" style="display:none">በመቀጠል የኩባንያውን መለያ ቁጥር ያስገቡ እና ይቀጥሉ።</span>
+                    <span id="inst3-zh" style="display:none">接下来，输入公司的账号并继续。</span>
+                    <span id="inst3-es" style="display:none">A continuación, ingresa el número de cuenta de la empresa y continúa.</span>
+                </li>
+                <li>
+                    <span id="inst4-en">After doing this, go to your own account, enter the amount of money for the selected transaction type, and transfer it to the "CorcCompany" account.</span>
+                    <span id="inst4-am" style="display:none">ይህንን ካደረጉ በኋላ ወደ የራስዎ መለያ ሂደው ለተመረጠው የግብይት አይነት የገንዘብ መጠኑን ያስገቡ እና ወደ "CorcCompany" መለያ ያስተላልፉ።</span>
+                    <span id="inst4-zh" style="display:none">完成此操作后，转到您自己的账户，输入所选交易类型的金额，并将其转账到"CorcCompany"账户。</span>
+                    <span id="inst4-es" style="display:none">Después de hacer esto, ve a tu propia cuenta, ingresa la cantidad de dinero para el tipo de transacción seleccionado y transfiérelo a la cuenta "CorcCompany".</span>
+                </li>
+                <li>
+                    <span id="inst5-en">Finally, save the standard confirmation number for your records.</span>
+                    <span id="inst5-am" style="display:none">በመጨረሻም መደበኛውን የማረጋገጫ ቁጥር ለመዝገብዎ ያስቀምጡ።</span>
+                    <span id="inst5-zh" style="display:none">最后，保存标准确认号码以备记录。</span>
+                    <span id="inst5-es" style="display:none">Finalmente, guarda el número de confirmación estándar para tus registros.</span>
+                </li>
+                <li>
+                    <span id="inst6-en">Once completed, take the bank confirmation number from your records and go to the Telegram account "https://Bolt.electronic@telegram.com" to upload a screenshot as proof.</span>
+                    <span id="inst6-am" style="display:none">ከተጠናቀቀ በኋላ የባንክ ማረጋገጫ ቁጥሩን ከመዝገብዎ ይውሰዱ እና ወደ ቴሌግራም መለያ "https://Bolt.electronic@telegram.com" በመሄድ እንደ ማስረጃ ስክሪንሾት ይስቀሉ።</span>
+                    <span id="inst6-zh" style="display:none">完成后，从您的记录中获取银行确认号码，并转到Telegram账户"https://Bolt.electronic@telegram.com"上传截图作为证明。</span>
+                    <span id="inst6-es" style="display:none">Una vez completado, toma el número de confirmación del banco de tus registros y ve a la cuenta de Telegram "https://Bolt.electronic@telegram.com" para subir una captura de pantalla como prueba.</span>
+                </li>
+                <li>
+                    <span id="inst7-en">After correctly following the above instructions, please wait patiently.</span>
+                    <span id="inst7-am" style="display:none">ከላይ ያሉትን መመሪያዎች በትክክል ከተከተሉ በኋላ እባክዎን በትዕግስት ይጠብቁ።</span>
+                    <span id="inst7-zh" style="display:none">正确遵循上述说明后，请耐心等待。</span>
+                    <span id="inst7-es" style="display:none">Después de seguir correctamente las instrucciones anteriores, por favor espera pacientemente.</span>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <span id="troubleshootTitle-en">Troubleshooting</span>
+                <span id="troubleshootTitle-am" style="display:none">ችግር መፍታት</span>
+                <span id="troubleshootTitle-zh" style="display:none">故障排除</span>
+                <span id="troubleshootTitle-es" style="display:none">Solución de Problemas</span>
+            </div>
+            <p>
+                <span id="troubleshootIntro-en">If you encounter any issues:</span>
+                <span id="troubleshootIntro-am" style="display:none">ማንኛውም ችግር ካጋጠመዎት:</span>
+                <span id="troubleshootIntro-zh" style="display:none">如果遇到任何问题：</span>
+                <span id="troubleshootIntro-es" style="display:none">Si encuentras algún problema:</span>
+            </p>
+            <ul>
+                <li>
+                    <span id="trouble1-en">Check your internet connection</span>
+                    <span id="trouble1-am" style="display:none">የኢንተርኔት ግንኙነትዎን ያረጋግጡ</span>
+                    <span id="trouble1-zh" style="display:none">检查您的网络连接</span>
+                    <span id="trouble1-es" style="display:none">Verifica tu conexión a internet</span>
+                </li>
+                <li>
+                    <span id="trouble2-en">Refresh the page</span>
+                    <span id="trouble2-am" style="display:none">ገጹን ያድሱ</span>
+                    <span id="trouble2-zh" style="display:none">刷新页面</span>
+                    <span id="trouble2-es" style="display:none">Actualiza la página</span>
+                </li>
+                <li>
+                    <span id="trouble3-en">Clear your browser cache</span>
+                    <span id="trouble3-am" style="display:none">የአሳሽዎን መሸጎጫ ያጽዱ</span>
+                    <span id="trouble3-zh" style="display:none">清除浏览器缓存</span>
+                    <span id="trouble3-es" style="display:none">Limpia la caché de tu navegador</span>
+                </li>
+                <li>
+                    <span id="trouble4-en">Contact support if the problem persists</span>
+                    <span id="trouble4-am" style="display:none">ችግሩ ከቀጠለ ድጋፍን ያነጋግሩ</span>
+                    <span id="trouble4-zh" style="display:none">如果问题仍然存在，请联系支持</span>
+                    <span id="trouble4-es" style="display:none">Contacta al soporte si el problema persiste</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <span id="moreInfoTitle-en">For More Information</span>
+                <span id="moreInfoTitle-am" style="display:none">ለተጨማሪ መረጃ</span>
+                <span id="moreInfoTitle-zh" style="display:none">更多信息</span>
+                <span id="moreInfoTitle-es" style="display:none">Para Más Información</span>
+            </div>
+            <p>
+                <span id="contactEmail-en">Email: co.electernic@gmail.com</span>
+                <span id="contactEmail-am" style="display:none">ኢሜይል: co.electernic@gmail.com</span>
+                <span id="contactEmail-zh" style="display:none">邮箱: co.electernic@gmail.com</span>
+                <span id="contactEmail-es" style="display:none">Correo: co.electernic@gmail.com</span>
+            </p>
+            <p>
+                <span id="contactTelegram-en">Telegram: "https://Bolt.electronic@telegram.com"</span>
+                <span id="contactTelegram-am" style="display:none">ቴሌግራም: "https://Bolt.electronic@telegram.com"</span>
+                <span id="contactTelegram-zh" style="display:none">Telegram: "https://Bolt.electronic@telegram.com"</span>
+                <span id="contactTelegram-es" style="display:none">Telegram: "https://Bolt.electronic@telegram.com"</span>
+            </p>
+            <p>
+                <span id="contactHours-en">Hours: Monday-Friday, 9:00 AM - 5:00 PM</span>
+                <span id="contactHours-am" style="display:none">ሰዓታት: ሰኞ-አርብ፣ ከጠዋቱ 9:00 - ከምሽቱ 5:00</span>
+                <span id="contactHours-zh" style="display:none">时间：周一至周五，上午9:00 - 下午5:00</span>
+                <span id="contactHours-es" style="display:none">Horario: Lunes-Viernes, 9:00 AM - 5:00 PM</span>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="bottom-nav">
+        <div class="nav-item"><a href="/dashboard"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navHome-en">Home</span>
+            <span id="navHome-am" style="display:none">ቤት</span>
+            <span id="navHome-zh" style="display:none">首页</span>
+            <span id="navHome-es" style="display:none">Inicio</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/product"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navProduct-en">Product</span>
+            <span id="navProduct-am" style="display:none">ምርት</span>
+            <span id="navProduct-zh" style="display:none">产品</span>
+            <span id="navProduct-es" style="display:none">Producto</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/team"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navTeam-en">Team</span>
+            <span id="navTeam-am" style="display:none">ቡድን</span>
+            <span id="navTeam-zh" style="display:none">团队</span>
+            <span id="navTeam-es" style="display:none">Equipo</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/my"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navMy-en">My</span>
+            <span id="navMy-am" style="display:none">የኔ</span>
+            <span id="navMy-zh" style="display:none">我的</span>
+            <span id="navMy-es" style="display:none">Mi</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/help"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+            <span id="navHelp-en">Help</span>
+            <span id="navHelp-am" style="display:none">እርዳታ</span>
+            <span id="navHelp-zh" style="display:none">帮助</span>
+            <span id="navHelp-es" style="display:none">Ayuda</span>
+        </span></a></div>
+    </div>
+
+
+
+
+    
+    <script src="/js/lang.js"></script>
+</body>
+</html>

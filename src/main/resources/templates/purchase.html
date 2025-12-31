@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Investments</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: linear-gradient(to right, #3d82e9, #60b966); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { color: white; padding: 1.5rem; text-align: center; width: 100%; background-color: #5f5fbc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .main-container { padding: 2rem; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; }
+        .investment-container { background-color: #5858c1; padding: 20px; margin-top: 20px; color: #efedf5; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; }
+        .investment-section { background-color: #333386; padding: 15px; margin-bottom: 20px; border-radius: 8px; border-left: 4px solid #d4b344; }
+        .section-title { font-size: 1.2em; font-weight: bold; margin-bottom: 15px; color: #d4b344; display: flex; align-items: center; gap: 10px; }
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-box { background-color: #242163; padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 1.5em; font-weight: bold; color: #d4b344; }
+        .stat-label { font-size: 0.9em; color: #ccc; margin-top: 5px; }
+        .investment-item { background-color: #242163; padding: 15px; margin-bottom: 15px; border-radius: 8px; display: flex; gap: 15px; align-items: center; }
+        .investment-image { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; background-color: #333; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
+        .investment-details { flex: 1; }
+        .investment-name { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; color: #d4b344; }
+        .investment-amount { font-size: 1.2em; font-weight: bold; color: #4CAF50; margin-bottom: 5px; }
+        .investment-info { font-size: 0.9em; color: #ccc; line-height: 1.4; }
+        .investment-date { font-size: 0.8em; color: #999; margin-top: 8px; }
+        .no-investments { text-align: center; color: #ccc; padding: 40px 20px; }
+        .no-investments h3 { color: #d4b344; margin-bottom: 15px; font-size: 1.3em; }
+        .no-investments p { margin-bottom: 20px; line-height: 1.5; }
+        .invest-button { display: inline-block; background-color: #d4b344; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+        .invest-button:hover { background-color: #c0a040; }
+        .back-link { display: block; text-align: center; color: #d4b344; text-decoration: none; margin-top: 1rem; padding: 10px; background-color: #333394; border-radius: 8px; width: 100%; }
+        .back-link:hover { background-color: #242163; }
+        .error-message, .success-message { padding: 12px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .error-message { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+        .success-message { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border: 1px solid #4CAF50; }
+        @media screen and (max-width: 412px) { 
+            body { padding: 0.5rem; } 
+            .header { padding: 1rem; } 
+            .main-container { padding: 1rem; } 
+            .investment-container { padding: 15px; margin-top: 10px; } 
+            .stats-container { grid-template-columns: 1fr; }
+            .investment-item { flex-direction: column; text-align: center; }
+            .investment-image { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📊 My Investments</h1>
+        <p>Track your investment portfolio and returns</p>
+    </header>
+    
+    <div class="main-container">
+        <div class="investment-container">
+            
+            {#if error}
+            <div class="error-message">{error}</div>
+            {/if}
+            
+            {#if success}
+            <div class="success-message">{success}</div>
+            {/if}
+            
+            <!-- Stats Section -->
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-value">${totalInvested ?: 0}</div>
+                    <div class="stat-label">Total Invested</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">{investmentCount}</div>
+                    <div class="stat-label">Active Investments</div>
+                </div>
+            </div>
+            
+            <!-- Investment History -->
+            <div class="investment-section">
+                <div class="section-title">
+                    💼 Investment Portfolio
+                </div>
+                
+                {#if investments && !investments.isEmpty()}
+                    {#for investment in investments}
+                    <div class="investment-item">
+                        {#if productImages.get(investment.productName)}
+                        <img src="{productImages.get(investment.productName)}" 
+                             alt="{investment.productName}" 
+                             class="investment-image"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="investment-image" style="display:none;">
+                            📈
+                        </div>
+                        {#else}
+                        <div class="investment-image">
+                            📈
+                        </div>
+                        {/if}
+                        
+                        <div class="investment-details">
+                            <div class="investment-name">{investment.productName}</div>
+                            <div class="investment-amount">${investment.investedAmount}</div>
+                            <div class="investment-info">
+                                Daily Return: <strong>${investment.dailyReturn}</strong><br>
+                                Total Return: <strong>${investment.totalReturn ?: 0}</strong><br>
+                                Status: {#if investment.status == 'ACTIVE'}<span style="color: #4CAF50;">{investment.status}</span>{#else}<span style="color: #ff9800;">{investment.status}</span>{/if}
+                            </div>
+                            <div class="investment-date">
+                                Invested: {investment.createdAt.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy"))}
+                            </div>
+                        </div>
+                    </div>
+                    {/for}
+                {#else}
+                    <div class="no-investments">
+                        <h3>🚀 No Investments Yet</h3>
+                        <p>You haven't made any investments yet. Start building your portfolio today!</p>
+                        <p>Choose from our available investment products and start earning daily returns.</p>
+                        <a href="/product" class="invest-button">🛒 Browse Investment Products</a>
+                    </div>
+                {/if}
+            </div>
+            
+            <!-- Investment Tips -->
+            {#if investments && !investments.isEmpty()}
+            <div class="investment-section">
+                <div class="section-title">
+                    💡 Investment Tips
+                </div>
+                <div style="font-size: 0.9em; line-height: 1.6; color: #ccc;">
+                    <p><strong>📈 Diversify:</strong> Invest in different products to spread risk</p>
+                    <p><strong>⏰ Daily Returns:</strong> Check back daily to collect your returns</p>
+                    <p><strong>🔄 Reinvest:</strong> Use your returns to purchase more products</p>
+                    <p><strong>📊 Track Performance:</strong> Monitor your portfolio growth regularly</p>
+                </div>
+            </div>
+            {/if}
+            
+        </div>
+        
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

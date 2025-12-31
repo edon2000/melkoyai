@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Income - ElonMusk Investment</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; min-height: 100vh; }
+        .header { background: #16213e; padding: 20px; text-align: center; }
+        .container { padding: 20px; max-width: 720px; margin: 0 auto; }
+        .income-card { background: #16213e; border-radius: 10px; padding: 20px; margin-bottom: 15px; border-left: 4px solid #e94560; }
+        .income-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .income-title { font-size: 18px; font-weight: bold; }
+        .income-amount { font-size: 20px; color: #4CAF50; font-weight: bold; }
+        .income-details { font-size: 14px; color: #ccc; margin-top: 10px; }
+        .total-card { background: linear-gradient(135deg, #e94560, #f39c12); border-radius: 15px; padding: 25px; margin: 20px 0; text-align: center; }
+        .total-amount { font-size: 32px; font-weight: bold; margin: 10px 0; }
+        .total-label { font-size: 16px; opacity: 0.9; }
+        .icon { width: 40px; height: 40px; background: #e94560; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+        .income-row { display: flex; align-items: center; }
+        .income-content { flex: 1; }
+        .back-btn { position: absolute; top: 20px; left: 20px; background: #e94560; color: white; border: none; padding: 10px 15px; border-radius: 5px; text-decoration: none; }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    
+    <div class="header">
+        <a href="/dashboard" class="back-btn"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg> 
+            <span id="backBtn-en">Back</span>
+            <span id="backBtn-am" style="display:none">ተመለስ</span>
+            <span id="backBtn-zh" style="display:none">返回</span>
+            <span id="backBtn-es" style="display:none">Volver</span>
+        </a>
+        <h1>
+            <span id="incomeTitle-en">Today's Income</span>
+            <span id="incomeTitle-am" style="display:none">የዛሬ ገቢ</span>
+            <span id="incomeTitle-zh" style="display:none">今日收入</span>
+            <span id="incomeTitle-es" style="display:none">Ingresos de Hoy</span>
+        </h1>
+        <p>
+            <span id="incomeSubtitle-en">Your earnings breakdown</span>
+            <span id="incomeSubtitle-am" style="display:none">የእርስዎ ገቢ ዝርዝር</span>
+            <span id="incomeSubtitle-zh" style="display:none">您的收入明细</span>
+            <span id="incomeSubtitle-es" style="display:none">Desglose de sus ganancias</span>
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="total-card">
+            <div class="total-label">
+                <span id="totalLabel-en">Total Today's Income</span>
+                <span id="totalLabel-am" style="display:none">ጠቅላላ የዛሬ ገቢ</span>
+                <span id="totalLabel-zh" style="display:none">今日总收入</span>
+                <span id="totalLabel-es" style="display:none">Ingresos Totales de Hoy</span>
+            </div>
+            <div class="total-amount">{totalIncome} USD</div>
+            <div>
+                <span id="allSources-en">All sources combined</span>
+                <span id="allSources-am" style="display:none">ሁሉም ምንጮች አንድ ላይ</span>
+                <span id="allSources-zh" style="display:none">所有来源合计</span>
+                <span id="allSources-es" style="display:none">Todas las fuentes combinadas</span>
+            </div>
+        </div>
+
+        <div class="income-card">
+            <div class="income-row">
+                <div class="icon"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg></div>
+                <div class="income-content">
+                    <div class="income-header">
+                        <div class="income-title">
+                            <span id="giftIncome-en">Gift Income</span>
+                            <span id="giftIncome-am" style="display:none">የስጦታ ገቢ</span>
+                            <span id="giftIncome-zh" style="display:none">礼品收入</span>
+                            <span id="giftIncome-es" style="display:none">Ingresos de Regalos</span>
+                        </div>
+                        <div class="income-amount">{giftIncome} USD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="income-card">
+            <div class="income-row">
+                <div class="icon"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg></div>
+                <div class="income-content">
+                    <div class="income-header">
+                        <div class="income-title">
+                            <span id="investReturns-en">Investment Returns</span>
+                            <span id="investReturns-am" style="display:none">የኢንቨስትመንት ትርፍ</span>
+                            <span id="investReturns-zh" style="display:none">投资回报</span>
+                            <span id="investReturns-es" style="display:none">Retornos de Inversión</span>
+                        </div>
+                        <div class="income-amount">{purchaseIncome} USD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="income-card">
+            <div class="income-row">
+                <div class="icon"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg></div>
+                <div class="income-content">
+                    <div class="income-header">
+                        <div class="income-title">
+                            <span id="referralIncome-en">Referral Income</span>
+                            <span id="referralIncome-am" style="display:none">የሪፈራል ገቢ</span>
+                            <span id="referralIncome-zh" style="display:none">推荐收入</span>
+                            <span id="referralIncome-es" style="display:none">Ingresos por Referencia</span>
+                        </div>
+                        <div class="income-amount">{inviteIncome} USD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="income-card">
+            <div class="income-row">
+                <div class="icon"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg></div>
+                <div class="income-content">
+                    <div class="income-header">
+                        <div class="income-title">
+                            <span id="tradingProfit-en">Trading Profit</span>
+                            <span id="tradingProfit-am" style="display:none">የንግድ ትርፍ</span>
+                            <span id="tradingProfit-zh" style="display:none">交易利润</span>
+                            <span id="tradingProfit-es" style="display:none">Ganancia Comercial</span>
+                        </div>
+                        <div class="income-amount">{profitIncome} USD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/lang.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Bolt Computer Company</title>
+    <style>
+        body { 
+            background-color: #4c3ecc; 
+            color: white; 
+            padding: 20px; 
+            font-family: Arial, sans-serif; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #5555ab; 
+            border-radius: 15px; 
+            padding: 20px; 
+        }
+        .title { 
+            font-size: 24px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .balance { 
+            font-size: 1.5em; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .transaction { 
+            padding: 10px; 
+            border-bottom: 1px solid #2fb11b; 
+        }
+        .transaction:last-child { 
+            border-bottom: none; 
+        }
+        .back-link {
+            color: #d3e722;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <div class="container">
+        <div class="title">
+            <span id="yourWallet-en">Your Wallet</span>
+            <span id="yourWallet-am" style="display:none">የእርስዎ ዋሌት</span>
+            <span id="yourWallet-zh" style="display:none">您的钱包</span>
+            <span id="yourWallet-es" style="display:none">Su Billetera</span>
+        </div>
+        <div class="balance">
+            <span id="walletBalance-en">Balance:</span>
+            <span id="walletBalance-am" style="display:none">ሚዛን:</span>
+            <span id="walletBalance-zh" style="display:none">余额：</span>
+            <span id="walletBalance-es" style="display:none">Saldo:</span>
+            ${user.walletBalance} USD
+        </div>
+        <h3>
+            <span id="transactionHistory-en">Transaction History</span>
+            <span id="transactionHistory-am" style="display:none">የግብይት ታሪክ</span>
+            <span id="transactionHistory-zh" style="display:none">交易历史</span>
+            <span id="transactionHistory-es" style="display:none">Historial de Transacciones</span>
+        </h3>
+        <div>
+            <div class="transaction">
+                <p><strong>
+                    <span id="dailyBonus-en">Daily Bonus:</span>
+                    <span id="dailyBonus-am" style="display:none">ዕለታዊ ቦነስ:</span>
+                    <span id="dailyBonus-zh" style="display:none">每日奖金：</span>
+                    <span id="dailyBonus-es" style="display:none">Bono Diario:</span>
+                </strong> $0.01 USD</p>
+                <p>
+                    <span id="dailyLoginBonus-en">Daily login bonus</span>
+                    <span id="dailyLoginBonus-am" style="display:none">ዕለታዊ የመግቢያ ቦነስ</span>
+                    <span id="dailyLoginBonus-zh" style="display:none">每日登录奖金</span>
+                    <span id="dailyLoginBonus-es" style="display:none">Bono de inicio de sesión diario</span>
+                </p>
+                <p><small>
+                    <span id="today-en">Today</span>
+                    <span id="today-am" style="display:none">ዛሬ</span>
+                    <span id="today-zh" style="display:none">今天</span>
+                    <span id="today-es" style="display:none">Hoy</span>
+                </small></p>
+            </div>
+            <div class="transaction">
+                <p><strong>
+                    <span id="registrationBonus-en">Registration Bonus:</span>
+                    <span id="registrationBonus-am" style="display:none">የምዝገባ ቦነስ:</span>
+                    <span id="registrationBonus-zh" style="display:none">注册奖金：</span>
+                    <span id="registrationBonus-es" style="display:none">Bono de Registro:</span>
+                </strong> $0.03 USD</p>
+                <p>
+                    <span id="welcomeBonus-en">Welcome bonus</span>
+                    <span id="welcomeBonus-am" style="display:none">የእንኳን ደህና መጣህ ቦነስ</span>
+                    <span id="welcomeBonus-zh" style="display:none">欢迎奖金</span>
+                    <span id="welcomeBonus-es" style="display:none">Bono de bienvenida</span>
+                </p>
+                <p><small>
+                    <span id="registrationDate-en">Registration date</span>
+                    <span id="registrationDate-am" style="display:none">የምዝገባ ቀን</span>
+                    <span id="registrationDate-zh" style="display:none">注册日期</span>
+                    <span id="registrationDate-es" style="display:none">Fecha de registro</span>
+                </small></p>
+            </div>
+        </div>
+        <a href="/my" class="back-link">
+            <span id="backDashboard-en">Back to Dashboard</span>
+            <span id="backDashboard-am" style="display:none">ወደ ዳሽቦርድ ተመለስ</span>
+            <span id="backDashboard-zh" style="display:none">返回仪表板</span>
+            <span id="backDashboard-es" style="display:none">Volver al Panel</span>
+        </a>
+    </div>
+    
+    <script src="/js/lang.js"></script>
+</body>
+</html>

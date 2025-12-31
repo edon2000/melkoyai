@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shopping Cart</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(to right, #3d82e9, #60b966);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            width: 100%;
+            background-color: #5f5fbc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .main-container {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+        }
+        .cart-container {
+            background-color: #5858c1;
+            padding: 20px;
+            margin-top: 20px;
+            color: #efedf5;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        .cart-empty {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .cart-empty i {
+            font-size: 4em;
+            color: #d4b344;
+            margin-bottom: 20px;
+        }
+        .cart-empty h2 {
+            margin-bottom: 15px;
+            color: #d4b344;
+        }
+        .cart-empty p {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .cart-item {
+            background-color: #333386;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #d4b344;
+        }
+        .item-price {
+            font-size: 1.1em;
+            color: white;
+        }
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-remove {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .btn-remove:hover {
+            background-color: #c0392b;
+        }
+        .btn-primary {
+            background-color: #333394;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #242163;
+        }
+        .cart-total {
+            background-color: #333394;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .total-amount {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #d4b344;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            color: #d4b344;
+            text-decoration: none;
+            margin-top: 1rem;
+            padding: 10px;
+            background-color: #333394;
+            border-radius: 8px;
+            width: 100%;
+        }
+        .back-link:hover {
+            background-color: #242163;
+        }
+        .lang-toggle { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            background-color: #ff6b35; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            z-index: 1000; 
+        }
+        
+        @media screen and (max-width: 412px) {
+            body {
+                padding: 0.5rem;
+            }
+            .header {
+                padding: 1rem;
+            }
+            .main-container {
+                padding: 1rem;
+            }
+            .cart-container {
+                padding: 15px;
+                margin-top: 10px;
+            }
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .item-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media screen and (max-width: 360px) {
+            .cart-container {
+                padding: 12px;
+            }
+            .cart-empty {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    
+    <header class="header">
+        <h1>
+            <span id="cartTitle-en">Shopping Cart</span>
+            <span id="cartTitle-am" style="display:none">የግዢ ጋሪ</span>
+            <span id="cartTitle-zh" style="display:none">购物车</span>
+            <span id="cartTitle-es" style="display:none">Carrito de Compras</span>
+        </h1>
+        <p>
+            <span id="cartSubtitle-en">Review your selected items</span>
+            <span id="cartSubtitle-am" style="display:none">የመረጡትን እቃዎች ይገምግሙ</span>
+            <span id="cartSubtitle-zh" style="display:none">查看您选择的商品</span>
+            <span id="cartSubtitle-es" style="display:none">Revisa tus artículos seleccionados</span>
+        </p>
+    </header>
+    <div class="main-container">
+        <div class="cart-container">
+            <div class="cart-empty">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                <h2>
+                    <span id="emptyTitle-en">Your Cart is Empty</span>
+                    <span id="emptyTitle-am" style="display:none">የእርስዎ ጋሪ ባዶ ነው</span>
+                    <span id="emptyTitle-zh" style="display:none">您的购物车是空的</span>
+                    <span id="emptyTitle-es" style="display:none">Tu Carrito está Vacío</span>
+                </h2>
+                <p>
+                    <span id="emptyDesc-en">You haven't added any items to your cart yet. Browse our products and add items you'd like to purchase.</span>
+                    <span id="emptyDesc-am" style="display:none">ገና ምንም እቃዎችን ወደ ጋሪዎ አላከሉም። የእኛን ምርቶች ይመልከቱ እና መግዛት የሚፈልጓቸውን እቃዎች ይጨምሩ።</span>
+                    <span id="emptyDesc-zh" style="display:none">您还没有向购物车添加任何商品。浏览我们的产品并添加您想购买的商品。</span>
+                    <span id="emptyDesc-es" style="display:none">Aún no has agregado ningún artículo a tu carrito. Navega por nuestros productos y agrega los artículos que te gustaría comprar.</span>
+                </p>
+                <a href="/purchase" class="btn btn-primary">
+                    <span id="browseBtn-en">Browse Products</span>
+                    <span id="browseBtn-am" style="display:none">ምርቶችን ይመልከቱ</span>
+                    <span id="browseBtn-zh" style="display:none">浏览产品</span>
+                    <span id="browseBtn-es" style="display:none">Explorar Productos</span>
+                </a>
+            </div>
+            
+            <!-- Example cart items (hidden by default) -->
+            <div style="display: none;">
+                <div class="cart-item">
+                    <div class="item-info">
+                        <div class="item-name">WiFi Device</div>
+                        <div class="item-price">$10.36 USD</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-remove">
+                            <span id="removeBtn-en">Remove</span>
+                            <span id="removeBtn-am" style="display:none">አስወግድ</span>
+                            <span id="removeBtn-zh" style="display:none">移除</span>
+                            <span id="removeBtn-es" style="display:none">Eliminar</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="cart-total">
+                    <div class="total-amount">
+                        <span id="totalLabel-en">Total: $0 USD</span>
+                        <span id="totalLabel-am" style="display:none">ጠቅላላ: $0 USD</span>
+                        <span id="totalLabel-zh" style="display:none">总计: $0 USD</span>
+                        <span id="totalLabel-es" style="display:none">Total: $0 USD</span>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 10px; width: 100%;">
+                        <span id="checkoutBtn-en">Checkout</span>
+                        <span id="checkoutBtn-am" style="display:none">ክፍያ</span>
+                        <span id="checkoutBtn-zh" style="display:none">结账</span>
+                        <span id="checkoutBtn-es" style="display:none">Pagar</span>
+                    </button>
+                </div>
+            </div>
+            
+            <a class="back-link" href="/my">
+                <span id="backBtn-en">Back to Dashboard</span>
+                <span id="backBtn-am" style="display:none">ወደ ዳሽቦርድ ተመለስ</span>
+                <span id="backBtn-zh" style="display:none">返回仪表板</span>
+                <span id="backBtn-es" style="display:none">Volver al Panel</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="/js/lang.js"></script>
+</body>
+</html>

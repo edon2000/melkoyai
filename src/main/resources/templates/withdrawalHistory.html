@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdrawal History - Bolt Computer Company</title>
+
+    <style>
+        body { 
+            background-color: #4c3ecc; 
+            color: white; 
+            padding: 20px; 
+            font-family: Arial, sans-serif; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: #5555ab; 
+            border-radius: 15px; 
+            padding: 20px; 
+        }
+        .title { 
+            font-size: 24px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .total { 
+            font-size: 1.5em; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .withdrawal { 
+            padding: 10px; 
+            border-bottom: 1px solid #2fb11b; 
+        }
+        .withdrawal:last-child { 
+            border-bottom: none; 
+        }
+        .refresh-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .refresh-btn:hover {
+            background-color: #45a049;
+        }
+        .lang-toggle { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            background-color: #ff6b35; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            z-index: 1000; 
+        }
+        
+        @media screen and (max-width: 412px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+            .title {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+            .total {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            .withdrawal {
+                padding: 8px;
+            }
+            .refresh-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+        
+        @media screen and (max-width: 360px) {
+            .container {
+                padding: 12px;
+            }
+            .title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    
+    <div class="container">
+        <div class="title">
+            <span id="withdrawalTitle-en">Withdrawal History</span>
+            <span id="withdrawalTitle-am" style="display:none">የመውጣት ታሪክ</span>
+            <span id="withdrawalTitle-zh" style="display:none">提取历史</span>
+            <span id="withdrawalTitle-es" style="display:none">Historial de Retiros</span>
+        </div>
+        <div class="total">
+            <span id="totalWithdrawn-en">Total Withdrawn:</span>
+            <span id="totalWithdrawn-am" style="display:none">ጠቅላላ የወጣ:</span>
+            <span id="totalWithdrawn-zh" style="display:none">总提取:</span>
+            <span id="totalWithdrawn-es" style="display:none">Total Retirado:</span>
+            {user.totalWithdraw} ETB
+        </div>
+        
+        <a href="/withdrawals" class="refresh-btn" style="text-decoration: none; display: inline-block;">
+            <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg> 
+            <span id="refreshBtn-en">Refresh</span>
+            <span id="refreshBtn-am" style="display:none">አድስ</span>
+            <span id="refreshBtn-zh" style="display:none">刷新</span>
+            <span id="refreshBtn-es" style="display:none">Actualizar</span>
+        </a>
+        
+        <h3>
+            <span id="withdrawalsHeader-en">Withdrawals</span>
+            <span id="withdrawalsHeader-am" style="display:none">መውጣቶች</span>
+            <span id="withdrawalsHeader-zh" style="display:none">提取</span>
+            <span id="withdrawalsHeader-es" style="display:none">Retiros</span>
+        </h3>
+        <div id="withdrawalList">
+            <div class="withdrawal">
+                <p><strong>
+                    <span id="statusLabel-en">Status:</span>
+                    <span id="statusLabel-am" style="display:none">ሁኔታ:</span>
+                    <span id="statusLabel-zh" style="display:none">状态:</span>
+                    <span id="statusLabel-es" style="display:none">Estado:</span>
+                </strong> 
+                    <span id="noWithdrawals-en">No withdrawals found</span>
+                    <span id="noWithdrawals-am" style="display:none">ምንም መውጣቶች አልተገኙም</span>
+                    <span id="noWithdrawals-zh" style="display:none">未找到提取记录</span>
+                    <span id="noWithdrawals-es" style="display:none">No se encontraron retiros</span>
+                </p>
+                <p>
+                    <span id="historyMsg-en">Your withdrawal history will appear here after you make withdrawals</span>
+                    <span id="historyMsg-am" style="display:none">መውጣት ካደረጉ በኋላ የመውጣት ታሪክዎ እዚህ ይታያል</span>
+                    <span id="historyMsg-zh" style="display:none">提取后，您的提取历史将显示在这里</span>
+                    <span id="historyMsg-es" style="display:none">Su historial de retiros aparecerá aquí después de realizar retiros</span>
+                </p>
+                <p><small>
+                    <span id="minWithdrawal-en">Minimum withdrawal: $3.64 USD</span>
+                    <span id="minWithdrawal-am" style="display:none">ዝቅተኛ መውጣት: $3.64 USD</span>
+                    <span id="minWithdrawal-zh" style="display:none">最低提取: $3.64 USD</span>
+                    <span id="minWithdrawal-es" style="display:none">Retiro mínimo: $3.64 USD</span>
+                </small></p>
+            </div>
+        </div>
+        
+        <p><a href="/my" style="color: #d3e722;">
+            <span id="backToDashboard-en">Back to Dashboard</span>
+            <span id="backToDashboard-am" style="display:none">ወደ ዳሽቦርድ ተመለስ</span>
+            <span id="backToDashboard-zh" style="display:none">返回仪表板</span>
+            <span id="backToDashboard-es" style="display:none">Volver al Panel</span>
+        </a></p>
+    </div>
+
+    <script src="/js/lang.js"></script>
+</body>
+</html>

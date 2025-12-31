@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Customer Service</title>
+    <script></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: linear-gradient(to right, #3d82e9, #60b966); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { color: white; padding: 1.5rem; text-align: center; width: 100%; background-color: #5f5fbc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .main-container { padding: 2rem; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; }
+        .service-container { background-color: #5858c1; padding: 20px; margin-top: 20px; color: #efedf5; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; }
+        .service-item { background-color: #333386; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #d4b344; }
+        .service-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #d4b344; }
+        .service-description { margin-bottom: 10px; line-height: 1.5; }
+        .contact-info { background-color: #333394; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .contact-item { margin: 10px 0; font-size: 1.1em; }
+        .contact-item i { color: #d4b344; margin-right: 10px; width: 20px; }
+        .back-link { display: block; text-align: center; color: #d4b344; text-decoration: none; margin-top: 1rem; padding: 10px; background-color: #333394; border-radius: 8px; width: 100%; }
+        .back-link:hover { background-color: #242163; }
+        @media screen and (max-width: 412px) { body { padding: 0.5rem; } .header { padding: 1rem; } .main-container { padding: 1rem; } .service-container { padding: 15px; margin-top: 10px; } .service-item { padding: 12px; } .service-title { font-size: 1.1em; } }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+        @media screen and (max-width: 360px) { .service-container { padding: 12px; } .service-item { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <header class="header">
+        <h1>
+            <span id="customerService-en">Customer Service</span>
+            <span id="customerService-am" style="display:none">የበይንአ አገልግሎት</span>
+            <span id="customerService-zh" style="display:none">客户服务</span>
+            <span id="customerService-es" style="display:none">Servicio al Cliente</span>
+        </h1>
+        <p>
+            <span id="hereToHelp-en">We're here to help you</span>
+            <span id="hereToHelp-am" style="display:none">እንያዎን ልእርድዎት እዚህ ነን</span>
+            <span id="hereToHelp-zh" style="display:none">我们在这里帮助您</span>
+            <span id="hereToHelp-es" style="display:none">Estamos aquí para ayudarte</span>
+        </p>
+    </header>
+    <div class="main-container">
+        <div class="service-container">
+            <div class="service-item">
+                <div class="service-title">Account Support</div>
+                <div class="service-description">
+                    Get help with your account, password reset, profile updates, and security settings.
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-title">Withdrawal Assistance</div>
+                <div class="service-description">
+                    Need help with withdrawals? We assist with processing times, requirements, and troubleshooting.
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-title">Technical Support</div>
+                <div class="service-description">
+                    Experiencing technical issues? Our team can help resolve app problems and connectivity issues.
+                </div>
+            </div>
+            
+            <div class="service-item">
+                <div class="service-title">Investment Guidance</div>
+                <div class="service-description">
+                    Learn about our investment products, returns, and how to maximize your earnings.
+                </div>
+            </div>
+            
+            <div class="contact-info">
+                <h3 style="color: #d4b344; margin-bottom: 15px;">
+                    <span id="contactUs-en">Contact Information</span>
+                    <span id="contactUs-am" style="display:none">የአገናኝ ምርታ</span>
+                    <span id="contactUs-zh" style="display:none">联系信息</span>
+                    <span id="contactUs-es" style="display:none">Información de Contacto</span>
+                </h3>
+                <div class="contact-item">
+                    <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                    +251 911 123 456
+                </div>
+                <div class="contact-item">
+                    <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                    support@boltcomputer.com
+                </div>
+                <div class="contact-item">
+                    <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                    24/7 Support Available
+                </div>
+                <div class="contact-item">
+                    <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                    Addis Ababa, Ethiopia
+                </div>
+            </div>
+            
+            <a class="back-link" href="/my">
+                <span id="backDashboard-en">Back to Dashboard</span>
+                <span id="backDashboard-am" style="display:none">ወደ ዳሽቦርድ ተመለስ</span>
+                <span id="backDashboard-zh" style="display:none">返回仪表板</span>
+                <span id="backDashboard-es" style="display:none">Volver al Panel</span>
+            </a>
+        </div>
+    </div>
+</body>
+<script src="/js/lang.js"></script>
+</html>

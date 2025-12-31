@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Deposits</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; }
+        .header { background: #16213e; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; background: #e94560; border-radius: 5px; }
+        .container { padding: 20px; }
+        .success { color: #4caf50; margin-bottom: 20px; padding: 10px; background: rgba(76, 175, 80, 0.1); border-radius: 5px; }
+        .error { color: #ff6b6b; margin-bottom: 20px; padding: 10px; background: rgba(255, 107, 107, 0.1); border-radius: 5px; }
+        table { width: 100%; background: #16213e; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: #0f3460; }
+        .btn { padding: 8px 12px; margin: 2px; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-approve { background: #28a745; }
+        .btn-reject { background: #dc3545; }
+        .amount-input { width: 100px; padding: 5px; background: #333; color: white; border: 1px solid #555; border-radius: 3px; }
+        .status-PENDING { background: #ff9800; color: white; padding: 4px 8px; border-radius: 3px; }
+        .status-APPROVED { background: #4caf50; color: white; padding: 4px 8px; border-radius: 3px; }
+        .status-REJECTED { background: #f44336; color: white; padding: 4px 8px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Admin - Deposit Management</h1>
+        <div class="nav">
+            <a href="/million/dashboard">Dashboard</a>
+            <a href="/million/users">Users</a>
+            <a href="/million/deposits">Deposits</a>
+            <a href="/million/logout">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        {#if success}
+        <div class="success">{success}</div>
+        {/if}
+        {#if error}
+        <div class="error">{error}</div>
+        {/if}
+        
+        <h2>Deposit Requests</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Transaction ID</th>
+                    <th>Payment Method</th>
+                    <th>Current Amount</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#for deposit in deposits}
+                <tr>
+                    <td>{deposit.id}</td>
+                    <td>{deposit.userId}</td>
+                    <td><strong>{deposit.transactionId}</strong></td>
+                    <td>{deposit.paymentMethod}</td>
+                    <td>
+                        {#if deposit.amount}
+                            {deposit.amount} USD
+                        {#else}
+                            <em>Not Set</em>
+                        {/if}
+                    </td>
+                    <td><span class="status-{deposit.status}">{deposit.status}</span></td>
+                    <td>{deposit.createdAt}</td>
+                    <td>
+                        {#if deposit.status == 'PENDING'}
+                        <form method="post" action="/million/deposit/approve" style="display: inline-block; margin-right: 5px;">
+                            <input type="hidden" name="depositId" value="{deposit.id}">
+                            <input type="number" name="amount" placeholder="Amount" class="amount-input" 
+                                   min="1" step="0.01" required title="Enter the verified amount in USD">
+                            <button type="submit" class="btn btn-approve">Approve</button>
+                        </form>
+                        <form method="post" action="/million/deposit/reject" style="display: inline-block;">
+                            <input type="hidden" name="depositId" value="{deposit.id}">
+                            <input type="text" name="reason" placeholder="Reason" style="width: 120px; padding: 5px; background: #333; color: white; border: 1px solid #555; border-radius: 3px;">
+                            <button type="submit" class="btn btn-reject">Reject</button>
+                        </form>
+                        {#else}
+                        <em>Processed</em>
+                        {/if}
+                    </td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
+        
+        {#if deposits.isEmpty()}
+        <p style="text-align: center; margin-top: 50px; color: #ccc;">No deposit requests found.</p>
+        {/if}
+    </div>
+</body>
+</html>

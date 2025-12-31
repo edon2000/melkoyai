@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; }
+        .header { background: #16213e; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; background: #e94560; border-radius: 5px; }
+        .container { padding: 20px; }
+        .success { color: #4caf50; margin-bottom: 20px; padding: 10px; background: rgba(76, 175, 80, 0.1); border-radius: 5px; }
+        .error { color: #ff6b6b; margin-bottom: 20px; padding: 10px; background: rgba(255, 107, 107, 0.1); border-radius: 5px; }
+        table { width: 100%; background: #16213e; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: #0f3460; }
+        .btn { padding: 8px 12px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>User Management</h1>
+        <div class="nav">
+            <a href="/million/dashboard">Dashboard</a>
+            <a href="/million/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        {#if success}
+        <div class="success">{success}</div>
+        {/if}
+        {#if error}
+        <div class="error">{error}</div>
+        {/if}
+        
+        <h2>All Users</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Balance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#for user in users}
+                <tr>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.phoneNumber}</td>
+                    <td>{user.email}</td>
+                    <td>{user.walletBalance} USD</td>
+                    <td><a href="/million/user/edit?id={user.id}" class="btn">Edit</a></td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team - Cork Company</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/video-validation.js"></script>
+    <script src="/js/main.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0 auto; padding: 0; padding-bottom: 80px; background-color: rgb(52, 52, 124); color: rgb(241, 238, 244); line-height: 1.6; box-sizing: border-box; max-width: 600px; width: 100%; }
+        #team { padding: 0 15px; }
+        h1, h3 { text-align: center; margin: 20px auto; max-width: 100%; }
+        h1 { font-size: 24px; }
+        h3 { border: 9px solid rgb(53, 53, 166); padding: 15px; margin: 20px auto; font-size: 18px; max-width: 100%; }
+        img { display: block; max-width: 100%; height: auto; margin: 20px auto; }
+        video { display: block; max-width: 100%; height: auto; margin: 20px auto; }
+        @media (max-width: 768px) { h1 { font-size: 20px; } h3 { font-size: 16px; padding: 10px; margin: 15px auto; } }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <section id="team">
+        <h1>
+            <span id="ourTeam-en">Welcome to Our Team</span>
+            <span id="ourTeam-am" style="display:none">እንኳን ወደ ቡድን በደህና መጡ</span>
+            <span id="ourTeam-zh" style="display:none">欢迎来到我们的团队</span>
+            <span id="ourTeam-es" style="display:none">Bienvenido a Nuestro Equipo</span>
+        </h1>
+        <h3>
+            <video width="100%" height="auto" style="max-width: 640px; height: auto;" controls playsinline>
+                <source src="/z.vidioteam.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <span id="teamValues-en">Our Team Values:</span>
+            <span id="teamValues-am" style="display:none">የቡድን እሴቶች:</span>
+            <span id="teamValues-zh" style="display:none">我们的团队价值观：</span>
+            <span id="teamValues-es" style="display:none">Valores de Nuestro Equipo:</span><br>
+            <span id="collaborative-en">Collaborative: A team that works together seamlessly, sharing ideas and supporting one another.</span>
+            <span id="collaborative-am" style="display:none">ትብብራዊ: ሀሳቦችን በመጋራት እና እርስ በርስ በመደጋገፍ በተቀናጀ መንገድ የሚሰራ ቡድን።</span>
+            <span id="collaborative-zh" style="display:none">协作：一个无缝合作、分享想法并相互支持的团队。</span>
+            <span id="collaborative-es" style="display:none">Colaborativo: Un equipo que trabaja junto sin problemas, compartiendo ideas y apoyándose mutuamente.</span><br>
+            <span id="innovative-en">Innovative: A team that constantly thinks outside the box and develops creative solutions.</span>
+            <span id="innovative-am" style="display:none">ፈጠራዊ: ከተለመደው ውጭ በማሰብና ፈጠራዊ መፍትሄዎችን የሚያዘጋጅ ቡድን።</span>
+            <span id="innovative-zh" style="display:none">创新：一个不断跳出框框思考并开发创造性解决方案的团队。</span>
+            <span id="innovative-es" style="display:none">Innovador: Un equipo que constantemente piensa fuera de la caja y desarrolla soluciones creativas.</span><br>
+            <span id="dedicated-en">Dedicated: A team that is committed to achieving goals and delivering results.</span>
+            <span id="dedicated-am" style="display:none">ቁርጠኛ: ግቦችን ለማሳካት እና ውጤቶችን ለማምጣት ቁርጠኛ የሆነ ቡድን።</span>
+            <span id="dedicated-zh" style="display:none">专注：一个致力于实现目标和交付成果的团队。</span>
+            <span id="dedicated-es" style="display:none">Dedicado: Un equipo comprometido con lograr objetivos y entregar resultados.</span><br>
+            <span id="dynamic-en">Dynamic: A team that is energetic, adaptable, and thrives in fast-paced environments.</span>
+            <span id="dynamic-am" style="display:none">ተለዋዋጭ: ጠንካራ፣ መላመድ የሚችል እና በፈጣን ፍጥነት በሚንቀሳቀስ አካባቢ የሚበለጽግ ቡድን።</span>
+            <span id="dynamic-zh" style="display:none">动态：一个充满活力、适应性强并在快节奏环境中茁壮成长的团队。</span>
+            <span id="dynamic-es" style="display:none">Dinámico: Un equipo enérgico, adaptable y que prospera en entornos de ritmo rápido.</span><br>
+             </h3>
+        <h3>
+            <img src="images/7team.jpg" alt="Description">
+            <span id="supportive-en">Supportive: A team that fosters a culture of encouragement and mutual respect.</span>
+            <span id="supportive-am" style="display:none">ደጋፊ: የማበረታቻ እና የመከባበር ባህልን የሚያሳድግ ቡድን።</span>
+            <span id="supportive-zh" style="display:none">支持性：培养鼓励和相互尊重文化的团队。</span>
+            <span id="supportive-es" style="display:none">Solidario: Un equipo que fomenta una cultura de aliento y respeto mutuo.</span><br>
+            <span id="efficient-en">Efficient: A team that maximizes productivity and delivers high-quality work on time.</span>
+            <span id="efficient-am" style="display:none">ቀልጣፋ: ምርታማነትን የሚያሳድግ እና ከፍተኛ ጥራት ያለው ስራ በወቅቱ የሚያቀርብ ቡድን।</span>
+            <span id="efficient-zh" style="display:none">高效：最大化生产力并按时交付高质量工作的团队。</span>
+            <span id="efficient-es" style="display:none">Eficiente: Un equipo que maximiza la productividad y entrega trabajo de alta calidad a tiempo.</span><br>
+            <span id="driven-en">Driven: A team that is motivated and focused on achieving success.</span>
+            <span id="driven-am" style="display:none">ተነሳሽነት ያለው: ተነሳሽነት ያለው እና ስኬትን ለማሳካት ያተኮረ ቡድን।</span>
+            <span id="driven-zh" style="display:none">有动力：一个有动力并专注于取得成功的团队。</span>
+            <span id="driven-es" style="display:none">Motivado: Un equipo motivado y enfocado en lograr el éxito.</span><br>
+            <span id="resilient-en">Resilient: A team that overcomes challenges and bounces back from setbacks.</span>
+            <span id="resilient-am" style="display:none">ጠንካራ: ተግዳሮቶችን የሚያሸንፍ እና ከውድቀት የሚነሳ ቡድን።</span>
+            <span id="resilient-zh" style="display:none">有韧性：克服挑战并从挫折中恢复的团队。</span>
+            <span id="resilient-es" style="display:none">Resistente: Un equipo que supera desafíos y se recupera de los contratiempos.</span>
+        </h3>
+        <h3>
+            <img src="images/2team.jpg" alt="Description">
+            <span id="teamCulture-en">Team Culture:</span>
+            <span id="teamCulture-am" style="display:none">የቡድን ባህል:</span>
+            <span id="teamCulture-zh" style="display:none">团队文化：</span>
+            <span id="teamCulture-es" style="display:none">Cultura del Equipo:</span><br>
+            <span id="inclusive-en">Inclusive: A team that ensures everyone feels valued and heard.</span>
+            <span id="inclusive-am" style="display:none">ሁሉንም ያካተተ: ሁሉም ሰው ዋጋ እንዳለው እና እንደሚሰማ የሚያረጋግጥ ቡድን።</span>
+            <span id="inclusive-zh" style="display:none">包容性：确保每个人都感到被重视和被倾听的团队。</span>
+            <span id="inclusive-es" style="display:none">Inclusivo: Un equipo que asegura que todos se sientan valorados y escuchados.</span><br>
+            <span id="fun-en">Fun: A team that enjoys working together and maintains a positive atmosphere.</span>
+            <span id="fun-am" style="display:none">አዝናኝ: አብሮ መስራትን የሚወድ እና አወንታዊ ሁኔታን የሚይዝ ቡድን።</span>
+            <span id="fun-zh" style="display:none">有趣：享受共同工作并保持积极氛围的团队。</span>
+            <span id="fun-es" style="display:none">Divertido: Un equipo que disfruta trabajar juntos y mantiene una atmósfera positiva.</span><br>
+            <span id="transparent-en">Transparent: A team that communicates openly and shares information freely.</span>
+            <span id="transparent-am" style="display:none">ግልጽ: በግልጽ የሚግባባ እና መረጃን በነጻ የሚያካፍል ቡድን።</span>
+            <span id="transparent-zh" style="display:none">透明：开放沟通并自由分享信息的团队。</span>
+            <span id="transparent-es" style="display:none">Transparente: Un equipo que se comunica abiertamente y comparte información libremente.</span><br>
+            <span id="adaptable-en">Adaptable: A team that embraces change and thrives in evolving environments.</span>
+            <span id="adaptable-am" style="display:none">መላመድ የሚችል: ለውጥን የሚቀበል እና በሚለዋወጥ አካባቢ የሚበለጽግ ቡድን።</span>
+            <span id="adaptable-zh" style="display:none">适应性强：拥抱变化并在不断发展的环境中茁壮成长的团队。</span>
+            <span id="adaptable-es" style="display:none">Adaptable: Un equipo que abraza el cambio y prospera en entornos en evolución.</span><br>
+            <span id="passionate-en">Passionate: A team that is enthusiastic and deeply committed to its mission.</span>
+            <span id="passionate-am" style="display:none">ተነሳሽነት ያለው: ለተልእኮው በጣም ቁርጠኛ እና ተነሳሽነት ያለው ቡድን।</span>
+            <span id="passionate-zh" style="display:none">充满激情：对其使命充满热情和深度承诺的团队。</span>
+            <span id="passionate-es" style="display:none">Apasionado: Un equipo entusiasta y profundamente comprometido con su misión.</span>
+        </h3>
+        
+        <h3>
+            <img src="images/4team.jpg" alt="Description">
+            <span id="teamAchievements-en">Team Achievements:</span>
+            <span id="teamAchievements-am" style="display:none">የቡድን ስኬቶች:</span>
+            <span id="teamAchievements-zh" style="display:none">团队成就：</span>
+            <span id="teamAchievements-es" style="display:none">Logros del Equipo:</span><br>
+            <span id="highPerforming-en">High-Performing: A team that consistently exceeds expectations and delivers exceptional results.</span>
+            <span id="highPerforming-am" style="display:none">ከፍተኛ አፈጻጸም: ከሚጠበቀው በላይ በመስራት ልዩ ውጤቶችን የሚያመጣ ቡድን።</span>
+            <span id="highPerforming-zh" style="display:none">高绩效：始终超越期望并交付卓越成果的团队。</span>
+            <span id="highPerforming-es" style="display:none">Alto Rendimiento: Un equipo que consistentemente supera las expectativas y entrega resultados excepcionales.</span><br>
+            <span id="awardWinning-en">Award-Winning: A team recognized for its outstanding contributions and achievements.</span>
+            <span id="awardWinning-am" style="display:none">ሽልማት አሸናፊ: ለላቀ አስተዋጽኦ እና ስኬቶች የተመሰከረለት ቡድን።</span>
+            <span id="awardWinning-zh" style="display:none">获奖：因其杰出贡献和成就而受到认可的团队。</span>
+            <span id="awardWinning-es" style="display:none">Ganador de Premios: Un equipo reconocido por sus contribuciones y logros sobresalientes.</span><br>
+            <span id="goalOriented-en">Goal-Oriented: A team that sets clear objectives and works tirelessly to achieve them.</span>
+            <span id="goalOriented-am" style="display:none">ግብ ተኮር: ግልጽ ዓላማዎችን የሚያወጣ እና ለማሳካት ሳይደክም የሚሰራ ቡድን።</span>
+            <span id="goalOriented-zh" style="display:none">目标导向：设定明确目标并不懈努力实现目标的团队。</span>
+            <span id="goalOriented-es" style="display:none">Orientado a Objetivos: Un equipo que establece objetivos claros y trabaja incansablemente para lograrlos.</span><br>
+            <span id="impactful-en">Impactful: A team that makes a significant difference in the company or community.</span>
+            <span id="impactful-am" style="display:none">ተጽዕኖ ፈጣሪ: በኩባንያው ወይም በማህበረሰቡ ላይ ከፍተኛ ለውጥ የሚያመጣ ቡድን።</span>
+            <span id="impactful-zh" style="display:none">有影响力：在公司或社区中产生重大影响的团队。</span>
+            <span id="impactful-es" style="display:none">Impactante: Un equipo que hace una diferencia significativa en la empresa o comunidad.</span><br>
+            <span id="pioneering-en">Pioneering: A team that leads the way in innovation and sets industry standards.</span>
+            <span id="pioneering-am" style="display:none">አቅኚ: በፈጠራ መንገድ የሚመራ እና የኢንዱስትሪ ደረጃዎችን የሚያወጣ ቡድን።</span>
+            <span id="pioneering-zh" style="display:none">开拓性：在创新方面引领潮流并设定行业标准的团队。</span>
+            <span id="pioneering-es" style="display:none">Pionero: Un equipo que lidera el camino en innovación y establece estándares de la industria.</span>
+        </h3>
+        <h3>
+            <img src="images/11team.jpg" alt="Description">
+        </h3>
+    </section>
+    
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <a href="/dashboard"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+                <span id="navHome-en">Home</span>
+                <span id="navHome-am" style="display:none">ቤት</span>
+                <span id="navHome-zh" style="display:none">首页</span>
+                <span id="navHome-es" style="display:none">Inicio</span>
+            </span></a>
+        </div>
+        <div class="nav-item">
+            <a href="/product"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+                <span id="navProduct-en">Product</span>
+                <span id="navProduct-am" style="display:none">ምርት</span>
+                <span id="navProduct-zh" style="display:none">产品</span>
+                <span id="navProduct-es" style="display:none">Producto</span>
+            </span></a>
+        </div>
+        <div class="nav-item">
+            <a href="/team"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+                <span id="navTeam-en">Team</span>
+                <span id="navTeam-am" style="display:none">ቡድን</span>
+                <span id="navTeam-zh" style="display:none">团队</span>
+                <span id="navTeam-es" style="display:none">Equipo</span>
+            </span></a>
+        </div>
+        <div class="nav-item">
+            <a href="/my"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+                <span id="navMy-en">My</span>
+                <span id="navMy-am" style="display:none">የኔ</span>
+                <span id="navMy-zh" style="display:none">我的</span>
+                <span id="navMy-es" style="display:none">Mi</span>
+            </span></a>
+        </div>
+        <div class="nav-item">
+            <a href="/help"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg><span>
+                <span id="navHelp-en">Help</span>
+                <span id="navHelp-am" style="display:none">እርዳታ</span>
+                <span id="navHelp-zh" style="display:none">帮助</span>
+                <span id="navHelp-es" style="display:none">Ayuda</span>
+            </span></a>
+        </div>
+    </div>
+</body>
+<script src="/js/lang.js"></script>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .login-container { background: #16213e; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #333; border-radius: 5px; background: #1a1a2e; color: white; }
+        .btn { width: 100%; padding: 12px; background: #e94560; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .btn:hover { background: #d63447; }
+        .error { color: #ff6b6b; margin-bottom: 20px; padding: 10px; background: rgba(255, 107, 107, 0.1); border-radius: 5px; text-align: center; }
+        h1 { text-align: center; margin-bottom: 30px; color: #e94560; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        
+        {#if error}
+        <div class="error">{error}</div>
+        {/if}
+        
+        <form method="post" action="/million/login" id="adminLoginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required autocomplete="username" maxlength="50" pattern="[a-zA-Z0-9_]+" title="Username can only contain letters, numbers, and underscores">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" maxlength="100">
+            </div>
+            
+            <button type="submit" class="btn">Login</button>
+        </form>
+        
+        <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username) {
+                alert('Username is required');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!password) {
+                alert('Password is required');
+                e.preventDefault();
+                return;
+            }
+            
+            if (username.length > 50) {
+                alert('Username too long');
+                e.preventDefault();
+                return;
+            }
+            
+            if (password.length > 100) {
+                alert('Password too long');
+                e.preventDefault();
+                return;
+            }
+            
+            // Sanitize inputs
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+        });
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Investments</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/main.js"></script>
+    <script src="/js/icons.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #0c2141; color: white; min-height: 100vh; padding-bottom: 70px; }
+        .header { background-color: #1a344b; padding: 20px; text-align: center; }
+        .balance { background-color: #333386; padding: 15px; margin: 20px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px; }
+        .menu-item { background-color: #1e3a6a; padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; transition: background-color 0.3s; }
+        .menu-item:hover { background-color: #2a4a7a; }
+        .menu-item i { font-size: 2rem; color: #4fc3f7; margin-bottom: 10px; }
+        .menu-item span { display: block; color: white; font-weight: bold; }
+        .section-card { 
+            background-color: #1e3a6a; 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 15px; 
+            display: none;
+            scroll-margin-top: 20px;
+        }
+        .section-header { cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .section-content { margin-top: 15px; }
+        .toggle-icon { transition: transform 0.3s; }
+        .toggle-icon.rotated { transform: rotate(180deg); }
+        .profile-item, .profit-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a4a7a; }
+        .profile-label, .profit-label { color: #ccc; }
+        .profile-value, .profit-value { color: #4fc3f7; font-weight: bold; }
+        .profile-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .action-btn { padding: 8px 16px; background-color: #4fc3f7; color: #0c2141; text-decoration: none; border-radius: 6px; font-size: 0.9rem; border: none; cursor: pointer; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #ccc; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; background-color: #2a4a7a; border: 1px solid #333; color: white; border-radius: 4px; }
+        .admin-accounts { margin-bottom: 15px; }
+        .account-item { background-color: #2a4a7a; padding: 15px; border-radius: 8px; margin-bottom: 10px; }
+        .account-type { font-weight: bold; color: #4fc3f7; margin-bottom: 5px; }
+        .account-number { font-size: 1.1rem; font-weight: bold; color: white; margin-bottom: 3px; }
+        .account-name { font-size: 0.9rem; color: #ccc; }
+        .funding-instructions { background-color: #2a4a7a; padding: 10px; border-radius: 6px; margin-bottom: 15px; }
+        .funding-instructions p { margin-bottom: 5px; font-size: 0.9rem; }
+        .withdrawal-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #2a4a7a; }
+        .withdrawal-amount { font-weight: bold; color: #4fc3f7; }
+        .withdrawal-status { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; }
+        .status-PENDING { background-color: #ff9800; color: white; }
+        .status-APPROVED { background-color: #4caf50; color: white; }
+        .status-REJECTED { background-color: #f44336; color: white; }
+        .withdrawal-date { font-size: 0.8rem; color: #ccc; }
+        .no-withdrawals { text-align: center; color: #ccc; padding: 20px; }
+        .language-toggle { text-align: right; padding: 10px 20px; }
+        .lang-btn { background-color: #4fc3f7; color: #0c2141; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        .investment-card { background-color: #2a4a7a; border-radius: 8px; padding: 15px; margin-bottom: 10px; }
+        .investment-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; }
+        .investment-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem; }
+        .detail-item { background-color: #1e3a6a; padding: 10px; border-radius: 6px; text-align: center; }
+        .detail-label { color: #ccc; font-size: 0.8rem; }
+        .detail-value { color: #4fc3f7; font-weight: bold; }
+        .returns-button { width: 100%; padding: 10px; background-color: #8edca0; color: #0c2141; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+        .no-investments { text-align: center; padding: 40px 20px; background-color: #2a4a7a; border-radius: 12px; }
+        .no-investments i { font-size: 3rem; color: #4fc3f7; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg> 
+            <span id="myInvestments-en">My Investments</span>
+            <span id="myInvestments-am" style="display:none">የኔ ኢንቨስትመንቶች</span>
+            <span id="myInvestments-zh" style="display:none">我的投资</span>
+            <span id="myInvestments-es" style="display:none">Mis Inversiones</span>
+        </h1>
+        <p>
+            <span id="trackPortfolio-en">Track your investment portfolio</span>
+            <span id="trackPortfolio-am" style="display:none">የኢንቨስትመንት ፖርትፎሊዮዎን ይከታተሉ</span>
+            <span id="trackPortfolio-zh" style="display:none">跟踪您的投资组合</span>
+            <span id="trackPortfolio-es" style="display:none">Rastrea tu cartera de inversiones</span>
+        </p>
+    </div>
+    
+    <div class="balance">
+        <span id="walletBalance-en">Wallet Balance:</span>
+        <span id="walletBalance-am" style="display:none">የዋሌት ሚዛን:</span>
+        <span id="walletBalance-zh" style="display:none">钱包余额：</span>
+        <span id="walletBalance-es" style="display:none">Saldo de Billetera:</span>
+        ${user.walletBalance} USD
+    </div>
+    
+    {#if success}
+        <div class="message success">{success}</div>
+    {/if}
+    {#if error}
+        <div class="message error">{error}</div>
+    {/if}
+
+    <div class="container">
+        <div class="language-toggle">
+            <button id="langToggle" onclick="switchLanguage()" class="lang-btn">EN</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid">
+            <div class="menu-item" onclick="toggleSection('profile')">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                <span>
+                    <span id="profile-en">Profile</span>
+                    <span id="profile-am" style="display:none">መገለጫ</span>
+                    <span id="profile-zh" style="display:none">个人资料</span>
+                    <span id="profile-es" style="display:none">Perfil</span>
+                </span>
+            </div>
+            <div class="menu-item" onclick="toggleSection('profit')">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/></svg>
+                <span>
+                    <span id="totalProfit-en">Profit Summary</span>
+                    <span id="totalProfit-am" style="display:none">የትርፍ ማጠቃለያ</span>
+                    <span id="totalProfit-zh" style="display:none">利润摘要</span>
+                    <span id="totalProfit-es" style="display:none">Resumen de Ganancias</span>
+                </span>
+            </div>
+            <div class="menu-item" onclick="toggleSection('funding')">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                <span>
+                    <span id="fundAccount-en">Add Funds</span>
+                    <span id="fundAccount-am" style="display:none">ገንዘብ ጨምር</span>
+                    <span id="fundAccount-zh" style="display:none">添加资金</span>
+                    <span id="fundAccount-es" style="display:none">Agregar Fondos</span>
+                </span>
+            </div>
+            <div class="menu-item" onclick="toggleSection('withdrawal')">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/></svg>
+                <span>
+                    <span id="withdraw-en">Withdraw</span>
+                    <span id="withdraw-am" style="display:none">አውጣ</span>
+                    <span id="withdraw-zh" style="display:none">提取</span>
+                    <span id="withdraw-es" style="display:none">Retirar</span>
+                </span>
+            </div>
+            <div class="menu-item" onclick="toggleSection('deposits')">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/></svg>
+                <span>
+                    <span id="depositStatus-en">Deposit Status</span>
+                    <span id="depositStatus-am" style="display:none">የተቀማጭ ሁኔታ</span>
+                    <span id="depositStatus-zh" style="display:none">存款状态</span>
+                    <span id="depositStatus-es" style="display:none">Estado de Depósito</span>
+                </span>
+            </div>
+            <div class="menu-item" onclick="toggleSection('investments')">
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/></svg>
+                <span>
+                    <span id="myInvestments2-en">My Investments</span>
+                    <span id="myInvestments2-am" style="display:none">የኔ ኢንቨስትመንቶች</span>
+                    <span id="myInvestments2-zh" style="display:none">我的投资</span>
+                    <span id="myInvestments2-es" style="display:none">Mis Inversiones</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="section-card" id="profile-section">
+            <div class="section-header" onclick="toggleSection('profile')">
+                <h3>
+                    <span id="profileHeader-en">Profile</span>
+                    <span id="profileHeader-am" style="display:none">መገለጫ</span>
+                    <span id="profileHeader-zh" style="display:none">个人资料</span>
+                    <span id="profileHeader-es" style="display:none">Perfil</span>
+                </h3>
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+            </div>
+            <div class="section-content">
+                <div class="profile-item">
+                    <span class="profile-label">
+                        <span id="fullName-en">Name:</span>
+                        <span id="fullName-am" style="display:none">ስም:</span>
+                        <span id="fullName-zh" style="display:none">姓名：</span>
+                        <span id="fullName-es" style="display:none">Nombre:</span>
+                    </span>
+                    <span class="profile-value">{user.name}</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">
+                        <span id="phone-en">Phone:</span>
+                        <span id="phone-am" style="display:none">ስልክ:</span>
+                        <span id="phone-zh" style="display:none">电话：</span>
+                        <span id="phone-es" style="display:none">Teléfono:</span>
+                    </span>
+                    <span class="profile-value">{user.phoneNumber}</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">Email:</span>
+                    <span class="profile-value">{user.email}</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">
+                        <span id="referralCodeLabel-en">Referral Code:</span>
+                        <span id="referralCodeLabel-am" style="display:none">የሪፈራል ኮድ:</span>
+                        <span id="referralCodeLabel-zh" style="display:none">推荐码：</span>
+                        <span id="referralCodeLabel-es" style="display:none">Código de Referencia:</span>
+                    </span>
+                    <span class="profile-value">{user.referralCode}</span>
+                </div>
+                <div class="profile-actions">
+                    <a href="/invite" class="action-btn">
+                        <span id="inviteFriends-en">Invite Friends</span>
+                        <span id="inviteFriends-am" style="display:none">ጓደኞችን ጋብዝ</span>
+                        <span id="inviteFriends-zh" style="display:none">邀请朋友</span>
+                        <span id="inviteFriends-es" style="display:none">Invitar Amigos</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profit Section -->
+        <div class="section-card" id="profit-section">
+            <div class="section-header" onclick="toggleSection('profit')">
+                <h3>
+                    <span id="profitSummary-en">Profit Summary</span>
+                    <span id="profitSummary-am" style="display:none">የትርፍ ማጠቃለያ</span>
+                    <span id="profitSummary-zh" style="display:none">利润摘要</span>
+                    <span id="profitSummary-es" style="display:none">Resumen de Ganancias</span>
+                </h3>
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+            </div>
+            <div class="section-content">
+                <div class="profit-item">
+                    <span class="profit-label">
+                        <span id="totalProfitLabel-en">Total Profit:</span>
+                        <span id="totalProfitLabel-am" style="display:none">ጠቅላላ ትርፍ:</span>
+                        <span id="totalProfitLabel-zh" style="display:none">总利润：</span>
+                        <span id="totalProfitLabel-es" style="display:none">Ganancia Total:</span>
+                    </span>
+                    <span class="profit-value">$0 USD</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funding Section -->
+        <div class="section-card" id="funding-section">
+            <div class="section-header" onclick="toggleSection('funding')">
+                <h3>
+                    <span id="addFunds-en">Add Funds</span>
+                    <span id="addFunds-am" style="display:none">ገንዘብ ጨምር</span>
+                    <span id="addFunds-zh" style="display:none">添加资金</span>
+                    <span id="addFunds-es" style="display:none">Agregar Fondos</span>
+                </h3>
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+            </div>
+            <div class="section-content">
+                <div class="admin-accounts">
+                    <div class="account-item">
+                        <div class="account-type">TeleBirr</div>
+                        <div class="account-number">0911123456</div>
+                        <div class="account-name">ElonMusk Investment</div>
+                    </div>
+                    <div class="account-item">
+                        <div class="account-type">PayPal</div>
+                        <div class="account-number">payments@elonmusk.com</div>
+                        <div class="account-name">ElonMusk Investment</div>
+                    </div>
+                    <div class="account-item">
+                        <div class="account-type">Visa Card</div>
+                        <div class="account-number">
+                            <span id="useGateway-en">Use secure payment gateway</span>
+                            <span id="useGateway-am" style="display:none">ደህንነቱ የተጠበቀ የክፍያ መንገድ ይጠቀሙ</span>
+                            <span id="useGateway-zh" style="display:none">使用安全支付网关</span>
+                            <span id="useGateway-es" style="display:none">Usar pasarela de pago segura</span>
+                        </div>
+                        <div class="account-name">ElonMusk Investment</div>
+                    </div>
+                </div>
+                <div class="funding-instructions">
+                    <p>1. 
+                        <span id="sendMoney-en">Send money to above accounts</span>
+                        <span id="sendMoney-am" style="display:none">ወደ ላይ ያሉት መለያዎች ገንዘብ ይላኩ</span>
+                        <span id="sendMoney-zh" style="display:none">向上述账户汇款</span>
+                        <span id="sendMoney-es" style="display:none">Enviar dinero a las cuentas anteriores</span>
+                    </p>
+                    <p>2. 
+                        <span id="submitTxId-en">Submit transaction ID below</span>
+                        <span id="submitTxId-am" style="display:none">ከታች የግብይት መለያ ያስገቡ</span>
+                        <span id="submitTxId-zh" style="display:none">在下方提交交易ID</span>
+                        <span id="submitTxId-es" style="display:none">Enviar ID de transacción abajo</span>
+                    </p>
+                    <p>3. 
+                        <span id="waitApproval-en">Wait for admin approval</span>
+                        <span id="waitApproval-am" style="display:none">የአስተዳዳሪ ፈቃድ ይጠብቁ</span>
+                        <span id="waitApproval-zh" style="display:none">等待管理员批准</span>
+                        <span id="waitApproval-es" style="display:none">Esperar aprobación del administrador</span>
+                    </p>
+                </div>
+                <form method="post" action="/deposit/request">
+                    <div class="form-group">
+                        <label>
+                            <span id="transactionId-en">Transaction ID</span>
+                            <span id="transactionId-am" style="display:none">የግብይት መለያ</span>
+                            <span id="transactionId-zh" style="display:none">交易ID</span>
+                            <span id="transactionId-es" style="display:none">ID de Transacción</span>
+                        </label>
+                        <input type="text" name="transactionId" placeholder="Enter your transaction ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span id="whichAccount-en">Which Account Did You Send To?</span>
+                            <span id="whichAccount-am" style="display:none">ወደ የትኛው መለያ ላክተዋል?</span>
+                            <span id="whichAccount-zh" style="display:none">您向哪个账户汇款？</span>
+                            <span id="whichAccount-es" style="display:none">¿A qué cuenta enviaste?</span>
+                        </label>
+                    <div class="form-group">
+                        <label>
+                            <span id="amount-en">Amount (USD)</span>
+                            <span id="amount-am" style="display:none">መጠን (USD)</span>
+                            <span id="amount-zh" style="display:none">金额 (USD)</span>
+                            <span id="amount-es" style="display:none">Cantidad (USD)</span>
+                        </label>
+                        <input type="number" name="amount" placeholder="Enter amount in USD" step="0.01" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span id="paymentMethod-en">Payment Method</span>
+                            <span id="paymentMethod-am" style="display:none">የክፍያ ዘዴ</span>
+                            <span id="paymentMethod-zh" style="display:none">支付方式</span>
+                            <span id="paymentMethod-es" style="display:none">Método de Pago</span>
+                        </label>
+                        <select name="paymentMethod" required>
+                            <option value="">
+                                <span id="selectMethod-en">Select Payment Method</span>
+                                <span id="selectMethod-am" style="display:none">የክፍያ ዘዴ ይምረጡ</span>
+                                <span id="selectMethod-zh" style="display:none">选择支付方式</span>
+                                <span id="selectMethod-es" style="display:none">Seleccionar Método</span>
+                            </option>
+                            <option value="telebirr">TeleBirr</option>
+                            <option value="paypal">PayPal</option>
+                        </select>
+                    </div>
+                    </div>
+                    <button type="submit" class="action-btn">
+                        <span id="submitTransaction-en">Submit Transaction</span>
+                        <span id="submitTransaction-am" style="display:none">ግብይት አስገባ</span>
+                        <span id="submitTransaction-zh" style="display:none">提交交易</span>
+                        <span id="submitTransaction-es" style="display:none">Enviar Transacción</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Deposit Status Section -->
+        <div class="section-card" id="deposits-section">
+            <div class="section-header" onclick="toggleSection('deposits')">
+                <h3>
+                    <span id="depositStatusHeader-en">Deposit Status & History</span>
+                    <span id="depositStatusHeader-am" style="display:none">የተቀማጭ ሁኔታ እና ታሪክ</span>
+                    <span id="depositStatusHeader-zh" style="display:none">存款状态和历史</span>
+                    <span id="depositStatusHeader-es" style="display:none">Estado e Historial de Depósito</span>
+                </h3>
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+            </div>
+            <div class="section-content">
+                <!-- Deposit Statistics -->
+                <div class="investment-details" style="margin-bottom: 20px;">
+                    <div class="detail-item">
+                        <div class="detail-label">Total Pending</div>
+                        <div class="detail-value">${depositStats.totalPending} USD</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Total Approved</div>
+                        <div class="detail-value">${depositStats.totalApproved} USD</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Total Rejected</div>
+                        <div class="detail-value">${depositStats.totalRejected} USD</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Total Requests</div>
+                        <div class="detail-value">{depositStats.countPending + depositStats.countApproved + depositStats.countRejected}</div>
+                    </div>
+                </div>
+                
+                <!-- Deposit History -->
+                {#if deposits && !deposits.isEmpty()}
+                    {#for deposit in deposits}
+                        <div class="withdrawal-item">
+                            <div>
+                                <div class="withdrawal-amount">
+                                    {#if deposit.amount && deposit.amount.toString() != "0.00"}
+                                        ${deposit.amount} USD
+                                    {#else}
+                                        Pending Verification
+                                    {/if}
+                                </div>
+                                <div class="withdrawal-date">TXN: {deposit.transactionId}</div>
+                                <div class="withdrawal-date">{deposit.paymentMethod} - {deposit.createdAt}</div>
+                                {#if deposit.adminNotes}
+                                    <div class="withdrawal-date" style="color: #4fc3f7;">Note: {deposit.adminNotes}</div>
+                                {/if}
+                            </div>
+                            <div class="withdrawal-status status-{deposit.status}">{deposit.status}</div>
+                        </div>
+                    {/for}
+                {#else}
+                    <div class="no-withdrawals">
+                        <span id="noDeposits-en">No deposit requests yet</span>
+                        <span id="noDeposits-am" style="display:none">እስካሁን የተቀማጭ ጥያቄዎች የሉም</span>
+                        <span id="noDeposits-zh" style="display:none">尚无存款请求</span>
+                        <span id="noDeposits-es" style="display:none">Aún no hay solicitudes de depósito</span>
+                    </div>
+                {/if}
+                <a href="/recharge" class="action-btn">
+                    <span id="makeDeposit-en">Make New Deposit</span>
+                    <span id="makeDeposit-am" style="display:none">አዲስ ተቀማጭ ያድርጉ</span>
+                    <span id="makeDeposit-zh" style="display:none">进行新存款</span>
+                    <span id="makeDeposit-es" style="display:none">Hacer Nuevo Depósito</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Withdrawal Section -->
+        <div class="section-card" id="withdrawal-section">
+            <div class="section-header" onclick="toggleSection('withdrawal')">
+                <h3>
+                    <span id="withdrawalHeader-en">Withdrawal</span>
+                    <span id="withdrawalHeader-am" style="display:none">መውጣት</span>
+                    <span id="withdrawalHeader-zh" style="display:none">提取</span>
+                    <span id="withdrawalHeader-es" style="display:none">Retiro</span>
+                </h3>
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+            </div>
+            <div class="section-content">
+                {#if withdrawals && !withdrawals.isEmpty()}
+                    {#for withdrawal in withdrawals}
+                    <div class="withdrawal-item">
+                        <div class="withdrawal-amount">{withdrawal.amount} USD</div>
+                        <div class="withdrawal-status status-{withdrawal.status}">{withdrawal.status}</div>
+                        <div class="withdrawal-date">{withdrawal.createdAt}</div>
+                    </div>
+                    {/for}
+                {#else}
+                    <div class="no-withdrawals">
+                        <span id="noWithdrawals-en">No withdrawal requests</span>
+                        <span id="noWithdrawals-am" style="display:none">የመውጣት ጥያቄዎች የሉም</span>
+                        <span id="noWithdrawals-zh" style="display:none">无提取请求</span>
+                        <span id="noWithdrawals-es" style="display:none">No hay solicitudes de retiro</span>
+                    </div>
+                {/if}
+                <a href="/withdrawal" class="action-btn">
+                    <span id="requestWithdrawal-en">Request Withdrawal</span>
+                    <span id="requestWithdrawal-am" style="display:none">መውጣት ይጠይቁ</span>
+                    <span id="requestWithdrawal-zh" style="display:none">请求提取</span>
+                    <span id="requestWithdrawal-es" style="display:none">Solicitar Retiro</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Investments Section -->
+        <div class="section-card" id="investments-section">
+            <div class="section-header" onclick="toggleSection('investments')">
+                <h3>
+                    <span id="investmentsHeader-en">My Investments</span>
+                    <span id="investmentsHeader-am" style="display:none">የኔ ኢንቨስትመንቶች</span>
+                    <span id="investmentsHeader-zh" style="display:none">我的投资</span>
+                    <span id="investmentsHeader-es" style="display:none">Mis Inversiones</span>
+                </h3>
+                <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+            </div>
+            <div class="section-content">
+                {#if investments.isEmpty()}
+                <div class="no-investments">
+                    <svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><circle cx="8" cy="8" r="6"/></svg>
+                    <h3>
+                        <span id="noInvestments-en">No Investments Yet</span>
+                        <span id="noInvestments-am" style="display:none">እስካሁን ኢንቨስትመንቶች የሉም</span>
+                        <span id="noInvestments-zh" style="display:none">尚无投资</span>
+                        <span id="noInvestments-es" style="display:none">Aún No Hay Inversiones</span>
+                    </h3>
+                    <p>
+                        <span id="visitProduct-en">Visit the Product page to start investing</span>
+                        <span id="visitProduct-am" style="display:none">ኢንቨስትመንት ለመጀመር የምርት ገጽን ይጎብኙ</span>
+                        <span id="visitProduct-zh" style="display:none">访问产品页面开始投资</span>
+                        <span id="visitProduct-es" style="display:none">Visita la página de Productos para empezar a invertir</span>
+                    </p>
+                </div>
+                {#else}
+                <form method="post" action="/daily-returns">
+                    <button type="submit" class="returns-button">
+                        <span id="collectReturns-en">Collect Daily Returns</span>
+                        <span id="collectReturns-am" style="display:none">ዕለታዊ ትርፍ ሰብስብ</span>
+                        <span id="collectReturns-zh" style="display:none">收取每日回报</span>
+                        <span id="collectReturns-es" style="display:none">Recoger Retornos Diarios</span>
+                    </button>
+                </form>
+                {#for investment in investments}
+                <div class="investment-card">
+                    <div class="investment-title">Investment #{investment.id}</div>
+                    <div class="investment-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Invested Amount</div>
+                            <div class="detail-value">{investment.investedAmount} USD</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Daily Return</div>
+                            <div class="detail-value">{investment.dailyReturn} USD</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Total Returns</div>
+                            <div class="detail-value">{investment.totalReturn} USD</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">{investment.status}</div>
+                        </div>
+                    </div>
+                </div>
+                {/for}
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item"><a href="/dashboard"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/></svg><span>
+            <span id="navHome-en">Home</span>
+            <span id="navHome-am" style="display:none">ቤት</span>
+            <span id="navHome-zh" style="display:none">首页</span>
+            <span id="navHome-es" style="display:none">Inicio</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/product"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg><span>
+            <span id="navProduct-en">Product</span>
+            <span id="navProduct-am" style="display:none">ምርት</span>
+            <span id="navProduct-zh" style="display:none">产品</span>
+            <span id="navProduct-es" style="display:none">Producto</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/team"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg><span>
+            <span id="navTeam-en">Team</span>
+            <span id="navTeam-am" style="display:none">ቡድን</span>
+            <span id="navTeam-zh" style="display:none">团队</span>
+            <span id="navTeam-es" style="display:none">Equipo</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/my"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg><span>
+            <span id="navMy-en">My</span>
+            <span id="navMy-am" style="display:none">የኔ</span>
+            <span id="navMy-zh" style="display:none">我的</span>
+            <span id="navMy-es" style="display:none">Mi</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/help"><svg class="icon" viewBox="0 0 16 16" style="width:16px;height:16px;fill:currentColor;display:inline-block;"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/></svg><span>
+            <span id="navHelp-en">Help</span>
+            <span id="navHelp-am" style="display:none">እርዳታ</span>
+            <span id="navHelp-zh" style="display:none">帮助</span>
+            <span id="navHelp-es" style="display:none">Ayuda</span>
+        </span></a></div>
+    </div>
+
+    <script src="/js/lang.js"></script>
+    <script>
+    function toggleSection(sectionName) {
+        const section = document.getElementById(sectionName + '-section');
+        
+        if (section.style.display === 'none' || section.style.display === '') {
+            document.querySelectorAll('.section-card').forEach(s => s.style.display = 'none');
+            section.style.display = 'block';
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (sectionName === 'deposits') loadDeposits();
+        } else {
+            section.style.display = 'none';
+        }
+    }
+    
+    function loadDeposits() {
+        fetch('/api/user-deposits')
+            .then(response => response.json())
+            .then(deposits => {
+                const depositList = document.getElementById('deposit-list');
+                if (deposits.length === 0) {
+                    depositList.innerHTML = '<p class="no-withdrawals">No deposits found</p>';
+                } else {
+                    depositList.innerHTML = deposits.map(deposit => 
+                        '<div class="withdrawal-item">' +
+                            '<div>' +
+                                '<div class="withdrawal-amount">' + deposit.amount + ' USD</div>' +
+                                '<div class="withdrawal-date">' + deposit.createdAt + '</div>' +
+                                '<div class="withdrawal-date">TXN: ' + deposit.transactionId + '</div>' +
+                            '</div>' +
+                            '<div class="withdrawal-status status-' + deposit.status + '">' + deposit.status + '</div>' +
+                        '</div>'
+                    ).join('');
+                }
+            })
+            .catch(() => {
+                document.getElementById('deposit-list').innerHTML = '<p class="no-withdrawals">Error loading deposits</p>';
+            });
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invite Friends</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/icons.css">
+    <script src="/js/main.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #0c2141; color: white; min-height: 100vh; padding-bottom: 70px; }
+        .header { background-color: #1a344b; padding: 20px; text-align: center; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .referral-card { background-color: #1e3a6a; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .referral-code { background-color: #333386; padding: 15px; border-radius: 8px; text-align: center; font-size: 1.5rem; font-weight: bold; margin: 20px 0; }
+        .referral-link { background-color: #2a4a7a; padding: 15px; border-radius: 8px; word-break: break-all; margin: 20px 0; }
+        .copy-button { width: 100%; padding: 12px; background-color: #4fc3f7; color: #0c2141; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .info-text { text-align: center; color: #ccc; margin: 20px 0; }
+        .icon { width: 16px; height: 16px; display: inline-block; margin-right: 8px; fill: currentColor; }
+        .lang-toggle { position: fixed; top: 20px; right: 20px; background-color: #ff6b35; color: white; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; z-index: 1000; }
+    </style>
+</head>
+<body>
+    <button id="langToggle" class="lang-toggle" onclick="switchLanguage()">EN</button>
+    <div class="header">
+        <h1><svg class="icon" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg> 
+            <span id="inviteFriends-en">Invite Friends</span>
+            <span id="inviteFriends-am" style="display:none">ጉዳዞችን ጋብዝ</span>
+            <span id="inviteFriends-zh" style="display:none">邀请朋友</span>
+            <span id="inviteFriends-es" style="display:none">Invitar Amigos</span>
+        </h1>
+        <p>
+            <span id="shareReferral-en">Share your referral code and earn rewards</span>
+            <span id="shareReferral-am" style="display:none">የሪፌራል ኮድዎን አጋራ እና ትርፎች ያስፈ</span>
+            <span id="shareReferral-zh" style="display:none">分享您的推荐代码并赚取奖励</span>
+            <span id="shareReferral-es" style="display:none">Comparte tu código de referencia y gana recompensas</span>
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="referral-card">
+            <h2 style="text-align: center; margin-bottom: 20px;">
+                <span id="referralCodeLabel-en">Your Referral Code</span>
+                <span id="referralCodeLabel-am" style="display:none">የእርስዎ የሪፌራል ኮድ</span>
+                <span id="referralCodeLabel-zh" style="display:none">您的推荐代码</span>
+                <span id="referralCodeLabel-es" style="display:none">Su Código de Referencia</span>
+            </h2>
+            <div class="referral-code">{user.referralCode}</div>
+            
+            <h3 style="margin-top: 30px; margin-bottom: 10px;">
+                <span id="referralLink-en">Your Referral Link</span>
+                <span id="referralLink-am" style="display:none">የእርስዎ የሪፌራል አገናኝ</span>
+                <span id="referralLink-zh" style="display:none">您的推荐链接</span>
+                <span id="referralLink-es" style="display:none">Su Enlace de Referencia</span>
+            </h3>
+            <div class="referral-link">{referralLink}</div>
+            
+            <button class="copy-button" onclick="copyToClipboard('{referralLink}')">
+                <svg class="icon" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg> 
+                <span id="copyLink-en">Copy Referral Link</span>
+                <span id="copyLink-am" style="display:none">የሪፌራል አገናኝ ክባ</span>
+                <span id="copyLink-zh" style="display:none">复制推荐链接</span>
+                <span id="copyLink-es" style="display:none">Copiar Enlace de Referencia</span>
+            </button>
+            
+            <div class="info-text">
+                <p><svg class="icon" viewBox="0 0 16 16"><path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A2.968 2.968 0 0 1 3 2.506V2.5zm1.068.5H7a1.5 1.5 0 0 1 1.5 1.5v.5H6V4a2.5 2.5 0 0 0-1.932-2.44zM9 4.5V6h2.5V4.5A1.5 1.5 0 0 0 10 3H8.068A2.44 2.44 0 0 1 9 4.5zM6 4.5A1.5 1.5 0 0 0 4.5 3H2.068A2.44 2.44 0 0 1 3 4.5V6h3V4.5z"/></svg> 
+                    <span id="earnBonus-en">Start earning rewards by sharing your referral link!</span>
+                    <span id="earnBonus-am" style="display:none">የሪፌራል አገናኝዎን በማጋራት ትርፎች ማስፈለል ይጀምሩ!</span>
+                    <span id="earnBonus-zh" style="display:none">通过分享您的推荐链接开始赚取奖励！</span>
+                    <span id="earnBonus-es" style="display:none">¡Comienza a ganar recompensas compartiendo tu enlace de referencia!</span>
+                </p>
+            </div>
+            
+            <!-- Referral Statistics -->
+            <div style="background-color: #333394; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <h4 style="color: #d4b344; margin-bottom: 15px; text-align: center;">
+                    <span id="referralStats-en">Referral Statistics</span>
+                    <span id="referralStats-am" style="display:none">የሪፌራል ስታቲስቲክስ</span>
+                    <span id="referralStats-zh" style="display:none">推荐统计</span>
+                    <span id="referralStats-es" style="display:none">Estadísticas de Referencia</span>
+                </h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div style="background-color: #242163; padding: 12px; border-radius: 6px; text-align: center;">
+                        <div style="color: #ccc; font-size: 0.9em; margin-bottom: 5px;">
+                            <span id="totalReferrals-en">Total Referrals</span>
+                            <span id="totalReferrals-am" style="display:none">ጥቅላላ ሪፌራሎች</span>
+                            <span id="totalReferrals-zh" style="display:none">总推荐人数</span>
+                            <span id="totalReferrals-es" style="display:none">Total de Referencias</span>
+                        </div>
+                        <div style="color: #4fc3f7; font-size: 1.5em; font-weight: bold;">{user.totalReferrals}</div>
+                    </div>
+                    <div style="background-color: #242163; padding: 12px; border-radius: 6px; text-align: center;">
+                        <div style="color: #ccc; font-size: 0.9em; margin-bottom: 5px;">
+                            <span id="totalEarnings-en">Total Earnings</span>
+                            <span id="totalEarnings-am" style="display:none">ጥቅላላ ገቢ</span>
+                            <span id="totalEarnings-zh" style="display:none">总收入</span>
+                            <span id="totalEarnings-es" style="display:none">Ganancias Totales</span>
+                        </div>
+                        <div style="color: #d4b344; font-size: 1.5em; font-weight: bold;">{user.referralEarnings} ETB</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reward Information -->
+            <div style="background-color: #2a4a7a; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <h4 style="color: #d4b344; margin-bottom: 15px;">
+                    <svg class="icon" viewBox="0 0 16 16"><path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A2.968 2.968 0 0 1 3 2.506V2.5zm1.068.5H7a1.5 1.5 0 0 1 1.5 1.5v.5H6V4a2.5 2.5 0 0 0-1.932-2.44zM9 4.5V6h2.5V4.5A1.5 1.5 0 0 0 10 3H8.068A2.44 2.44 0 0 1 9 4.5zM6 4.5A1.5 1.5 0 0 0 4.5 3H2.068A2.44 2.44 0 0 1 3 4.5V6h3V4.5z"/></svg> 
+                    <span id="rewardInfo-en">Referral Rewards</span>
+                    <span id="rewardInfo-am" style="display:none">የሪፌራል ትርፎች</span>
+                    <span id="rewardInfo-zh" style="display:none">推荐奖励</span>
+                    <span id="rewardInfo-es" style="display:none">Recompensas de Referencia</span>
+                </h4>
+                <div style="font-size: 0.9em; line-height: 1.6;">
+                    <p style="margin-bottom: 10px;">
+                        <svg class="icon" style="color: #4fc3f7; margin-right: 8px;" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+                        <strong>
+                            <span id="signupBonus-en">Signup Bonus: 5 ETB</span>
+                            <span id="signupBonus-am" style="display:none">የመዝገብ ቦንስ: 5 ብር</span>
+                            <span id="signupBonus-zh" style="display:none">注册奖金: 5 ETB</span>
+                            <span id="signupBonus-es" style="display:none">Bono de Registro: 5 ETB</span>
+                        </strong><br>
+                        <span style="color: #ccc;">
+                            <span id="signupBonusDesc-en">When someone joins using your code</span>
+                            <span id="signupBonusDesc-am" style="display:none">የእርስዎን ኮድ ተጠቅሞ ሰው ቢገባ</span>
+                            <span id="signupBonusDesc-zh" style="display:none">当有人使用您的代码注册时</span>
+                            <span id="signupBonusDesc-es" style="display:none">Cuando alguien se une usando tu código</span>
+                        </span>
+                    </p>
+                    <p style="margin-bottom: 10px;">
+                        <svg class="icon" style="color: #8edca0; margin-right: 8px;" viewBox="0 0 16 16"><path d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/></svg>
+                        <strong>
+                            <span id="investmentBonus-en">Investment Bonus: 10% of investment</span>
+                            <span id="investmentBonus-am" style="display:none">የኢንቨስትመንት ቦንስ: የኢንቨስትመንት 10%</span>
+                            <span id="investmentBonus-zh" style="display:none">投资奖金: 投资额的10%</span>
+                            <span id="investmentBonus-es" style="display:none">Bono de Inversión: 10% de la inversión</span>
+                        </strong><br>
+                        <span style="color: #ccc;">
+                            <span id="investmentBonusDesc-en">When your referral makes an investment</span>
+                            <span id="investmentBonusDesc-am" style="display:none">የእርስዎ ሪፌራል ኢንቨስትመንት ሲያደርግ</span>
+                            <span id="investmentBonusDesc-zh" style="display:none">当您的推荐人进行投资时</span>
+                            <span id="investmentBonusDesc-es" style="display:none">Cuando tu referido hace una inversión</span>
+                        </span>
+                    </p>
+                    <p>
+                        <svg class="icon" style="color: #d4b344; margin-right: 8px;" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+                        <strong>
+                            <span id="firstInvestmentBonus-en">First Investment Bonus: 10 ETB</span>
+                            <span id="firstInvestmentBonus-am" style="display:none">የመጀመሪያ ኢንቨስትመንት ቦንስ: 10 ብር</span>
+                            <span id="firstInvestmentBonus-zh" style="display:none">首次投资奖金: 10 ETB</span>
+                            <span id="firstInvestmentBonus-es" style="display:none">Bono de Primera Inversión: 10 ETB</span>
+                        </strong><br>
+                        <span style="color: #ccc;">
+                            <span id="firstInvestmentBonusDesc-en">Extra bonus for referral's first investment</span>
+                            <span id="firstInvestmentBonusDesc-am" style="display:none">ለሪፌራል መጀመሪያ ኢንቨስትመንት ተጨማሪ ቦንስ</span>
+                            <span id="firstInvestmentBonusDesc-zh" style="display:none">推荐人首次投资的额外奖金</span>
+                            <span id="firstInvestmentBonusDesc-es" style="display:none">Bono extra por la primera inversión del referido</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item"><a href="/home"><svg class="icon" viewBox="0 0 16 16"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/></svg><span>
+            <span id="navHome-en">Home</span>
+            <span id="navHome-am" style="display:none">ቤት</span>
+            <span id="navHome-zh" style="display:none">首页</span>
+            <span id="navHome-es" style="display:none">Inicio</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/product"><svg class="icon" viewBox="0 0 16 16"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm11 1H3v10h10V4z"/></svg><span>
+            <span id="navProduct-en">Product</span>
+            <span id="navProduct-am" style="display:none">ምርት</span>
+            <span id="navProduct-zh" style="display:none">产品</span>
+            <span id="navProduct-es" style="display:none">Producto</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/team"><svg class="icon" viewBox="0 0 16 16"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg><span>
+            <span id="navTeam-en">Team</span>
+            <span id="navTeam-am" style="display:none">ቡድን</span>
+            <span id="navTeam-zh" style="display:none">团队</span>
+            <span id="navTeam-es" style="display:none">Equipo</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/my"><svg class="icon" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg><span>
+            <span id="navMy-en">My</span>
+            <span id="navMy-am" style="display:none">የኔ</span>
+            <span id="navMy-zh" style="display:none">我的</span>
+            <span id="navMy-es" style="display:none">Mi</span>
+        </span></a></div>
+        <div class="nav-item"><a href="/help"><svg class="icon" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/></svg><span>
+            <span id="navHelp-en">Help</span>
+            <span id="navHelp-am" style="display:none">እርዳታ</span>
+            <span id="navHelp-zh" style="display:none">帮助</span>
+            <span id="navHelp-es" style="display:none">Ayuda</span>
+        </span></a></div>
+    </div>
+
+    <script src="/js/lang.js"></script>
+</body>
+</html>

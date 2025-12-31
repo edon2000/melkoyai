@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gift Codes</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: linear-gradient(to right, #3d82e9, #60b966); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .header { color: white; padding: 1.5rem; text-align: center; width: 100%; background-color: #5f5fbc; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .main-container { padding: 2rem; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; }
+        .gift-container { background-color: #5858c1; padding: 20px; margin-top: 20px; color: #efedf5; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; }
+        .gift-section { background-color: #333386; padding: 15px; margin-bottom: 20px; border-radius: 8px; border-left: 4px solid #d4b344; }
+        .section-title { font-size: 1.2em; font-weight: bold; margin-bottom: 15px; color: #d4b344; display: flex; align-items: center; gap: 10px; }
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-box { background-color: #242163; padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 1.5em; font-weight: bold; color: #d4b344; }
+        .stat-label { font-size: 0.9em; color: #ccc; margin-top: 5px; }
+        .redeem-form { background-color: #333394; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: white; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; background-color: #242163; color: white; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input::placeholder { color: rgba(255, 255, 255, 0.7); text-transform: none; letter-spacing: normal; }
+        /* .code-requirements { font-size: 0.8em; color: #ccc; margin-top: 5px; line-height: 1.4; } */
+        .redeem-button { width: 100%; padding: 12px; background-color: #d4b344; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .redeem-button:hover { background-color: #c0a040; }
+        .history-item { background-color: #242163; padding: 12px; margin-bottom: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .history-info { flex: 1; }
+        .history-code { font-weight: bold; margin-bottom: 5px; font-family: monospace; }
+        .history-date { font-size: 0.8em; color: #ccc; }
+        .history-amount { color: #4CAF50; font-weight: bold; font-size: 1.1em; }
+        .no-history { text-align: center; color: #ccc; padding: 20px; }
+        .back-link { display: block; text-align: center; color: #d4b344; text-decoration: none; margin-top: 1rem; padding: 10px; background-color: #333394; border-radius: 8px; width: 100%; }
+        .back-link:hover { background-color: #242163; }
+        .error-message, .success-message { padding: 12px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .error-message { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+        .success-message { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; border: 1px solid #4CAF50; }
+        @media screen and (max-width: 412px) { 
+            body { padding: 0.5rem; } 
+            .header { padding: 1rem; } 
+            .main-container { padding: 1rem; } 
+            .gift-container { padding: 15px; margin-top: 10px; } 
+            .stats-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🎁 Gift Codes</h1>
+        <p>Redeem special codes to earn rewards</p>
+    </header>
+    
+    <div class="main-container">
+        <div class="gift-container">
+            
+            {#if error}
+            <div class="error-message">{error}</div>
+            {/if}
+            
+            {#if success}
+            <div class="success-message">{success}</div>
+            {/if}
+            
+            <!-- Stats Section -->
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-value">${totalGiftEarnings ?: 0}</div>
+                    <div class="stat-label">Total Earned</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">{giftHistory.size()}</div>
+                    <div class="stat-label">Codes Redeemed</div>
+                </div>
+            </div>
+            
+            <!-- Redeem Form -->
+            <form action="/gift/redeem" method="post" class="redeem-form">
+                <div class="form-group">
+                    <label for="giftCode">Enter Gift Code:</label>
+                    <input type="text" 
+                           id="giftCode" 
+                           name="giftCode" 
+                           placeholder="ABC123XY" 
+                           maxlength="8" 
+                           required
+                           style="font-family: monospace;">
+                    <!-- <div class="code-requirements">
+                        • Must be exactly 8 characters<br>
+                        • Must contain: Uppercase letters (A-Z) and Numbers (0-9) only<br>
+                        • Example: ABC123XY, DEF456ZW, GHI789AB<br>
+                        • <span style="color: #ff6b6b;">Invalid format will show error</span><br>
+                        • <span style="color: #ff6b6b;">Expired codes will be rejected</span>
+                    </div> -->
+                </div>
+                <button type="submit" class="redeem-button">🎁 Redeem Code</button>
+            </form>
+            
+            <!-- History Section -->
+            <div class="gift-section">
+                <div class="section-title">
+                    📋 Recent Redemptions (Last 10)
+                </div>
+                
+                {#if giftHistory && !giftHistory.isEmpty()}
+                    {#for redemption in giftHistory}
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-code">{redemption.code}</div>
+                            <div class="history-date">{redemption.redeemedAt.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm"))}</div>
+                        </div>
+                        <div class="history-amount">+${redemption.amount}</div>
+                    </div>
+                    {/for}
+                {#else}
+                    <div class="no-history">
+                        <p>🎁 No gift codes redeemed yet</p>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Enter a valid gift code above to start earning rewards!</p>
+                    </div>
+                {/if}
+            </div>
+            
+            <!-- Instructions -->
+            <div class="gift-section">
+                <div class="section-title">
+                    ℹ️ How to Use Gift Codes
+                </div>
+                <div style="font-size: 0.9em; line-height: 1.6; color: #ccc;">
+                    <p><strong>1.</strong> Get gift codes from admin announcements or Telegram</p>
+                    <p><strong>2.</strong> Copy and paste the 8-character code above</p>
+                    <p><strong>3.</strong> Click "Redeem Code" to add money to your account</p>
+                    <p><strong>4.</strong> Codes expire after admin-set time (minutes/hours/days)</p>
+                    <p><strong>5.</strong> Each code can only be used once per user</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        // Auto-format gift code input - uppercase letters and numbers only
+        document.getElementById('giftCode').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); // Only A-Z and 0-9
+            if (value.length > 8) {
+                value = value.substring(0, 8);
+            }
+            e.target.value = value;
+            
+            // Real-time validation
+            const requirements = document.querySelector('.code-requirements');
+            if (value.length === 8) {
+                const isValid = /^[A-Z0-9]{8}$/.test(value);
+                if (isValid) {
+                    e.target.style.borderColor = '#4CAF50';
+                    requirements.style.color = '#4CAF50';
+                } else {
+                    e.target.style.borderColor = '#ff6b6b';
+                    requirements.style.color = '#ff6b6b';
+                }
+            } else {
+                e.target.style.borderColor = '#ddd';
+                requirements.style.color = '#ccc';
+            }
+        });
+        
+        // Form submission validation
+        document.querySelector('.redeem-form').addEventListener('submit', function(e) {
+            const codeInput = document.getElementById('giftCode');
+            const code = codeInput.value.trim();
+            
+            if (code.length !== 8) {
+                e.preventDefault();
+                alert('Gift code must be exactly 8 characters');
+                return false;
+            }
+            
+            if (!/^[A-Z0-9]{8}$/.test(code)) {
+                e.preventDefault();
+                alert('Gift code must contain only uppercase letters (A-Z) and numbers (0-9)');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
