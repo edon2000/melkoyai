@@ -1,0 +1,31 @@
+How to Get Render's IP Address for Supabase Whitelist
+====================================================
+
+OPTION 1: Check Render Documentation
+- Go to: https://render.com/docs/static-outbound-ip-addresses
+- Look for IP ranges for your region (US West, US East, etc.)
+
+OPTION 2: Get IP from Application Logs
+- Check your Render deployment logs
+- Look for any IP-related information during startup
+
+OPTION 3: Use External IP Service
+- Add this to your application temporarily:
+  curl -s https://ipinfo.io/ip
+- This will show your outbound IP
+
+OPTION 4: Common Render IP Ranges (approximate)
+- US West: 44.224.0.0/12, 52.88.0.0/13
+- US East: 3.208.0.0/12, 34.192.0.0/12
+- Europe: 18.130.0.0/16, 35.176.0.0/12
+
+STEPS TO ADD TO SUPABASE:
+1. In your screenshot, click "Add IPv4 restriction"
+2. Enter the IP address or CIDR range
+3. Set CIDR Block Size (usually /32 for single IP, /16 or /12 for ranges)
+4. Click "Save restriction"
+5. Repeat for IPv6 if needed
+
+ALTERNATIVE: Allow All IPs (Less Secure)
+- IPv4: 0.0.0.0/0 (allows all IPv4)
+- IPv6: ::/0 (allows all IPv6)

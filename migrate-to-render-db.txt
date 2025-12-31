@@ -1,0 +1,45 @@
+Migration Plan: Supabase → Render PostgreSQL (FREE)
+===================================================
+
+WHY SWITCH:
+✅ No IPv4/IPv6 connectivity issues
+✅ Same internal network (no external connections)
+✅ FREE forever (1GB storage)
+✅ No IP whitelisting needed
+✅ SSL/TLS by default
+✅ Automatic backups
+
+MIGRATION STEPS:
+
+1. CREATE RENDER POSTGRESQL:
+   - Go to Render Dashboard
+   - New + → PostgreSQL
+   - Name: melkoyai-db
+   - Plan: Free
+   - Create Database
+
+2. GET CONNECTION DETAILS:
+   - Internal Database URL (for app)
+   - External Database URL (for migration)
+   - Username, Password, Database Name
+
+3. MIGRATE DATA:
+   Option A: Use pg_dump/pg_restore
+   Option B: Export from Supabase → Import to Render
+   Option C: Use our existing schema.sql file
+
+4. UPDATE APPLICATION CONFIG:
+   - Replace Supabase connection with Render internal URL
+   - No SSL issues, no IPv4 problems
+   - Direct internal connection
+
+5. TEST AND DEPLOY:
+   - Test database operations
+   - Deploy to production
+   - Verify everything works
+
+EXPECTED RESULT:
+- No more connection failures
+- Fast internal database access
+- No external network dependencies
+- Reliable database operations
