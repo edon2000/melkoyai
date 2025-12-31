@@ -71,6 +71,7 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
+schema.sql
 
 # Logs
 logs/
@@ -101,6 +102,9 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Documentation (if you want to exclude)
+README.md
 
 # Build outputs
 build/
