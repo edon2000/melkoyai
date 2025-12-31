@@ -1,10 +1,15 @@
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.19 AS builder
 
+# Install required tools for Maven wrapper
+RUN microdnf update -y && \
+    microdnf install -y gzip tar && \
+    microdnf clean all
+
 # Copy source code
 COPY . /app
 WORKDIR /app
 
-# Build the application using Maven wrapper (already executable)
+# Build the application using Maven wrapper
 RUN ./mvnw clean package -DskipTests
 
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.19
