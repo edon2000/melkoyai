@@ -1,4 +1,4 @@
-FROM maven:3.9.6-openjdk-21-slim AS builder
+FROM maven:3.9-openjdk-21 AS builder
 
 # Copy source code
 COPY . /app
