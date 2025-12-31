@@ -1,0 +1,11 @@
+Database Connection Fix Log
+===========================
+
+Issue: UnknownHostException: db.pkdmonstyusgkjaqzm.supabase.co
+Cause: Render uses IPv4, Supabase direct connection uses IPv6
+Solution: Switch to Supabase Session Pooler
+
+SSL Status: ENABLED (confirmed from Supabase dashboard)
+Connection String: Using aws-0-us-east-1.pooler.supabase.com:5432
+
+Timestamp: 2025-12-31 18:18 GMT+3
