@@ -1,0 +1,36 @@
+Simple Schema Import - Skip PgHero Login Issues
+=================================================
+
+PROBLEM: PgHero asking for username/password that we don't know
+
+SOLUTION: Use Direct Database Connection Methods
+
+METHOD 1: Online PostgreSQL Client (Easiest)
+1. Go to: https://www.adminer.org/
+2. Click "Adminer" (online database tool)
+3. Enter connection details:
+   - System: PostgreSQL
+   - Server: dpg-d5ao3vqli9vc73ba9380-a.oregon-postgres.render.com
+   - Username: melkoyai_db_user
+   - Password: 9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg
+   - Database: melkoyai_db
+4. Click "Login"
+5. Go to "SQL command"
+6. Paste your supabase-schema.sql content
+7. Click "Execute"
+
+METHOD 2: Use pgAdmin (Download)
+1. Download pgAdmin: https://www.pgadmin.org/download/
+2. Install and open
+3. Add new server with your database details
+4. Use Query Tool to run your schema
+
+METHOD 3: Command Line (If you have psql)
+PGPASSWORD=9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg psql -h dpg-d5ao3vqli9vc73ba9380-a.oregon-postgres.render.com -U melkoyai_db_user -d melkoyai_db -f supabase-schema.sql
+
+METHOD 4: VS Code Extension
+1. Install "PostgreSQL" extension in VS Code
+2. Connect to your database
+3. Run SQL commands directly
+
+RECOMMENDED: Try Method 1 (Adminer) - it's completely online and free!

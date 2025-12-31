@@ -1,0 +1,51 @@
+pgAdmin 4 Connection Guide - Render PostgreSQL (CORRECTED)
+=========================================================
+
+IMPORTANT: Use CONNECTION tab, NOT SSH Tunnel tab!
+
+STEP-BY-STEP CONNECTION:
+
+1. OPEN pgAdmin 4 ✅ (You're already here)
+
+2. CREATE NEW SERVER CONNECTION
+   - Right-click "Servers" in left panel
+   - Select "Create" → "Server..."
+
+3. GENERAL TAB
+   - Name: Render Melkoyai DB
+
+4. CONNECTION TAB (MAIN CONFIGURATION)
+   - Host name/address: dpg-d5ao3vqli9vc73ba9380-a.oregon-postgres.render.com
+   - Port: 5432
+   - Maintenance database: melkoyai_db
+   - Username: melkoyai_db_user
+   - Password: 9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg
+
+5. SSL TAB (NOT SSH!)
+   - SSL mode: Require
+   - SSL compression: No
+   - SSL certificate: (leave empty)
+   - SSL key: (leave empty)
+   - SSL root certificate: (leave empty)
+   - SSL certificate revocation list: (leave empty)
+
+6. SSH TUNNEL TAB
+   - Use SSH tunneling: NO (leave unchecked)
+   - Do NOT configure anything in SSH Tunnel tab
+
+7. ADVANCED TAB (Optional)
+   - DB restriction: melkoyai_db
+
+8. SAVE CONNECTION
+   - Click "Save" button
+
+RENDER DATABASES USE:
+✅ Direct SSL connection (not SSH tunnel)
+✅ External hostname with SSL encryption
+❌ No SSH tunneling required
+❌ No identity files needed
+
+YOUR CURRENT ISSUE:
+- You're in SSH Tunnel tab (wrong tab)
+- Need to use Connection tab for direct SSL connection
+- Render provides direct database access, no SSH needed

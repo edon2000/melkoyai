@@ -1,0 +1,61 @@
+MySQL Migration Guide - PythonAnywhere Database
+===============================================
+
+MIGRATION SUMMARY:
+✅ Changed from PostgreSQL to MySQL
+✅ Updated database host to PythonAnywhere
+✅ Converted schema to MySQL format
+✅ Updated Quarkus configuration
+
+NEW DATABASE CONFIGURATION:
+Host: melkoyai.mysql.pythonanywhere-services.com
+Port: 3306 (MySQL default)
+Database: melkoyai$default
+Username: melkoyai
+Password: 9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg
+
+CHANGES MADE:
+
+1. APPLICATION.PROPERTIES:
+   - Changed db-kind from postgresql to mysql
+   - Updated JDBC URL to MySQL format
+   - Changed dialect to MySQLDialect
+   - Updated connection details
+
+2. POM.XML:
+   - Replaced quarkus-jdbc-postgresql with quarkus-jdbc-mysql
+   - Maven will download MySQL connector
+
+3. SCHEMA CONVERSION:
+   - Created mysql-schema.sql (converted from PostgreSQL)
+   - Changed BIGSERIAL to BIGINT AUTO_INCREMENT
+   - Updated data types for MySQL compatibility
+   - Converted TIMESTAMP to MySQL format
+   - Added MySQL-specific optimizations
+
+NEXT STEPS:
+
+1. IMPORT SCHEMA TO PYTHONANYWHERE:
+   - Connect to your PythonAnywhere MySQL database
+   - Run the mysql-schema.sql file
+   - Verify all tables are created
+
+2. DEPLOY APPLICATION:
+   - Commit and push changes to GitHub
+   - Render will rebuild with MySQL configuration
+   - Test database connectivity
+
+3. VERIFY FUNCTIONALITY:
+   - Test user registration/login
+   - Test invite code generation
+   - Verify all database operations
+
+MYSQL CONNECTION STRING:
+jdbc:mysql://melkoyai.mysql.pythonanywhere-services.com:3306/melkoyai$default?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+
+BENEFITS OF MYSQL ON PYTHONANYWHERE:
+✅ Reliable hosting platform
+✅ Good MySQL support
+✅ No IPv4/IPv6 connectivity issues
+✅ Established database service
+✅ Easy management interface
