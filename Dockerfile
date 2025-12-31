@@ -1,4 +1,4 @@
-FROM maven:3.9-openjdk-21 AS builder
+FROM maven:3.9-openjdk-17 AS builder
 
 # Copy source code
 COPY . /app
@@ -7,7 +7,7 @@ WORKDIR /app
 # Build the application using Maven
 RUN mvn clean package -DskipTests
 
-FROM registry.access.redhat.com/ubi8/openjdk-21:1.19
+FROM registry.access.redhat.com/ubi8/openjdk-17:1.19
 
 ENV LANGUAGE='en_US:en'
 
