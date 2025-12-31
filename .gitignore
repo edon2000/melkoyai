@@ -89,7 +89,6 @@ logs/
 *.jks
 *.keystore
 keystore.*
-application-prod.properties
 application-secret.properties
 
 # Backup files
