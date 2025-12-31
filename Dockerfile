@@ -1,19 +1,10 @@
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.19 AS builder
 
-# Install Maven
-RUN microdnf install -y wget tar gzip && \
-    wget https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz && \
-    tar xzf apache-maven-3.9.6-bin.tar.gz -C /opt && \
-    ln -s /opt/apache-maven-3.9.6 /opt/maven && \
-    microdnf clean all
-
-ENV PATH="/opt/maven/bin:${PATH}"
-
 # Copy source code
 COPY . /app
 WORKDIR /app
 
-# Build the application
+# Build the application using Maven wrapper (already executable)
 RUN ./mvnw clean package -DskipTests
 
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.19
