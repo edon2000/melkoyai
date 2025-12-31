@@ -1,4 +1,4 @@
-FROM maven:3.9 AS builder
+FROM maven:3.9-eclipse-temurin-21 AS builder
 
 # Copy source code
 COPY . /app
@@ -7,7 +7,7 @@ WORKDIR /app
 # Build the application using Maven
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:21-jre
 
 ENV LANGUAGE='en_US:en'
 
