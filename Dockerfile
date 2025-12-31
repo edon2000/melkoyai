@@ -1,12 +1,21 @@
+FROM registry.access.redhat.com/ubi8/openjdk-21:1.19 AS builder
+
+# Copy source code
+COPY . /app
+WORKDIR /app
+
+# Make build script executable and build the application
+RUN chmod +x ./build.sh && ./build.sh
+
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.19
 
 ENV LANGUAGE='en_US:en'
 
-# Copy the application files
-COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
-COPY --chown=185 target/quarkus-app/*.jar /deployments/
-COPY --chown=185 target/quarkus-app/app/ /deployments/app/
-COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
+# Copy the built application from builder stage
+COPY --from=builder --chown=185 /app/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=builder --chown=185 /app/target/quarkus-app/*.jar /deployments/
+COPY --from=builder --chown=185 /app/target/quarkus-app/app/ /deployments/app/
+COPY --from=builder --chown=185 /app/target/quarkus-app/quarkus/ /deployments/quarkus/
 
 EXPOSE 8080
 USER 185

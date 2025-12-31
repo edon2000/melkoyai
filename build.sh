@@ -10,8 +10,11 @@ if ! command -v mvn &> /dev/null; then
     export PATH="/opt/apache-maven-3.9.6/bin:$PATH"
 fi
 
+# Make mvnw executable
+chmod +x ./mvnw
+
 # Clean and build the application
 echo "Building application..."
-./mvnw clean package -DskipTests -Dquarkus.profile=prod
+./mvnw clean package -DskipTests
 
 echo "Build completed successfully!"
