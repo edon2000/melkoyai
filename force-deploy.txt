@@ -1,0 +1,13 @@
+FORCE DEPLOYMENT - Transaction Pooler Fix
+==========================================
+
+Issue: Render still using old direct connection (db.pkdmonstyusgkjaqzm.supabase.co)
+Expected: Should use Transaction Pooler (aws-1-eu-central-1.pooler.supabase.com:6543)
+
+Error in logs:
+java.net.UnknownHostException: db.pkdmonstyusgkjaqzm.supabase.co
+
+This means Render deployment didn't pick up the new configuration.
+Forcing new deployment with timestamp to ensure changes are applied.
+
+Timestamp: 2025-12-31 21:48 GMT+3
