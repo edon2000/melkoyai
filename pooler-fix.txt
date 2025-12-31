@@ -1,20 +1,18 @@
-Supabase IPv4 Issue Resolution
-==============================
+Supabase IPv4 Issue Resolution - CONFIRMED FREE SOLUTION
+========================================================
 
 Problem: 
-- Render uses IPv4-only network
+- Render is IPv4-only platform (confirmed in Supabase dashboard)
 - Supabase direct connection requires IPv6 OR paid IPv4 add-on ($4/month)
-- We don't want to pay for IPv4 add-on
+- Supabase documentation states: "A few major platforms are IPv4-only and may not work with Direct Connection: Vercel, GitHub Actions, Render, Replit"
 
-Solution:
-- Use Supabase Shared Connection Pooler (FREE)
-- Pooler supports IPv4 networks without additional cost
-- Connection: aws-0-us-east-1.pooler.supabase.com:6543
+FREE Solution (Confirmed by Supabase):
+- "You may also use the Session Pooler or Transaction Pooler if you are on IPv4 network"
+- NO additional cost for using pooler on free plan
+- Pooler supports IPv4 networks without IPv4 add-on
 
-Configuration:
-- Username: postgres.pkdmonstyusgkjaqzm
-- Port: 6543 (transaction pooler)
-- SSL: Required
-- PgBouncer: Enabled
+Trying pooler connection formats:
+1. pooler-aws-0-us-east-1.supabase.com:5432 (Session Pooler)
+2. aws-0-us-east-1.pooler.supabase.com:6543 (Transaction Pooler)
 
-Status: Testing pooler connection
+Status: Testing session pooler connection
