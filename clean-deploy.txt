@@ -1,0 +1,20 @@
+CLEAN DEPLOYMENT - Remove Duplicate Database Configurations
+===========================================================
+
+PROBLEM IDENTIFIED:
+- Multiple database configurations in application.properties
+- Old configuration: db.pkdmonstyusgkjaqzm.supabase.co (causing UnknownHostException)
+- New configuration: aws-1-eu-central-1.pooler.supabase.com:6543 (Transaction Pooler)
+
+SOLUTION APPLIED:
+1. Completely rewrote application.properties file
+2. Removed all duplicate configurations
+3. Cleaned target/ directory to remove cached configs
+4. Only Transaction Pooler configuration remains
+
+EXPECTED RESULT:
+- Application should now connect to Transaction Pooler
+- No more UnknownHostException errors
+- Database operations should work
+
+Timestamp: 2025-12-31 21:55 GMT+3
