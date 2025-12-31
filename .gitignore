@@ -105,6 +105,7 @@ yarn-error.log*
 
 # Documentation (if you want to exclude)
 README.md
+ULTIMATE_PROJECT_DOCUMENTATION.md
 
 # Build outputs
 build/
