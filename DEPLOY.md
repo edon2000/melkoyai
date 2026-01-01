@@ -3,7 +3,7 @@
 ## Quick Deployment Steps
 
 ### 1. Database Setup (Supabase PostgreSQL)
-- **Host**: `aws-1-eu-central-1.pooler.supabase.com:5432`
+- **Host**: `aws-1-eu-central-1.pooler.supabase.com:6543`
 - **Database**: `postgres`
 - **Username**: `postgres.hlyhuteksgmyovgztfhf`
 - **Password**: `1astigmastism1@a`
@@ -11,7 +11,7 @@
 ### 2. Import Database Schema
 ```bash
 # Connect to Supabase database and run:
-psql "postgresql://postgres.hlyhuteksgmyovgztfhf:1astigmastism1@a@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require" -f supabase-schema.sql
+psql "postgresql://postgres.hlyhuteksgmyovgztfhf:1astigmastism1@a@aws-1-eu-central-1.pooler.supabase.com:6543/postgres?sslmode=require" -f supabase-schema.sql
 ```
 
 ### 3. Deploy to Render
