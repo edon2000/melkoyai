@@ -40,9 +40,9 @@ public class BackupService {
     
     public boolean createBackup(String type) {
         try {
-            // Skip backup creation in cloud environments (Supabase handles backups)
+            // Skip backup creation in cloud environments (Neon handles backups)
             if (isCloudEnvironment()) {
-                LOGGER.info("Skipping backup creation in cloud environment - managed by Supabase");
+                LOGGER.info("Skipping backup creation in cloud environment - managed by Neon Database");
                 return true;
             }
             
@@ -119,8 +119,9 @@ public class BackupService {
      */
     private boolean isCloudEnvironment() {
         String dbUrl = databaseConfig.getDatabaseUrl();
-        return dbUrl != null && (dbUrl.contains("supabase.co") || dbUrl.contains("render.com") || 
-                                dbUrl.contains("heroku") || dbUrl.contains("aws.com"));
+        return dbUrl != null && (dbUrl.contains("neon.tech") || dbUrl.contains("supabase.co") || 
+                                dbUrl.contains("render.com") || dbUrl.contains("heroku") || 
+                                dbUrl.contains("aws.com"));
     }
     
     public void cleanupOldBackups() {
