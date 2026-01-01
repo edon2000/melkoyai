@@ -1,39 +1,22 @@
-Setup Render PostgreSQL Database
-=================================
+RENDER POSTGRESQL SETUP GUIDE
+=============================
 
-DATABASE DETAILS:
-- Host: dpg-d5ao3vqli9vc73ba9380-a
-- Port: 5432
-- Database: melkoyai_db
-- Username: melkoyai_db_user
-- Password: 9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg
+1. Go to Render Dashboard: https://dashboard.render.com
+2. Click "New" → "PostgreSQL"
+3. Configure:
+   - Name: melkoyai-db
+   - Database: melkoyai_db
+   - User: melkoyai_user
+   - Region: Same as your web service
+   - Plan: Free
 
-PSQL COMMAND (from your screenshot):
-PGPASSWORD=9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg psql -h dpg-d5ao3vqli9vc73ba9380-a.oregon-postgres.render.com -U melkoyai_db_user melkoyai_db
+4. After creation, you'll get:
+   - Internal URL: postgresql://melkoyai_user:[PASSWORD]@[HOST]/melkoyai_db
+   - External URL: postgresql://melkoyai_user:[PASSWORD]@[HOST].render.com/melkoyai_db
 
-STEPS TO IMPORT SCHEMA:
+5. Use INTERNAL URL in your application.properties for better performance
 
-1. CONNECT TO DATABASE:
-   Use the PSQL command above to connect
+6. Import schema:
+   PGPASSWORD=[PASSWORD] psql -h [HOST] -U melkoyai_user melkoyai_db < supabase-schema.sql
 
-2. IMPORT SCHEMA:
-   Copy the contents of supabase-schema.sql and paste into psql
-   OR
-   \i /path/to/supabase-schema.sql
-
-3. VERIFY TABLES:
-   \dt (list tables)
-   Should show: users, products, transactions, referrals, etc.
-
-4. TEST CONNECTION:
-   Deploy application and test database operations
-
-INTERNAL URL FOR APPLICATION:
-postgresql://melkoyai_db_user:9CSOkDxcQz0zg0wmWNFaIikPrtVoYHgg@dpg-d5ao3vqli9vc73ba9380-a/melkoyai_db
-
-BENEFITS:
-✅ No IPv4/IPv6 connectivity issues
-✅ Internal network connection (fast & reliable)
-✅ FREE forever (1GB storage)
-✅ SSL enabled by default
-✅ No IP whitelisting needed
+This will give you a reliable database that's guaranteed to work with Render.

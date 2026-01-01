@@ -6,13 +6,13 @@
 - **Host**: `aws-1-eu-central-1.pooler.supabase.com:5432`
 - **Database**: `postgres`
 - **Username**: `postgres`
-- **Password**: `1astigmastism1@a`
+- **Password**: `fPGYM6uBDSSXysKJ`
 - **Connection Type**: Session Pooler (IPv4 Compatible)
 
 ### 2. Import Database Schema
 ```bash
 # Connect to Supabase database and run:
-psql "postgresql://postgres:1astigmastism1@a@aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require" -f supabase-schema.sql
+PGPASSWORD="fPGYM6uBDSSXysKJ" psql -h aws-1-eu-central-1.pooler.supabase.com -p 5432 -U postgres -d postgres -f supabase-schema.sql
 ```
 
 ### 3. Deploy to Render
