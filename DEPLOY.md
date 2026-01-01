@@ -3,16 +3,16 @@
 ## Quick Deployment Steps
 
 ### 1. Database Setup (Supabase PostgreSQL)
-- **Host**: `aws-1-eu-central-1.pooler.supabase.com:5432`
+- **Host**: `aws-1-eu-central-1.pooler.supabase.com:6543`
 - **Database**: `postgres`
-- **Username**: `postgres`
+- **Username**: `postgres.hlyhuteksgmyovgztfhf`
 - **Password**: `fPGYM6uBDSSXysKJ`
-- **Connection Type**: Session Pooler (IPv4 Compatible)
+- **Connection Type**: Transaction Pooler (IPv4 Compatible)
 
 ### 2. Import Database Schema
 ```bash
 # Connect to Supabase database and run:
-PGPASSWORD="fPGYM6uBDSSXysKJ" psql -h aws-1-eu-central-1.pooler.supabase.com -p 5432 -U postgres -d postgres -f supabase-schema.sql
+PGPASSWORD="fPGYM6uBDSSXysKJ" psql -h aws-1-eu-central-1.pooler.supabase.com -p 6543 -U postgres.hlyhuteksgmyovgztfhf -d postgres -f supabase-schema.sql
 ```
 
 ### 3. Deploy to Render
