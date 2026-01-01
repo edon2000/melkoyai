@@ -235,7 +235,8 @@ public class AdminController {
         } catch (Exception e) {
             logger.severe("Error loading users: " + e.getMessage());
             return adminUsers.data("users", java.util.Collections.emptyList())
-                           .data("error", "Failed to load users");
+                           .data("success", SecurityUtil.sanitizeInput(success))
+                           .data("error", "Failed to retrieve users: " + e.getMessage());
         }
     }
     
