@@ -739,4 +739,11 @@ public class AdminController {
         }
     }
     
+    @GET
+    @Path("/test-simple")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String testSimple() {
+        return "Application is running! Time: " + new java.util.Date();
+    }
+    
 }
