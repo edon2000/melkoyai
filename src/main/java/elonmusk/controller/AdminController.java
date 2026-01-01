@@ -712,4 +712,31 @@ public class AdminController {
                 .build();
     }
     
+    @GET
+    @Path("/test-db")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response testDatabaseConnection() {
+        try {
+            // Test basic database connectivity
+            java.sql.Connection connection = dataSource.getConnection();
+            java.sql.Statement stmt = connection.createStatement();
+            java.sql.ResultSet rs = stmt.executeQuery("SELECT 1 as test");
+            
+            if (rs.next() && rs.getInt("test") == 1) {
+                connection.close();
+                return Response.ok("{\"status\":\"success\",\"message\":\"Database connection works\"}").build();
+            } else {
+                connection.close();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity("{\"status\":\"error\",\"message\":\"Database query failed\"}")
+                        .build();
+            }
+        } catch (Exception e) {
+            logger.severe("Database test failed: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"status\":\"error\",\"message\":\"" + e.getMessage().replace("\"", "\\\"") + "\"}")
+                    .build();
+        }
+    }
+    
 }
